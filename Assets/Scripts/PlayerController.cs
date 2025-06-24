@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleDashInput()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && _canDash && IsDashAvailable())
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _canDash /*&& IsDashAvailable() 接口等待实现*/)
         {
             StartCoroutine(_CoDash());
         }
@@ -128,10 +128,4 @@ public class PlayerController : MonoBehaviour
     {
         return _isDashing;
     }
-}
-
-//TODO: 假接口，等待外部实现
-bool IsDashAvailable()
-{
-    return true;
 }
