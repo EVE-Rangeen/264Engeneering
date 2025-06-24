@@ -29,6 +29,11 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("PlayerController需要Rigidbody2D组件！");
         }
+        else
+        {
+            // 设置插值模式使得显示更加平滑
+            _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        }
     }
 
     /// <summary>

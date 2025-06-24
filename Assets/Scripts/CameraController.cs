@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
     [Header("平滑设置")]
     [SerializeField] private bool _useSmoothing = true; // 是否使用平滑跟随
     [SerializeField] private float _smoothTime = 0.3f; // 平滑时间
+    [SerializeField] private float _deadZone = 0.01f; // 死区，避免微小震颤
 
     private Vector3 _velocity = Vector3.zero; // 用于SmoothDamp的速度引用
 
@@ -88,6 +89,13 @@ public class CameraController : MonoBehaviour
     public void SetTarget(Transform newTarget)
     {
         _target = newTarget;
+        // 重置插值状态
+        if (_target != null)
+        {
+            Vector3 targetPosition = _target.position + _offset;
+            transform.position = targetPosition;
+            _velocity = Vector3.zero;
+        }
     }
 
     /// <summary>
@@ -106,5 +114,14 @@ public class CameraController : MonoBehaviour
     public void SetFollowSpeed(float speed)
     {
         _followSpeed = Mathf.Max(0f, speed);
+    }
+
+    /// <summary>
+    /// 设置死区大小
+    /// </summary>
+    /// <param name="deadZone">死区大小</param>
+    public void SetDeadZone(float deadZone)
+    {
+        _deadZone = Mathf.Max(0f, deadZone);
     }
 }
