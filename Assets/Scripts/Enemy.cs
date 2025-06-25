@@ -24,10 +24,31 @@ public class Enemy : MonoBehaviour
     private ExpType _expType = ExpType.Normal; // 经验类型
     #endregion
 
+    private EnemyController _enemyController;
+
+    private Rigidbody2D _rb;
+
     private void Awake()
     {
         //初始化血量为满血
         _health = _maxHealth;
+        _enemyController = GetComponent<EnemyController>();
+        if (_enemyController == null)
+        {
+            Debug.LogError("EnemyController组件未找到！");
+        }
+        _enemyController.SetMoveSpeed(_moveSpeed);
+
+        //初始化敌人的质量
+        _rb = GetComponent<Rigidbody2D>();
+        if (_rb == null)
+        {
+            Debug.LogError("Enemy需要Rigidbody2D组件！");
+        }
+        else
+        {
+            _rb.mass = _mass;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -35,7 +56,13 @@ public class Enemy : MonoBehaviour
         // 如果碰撞对象是玩家，则对它造成伤害
         if (collision.gameObject.CompareTag("Player"))
         {
-            gameObject.GetComponent<Player>().TakeEnemyDamage(_damage);
+            Debug.Log("敌人与玩家碰撞");
+            Debug.Log(collision.gameObject.name);
+            Player playerComponent = collision.gameObject.GetComponent<Player>();
+            if (playerComponent != null)
+            {
+                playerComponent.TakeEnemyDamage(_damage);
+            }
         }
     }
 
