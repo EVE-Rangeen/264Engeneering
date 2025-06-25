@@ -39,6 +39,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BG
+    uniqueID: 4237797221
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemy
+    uniqueID: 3289806423
+    locked: 0
+  - name: Pickups
+    uniqueID: 1221148485
+    locked: 0
+  - name: Weapons
+    uniqueID: 4181383277
+    locked: 0
+  - name: Player
+    uniqueID: 2892307177
+    locked: 0
+  - name: UI
+    uniqueID: 3413208285
     locked: 0
