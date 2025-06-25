@@ -59,15 +59,12 @@ public class WeaponManager : MonoBehaviour
                 // 创建ScriptableObject的运行时副本
                 WeaponData weaponInstance = Instantiate(weaponData);
                 _currentWeapons.Add(weaponInstance);
-                Debug.Log($"初始化武器: {weaponInstance.WeaponName}");
             }
             else
             {
                 Debug.LogWarning("WeaponDataList中包含空的WeaponData引用");
             }
         }
-
-        Debug.Log($"武器管理器初始化完成，共加载 {_currentWeapons.Count} 件武器");
     }
 
     /// <summary>
@@ -159,8 +156,6 @@ public class WeaponManager : MonoBehaviour
             // 同时创建对应的武器实例
             WeaponData newWeapon = Instantiate(weaponData);
             _currentWeapons.Add(newWeapon);
-            
-            Debug.Log($"添加新武器: {weaponData.WeaponName}");
         }
         else
         {

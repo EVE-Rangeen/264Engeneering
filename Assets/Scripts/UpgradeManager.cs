@@ -13,6 +13,16 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private GameObject _upgradeOption2;
     [SerializeField] private GameObject _upgradeOption3;
 
+    // 存储当前随机选择的3个武器
+    private WeaponData _currentSelectedWeapon1;
+    private WeaponData _currentSelectedWeapon2;
+    private WeaponData _currentSelectedWeapon3;
+
+    // 存储当前随机选择的3个武器在列表中的索引
+    private int _currentSelectedIndex1;
+    private int _currentSelectedIndex2;
+    private int _currentSelectedIndex3;
+
     /// <summary>
     /// 升级选项1
     /// </summary>
@@ -73,6 +83,16 @@ public class UpgradeManager : MonoBehaviour
         WeaponData selectedWeapon2 = currentWeapons[weaponIndices[1]];
         WeaponData selectedWeapon3 = currentWeapons[weaponIndices[2]];
 
+        // 存储当前选择的武器
+        _currentSelectedWeapon1 = selectedWeapon1;
+        _currentSelectedWeapon2 = selectedWeapon2;
+        _currentSelectedWeapon3 = selectedWeapon3;
+
+        // 存储当前选择的武器在列表中的索引
+        _currentSelectedIndex1 = weaponIndices[0];
+        _currentSelectedIndex2 = weaponIndices[1];
+        _currentSelectedIndex3 = weaponIndices[2];
+
         // 调用各个升级选项按钮的UpdateButtonDisplay方法
         if (_upgradeOption1 != null)
         {
@@ -112,7 +132,64 @@ public class UpgradeManager : MonoBehaviour
                 Debug.LogWarning("升级选项3没有LevelUpSelectionButton组件");
             }
         }
+    }
 
-        Debug.Log($"已随机选择3个武器: {selectedWeapon1.WeaponName}, {selectedWeapon2.WeaponName}, {selectedWeapon3.WeaponName}");
+    /// <summary>
+    /// 当玩家选择升级选项时触发
+    /// </summary>
+    /// <param name="buttonIndex">按钮索引 (1, 2, 3)</param>
+    public void OnUpgradeSelected(int buttonIndex)
+    {
+        WeaponData selectedWeapon = null;
+        int weaponListIndex = -1;
+        
+        switch (buttonIndex)
+        {
+            case 1:
+                selectedWeapon = _currentSelectedWeapon1;
+                weaponListIndex = _currentSelectedIndex1;
+                break;
+            case 2:
+                selectedWeapon = _currentSelectedWeapon2;
+                weaponListIndex = _currentSelectedIndex2;
+                break;
+            case 3:
+                selectedWeapon = _currentSelectedWeapon3;
+                weaponListIndex = _currentSelectedIndex3;
+                break;
+            default:
+                Debug.LogError($"无效的按钮索引: {buttonIndex}");
+                return;
+        }
+
+        if (selectedWeapon == null || weaponListIndex < 0)
+        {
+            Debug.LogError("选中的武器为空或索引无效！");
+            return;
+        }
+
+        // 直接使用索引获取WeaponManager中的武器实例并升级
+        WeaponData weaponInList = WeaponManager.instance.GetCurrentWeapon(weaponListIndex);
+        if (weaponInList != null)
+        {
+            // 使用反射直接修改私有字段 _weaponLevel
+            var field = typeof(WeaponData).GetField("_weaponLevel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (field != null)
+            {
+                int oldLevel = (int)field.GetValue(weaponInList);
+                field.SetValue(weaponInList, oldLevel + 1);
+                Debug.Log($"升级武器: {weaponInList.WeaponName} 从等级 {oldLevel} 到 {weaponInList.WeaponLevel}");
+            }
+        }
+        else
+        {
+            Debug.LogError($"无法获取索引为 {weaponListIndex} 的武器");
+        }
+
+        // 关闭升级面板
+        UIController.instance.levelUpPanel.SetActive(false);
+        
+        // 恢复游戏时间
+        Timer.instance.ResumeTimer();
     }
 } 
