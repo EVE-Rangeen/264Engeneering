@@ -36,6 +36,12 @@ public class WeaponData : ScriptableObject
     [SerializeField] private float _cooldownTime = 1f;
     [SerializeField] private float _knockback = 0f;
 
+    [Header("弹道属性")]
+    [SerializeField] private float _projectileSpeed = 10f;
+    [SerializeField] private float _duration = 5f;
+    [SerializeField] private float _bulletInterval = 0.1f;
+    [SerializeField] private bool _destroyAfterShoot = false;
+
     /// <summary>
     /// 武器名称
     /// </summary>
@@ -97,6 +103,26 @@ public class WeaponData : ScriptableObject
     public float Knockback => _knockback;
 
     /// <summary>
+    /// 弹射物飞行速度
+    /// </summary>
+    public float ProjectileSpeed => _projectileSpeed;
+
+    /// <summary>
+    /// 武器/弹射物持续时间（秒）
+    /// </summary>
+    public float Duration => _duration;
+
+    /// <summary>
+    /// 子弹发射间隔（秒）
+    /// </summary>
+    public float BulletInterval => _bulletInterval;
+
+    /// <summary>
+    /// 是否在射击后销毁武器
+    /// </summary>
+    public bool DestroyAfterShoot => _destroyAfterShoot;
+
+    /// <summary>
     /// 获取武器的完整描述信息
     /// </summary>
     /// <returns>武器描述字符串</returns>
@@ -104,13 +130,18 @@ public class WeaponData : ScriptableObject
     {
         return $"武器名称: {_weaponName}\n" +
                $"武器类型: {_weaponType}\n" +
+               $"等级: {_weaponLevel}\n" +
                $"伤害: {_damage}\n" +
                $"攻击速度: {_attackSpeed}/秒\n" +
                $"攻击范围: {_attackRange}\n" +
                $"攻击数量: {_attackCount}\n" +
                $"穿刺: {_piercing}\n" +
                $"冷却时间: {_cooldownTime}秒\n" +
-               $"击退: {_knockback}";
+               $"击退: {_knockback}\n" +
+               $"弹射物速度: {_projectileSpeed}\n" +
+               $"持续时间: {_duration}秒\n" +
+               $"子弹间隔: {_bulletInterval}秒\n" +
+               $"射击后销毁: {(_destroyAfterShoot ? "是" : "否")}";
     }
 
     /// <summary>
@@ -126,6 +157,11 @@ public class WeaponData : ScriptableObject
         _piercing = Mathf.Max(0, _piercing);
         _cooldownTime = Mathf.Max(0f, _cooldownTime);
         _knockback = Mathf.Max(0f, _knockback);
+
+        // 验证弹道属性
+        _projectileSpeed = Mathf.Max(0.1f, _projectileSpeed);
+        _duration = Mathf.Max(0.1f, _duration);
+        _bulletInterval = Mathf.Max(0.01f, _bulletInterval);
 
         // 确保武器等级至少为0
         _weaponLevel = Mathf.Max(0, _weaponLevel);

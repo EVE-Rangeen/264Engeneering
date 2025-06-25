@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b16dc7c203450459bb86e24305f9ca, type: 3}
+  m_Name: ES3GlobalReferences
+  m_EditorClassIdentifier: 
+  refId:
+    _Keys:
+    - {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+    - {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+    - {fileID: 11500000, guid: e88619d3f1289f54c8cba1047f5c87fd, type: 3}
+    - {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+    - {fileID: 2100000, guid: 58a2522245d73e849b732edfc237273d, type: 3}
+    - {fileID: 2800000, guid: 58a2522245d73e849b732edfc237273d, type: 3}
+    - {fileID: -4509783226887487067, guid: 22471f2ecb3c1f04f822b95d3cb66195, type: 2}
+    - {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
+    - {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+    - {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+    - {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+    - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 12800000, guid: 58a2522245d73e849b732edfc237273d, type: 3}
+    - {fileID: 11400000, guid: 22471f2ecb3c1f04f822b95d3cb66195, type: 2}
+    - {fileID: 10904, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 10906, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 9074883965852004969, guid: 22471f2ecb3c1f04f822b95d3cb66195, type: 2}
+    - {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
+    - {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+    - {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+    - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    _Values: f36cf4da3a3521613884b317042a9435ad8aa145067dff3775d780c9410216472171cdb01bbbb20a6875773ec0baa72b1b08f80b7c150a0b277f29732f7aed2388d1837386dca416e88abccfb1e0ba453155af390a0bca0a993e28651adac61e9c64386dc2e54e0852f00cf92d2542473b1c5c7bd6d9d16b9c8dd948b43ffc0d3c61ccb258b37c155c487404e73bc773fbe0a0363641f47536a4d1340b055413f4fe358ff2f5a078

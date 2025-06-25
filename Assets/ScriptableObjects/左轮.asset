@@ -24,3 +24,7 @@ MonoBehaviour:
   _piercing: 0
   _cooldownTime: 1
   _knockback: 0
+  _projectileSpeed: 10
+  _duration: 5
+  _bulletInterval: 0.1
+  _destroyAfterShoot: 1

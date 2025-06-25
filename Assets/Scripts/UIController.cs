@@ -32,7 +32,7 @@ public class UIController : MonoBehaviour
 
     public void UpdateCoin()
     {
-        coinText.text = "金币: " + CoinController.instance.currentCoins;
+        coinText.text = "金币: " + CoinController.instance._currentCoins;
     }
 
     public void UpdateTime()
