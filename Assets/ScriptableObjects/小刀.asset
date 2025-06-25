@@ -16,7 +16,7 @@ MonoBehaviour:
   _weaponIcon: {fileID: -5775063, guid: 17e1b31ee8f7c5840913bea4140f1a45, type: 3}
   _weaponType: 0
   _weaponDescription: "\u5C0F\u5200\uFF0C\u8FD1\u6218"
-  _weaponLevel: 1
+  _weaponLevel: 0
   _damage: 10
   _attackSpeed: 1
   _attackRange: 1
