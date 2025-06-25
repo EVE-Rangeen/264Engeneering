@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class ProjectileWeapon : MonoBehaviour
 {
-    public EnemyDamager damager; // 仅用于Inspector拖拽预制体引用
+    //public EnemyDamager damager; // 仅用于Inspector拖拽预制体引用
     public Projectile projectile; // 仅用于Inspector拖拽预制体引用
 
     [Header("左轮参数")]
