@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
 
     private EnemyController _enemyController;
 
+    private Rigidbody2D _rb;
+
     private void Awake()
     {
         //初始化血量为满血
@@ -36,6 +38,17 @@ public class Enemy : MonoBehaviour
             Debug.LogError("EnemyController组件未找到！");
         }
         _enemyController.SetMoveSpeed(_moveSpeed);
+
+        //初始化敌人的质量
+        _rb = GetComponent<Rigidbody2D>();
+        if (_rb == null)
+        {
+            Debug.LogError("Enemy需要Rigidbody2D组件！");
+        }
+        else
+        {
+            _rb.mass = _mass;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)

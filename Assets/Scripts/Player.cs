@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 玩家类，负责玩家的生命值、移动、攻击等
@@ -8,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class Player : MonoBehaviour
 {
-    #region 玩家属性
+    #region 玩家属性（局外成长的）
     private float _maxHealth = 100f; // 最大生命值
     private float _health = 100f; // 当前生命值
     private float _recovery = 0.1f; // 恢复速度，每秒恢复生命值的数量
@@ -23,8 +24,10 @@ public class Player : MonoBehaviour
     private float _luckIncrement = 0f; //幸运值加成，按比例修改掉落率
     #endregion
 
-    private PlayerController _playerController;
+    [SerializeField] private Slider _healthSlider; // 血量显示滑条
 
+    private PlayerController _playerController;
+    private Coroutine _healthRecoveryCoroutine;
 
     void Awake()
     {
@@ -40,6 +43,83 @@ public class Player : MonoBehaviour
             Debug.LogError("PlayerController组件未找到！");
         }
         _playerController.SetMoveSpeed(_moveSpeed);
+
+        // 初始化血量UI
+        InitializeHealthUI();
+
+        // 启动回血协程
+        _healthRecoveryCoroutine = StartCoroutine(_CoHealthRecovery());
+    }
+
+    private void OnDestroy()
+    {
+        // 停止回血协程
+        if (_healthRecoveryCoroutine != null)
+        {
+            StopCoroutine(_healthRecoveryCoroutine);
+        }
+    }
+
+    /// <summary>
+    /// 初始化血量UI
+    /// </summary>
+    private void InitializeHealthUI()
+    {
+        if (_healthSlider != null)
+        {
+            _healthSlider.maxValue = _maxHealth;
+            _healthSlider.value = _health;
+        }
+        else
+        {
+            Debug.LogWarning("血量Slider未设置！请在Inspector中拖拽Slider组件到_healthSlider字段。");
+        }
+    }
+
+    /// <summary>
+    /// 更新血量UI显示
+    /// </summary>
+    private void UpdateHealthUI()
+    {
+        if (_healthSlider != null)
+        {
+            _healthSlider.value = _health;
+        }
+    }
+
+    /// <summary>
+    /// 每秒回血协程
+    /// </summary>
+    private IEnumerator _CoHealthRecovery()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+
+            // 只有在未满血且回血值大于0时才进行回血
+            if (_health < _maxHealth && _recovery > 0)
+            {
+                _health += _recovery;
+                if (_health > _maxHealth)
+                {
+                    _health = _maxHealth;
+                }
+                // 更新血量UI
+                UpdateHealthUI();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 计算护甲减伤后的实际伤害
+    /// </summary>
+    /// <param name="originalDamage">原始伤害</param>
+    /// <returns>减伤后的实际伤害</returns>
+    private float CalculateActualDamage(float originalDamage)
+    {
+        float actualDamage = originalDamage - _armor;
+        // 确保伤害不会小于0
+        return Mathf.Max(0f, actualDamage);
     }
 
     /// <summary>
@@ -47,12 +127,22 @@ public class Player : MonoBehaviour
     /// </summary>
     public void TakeEnemyDamage(float damage)
     {
-        _health -= damage;
+        float actualDamage = CalculateActualDamage(damage);
+        _health -= actualDamage;
+
+        // 输出伤害信息用于调试
+        if (actualDamage < damage)
+        {
+            Debug.Log($"护甲减伤：原始伤害{damage}，护甲{_armor}，实际伤害{actualDamage}");
+        }
+
         if (_health <= 0)
         {
             _health = 0;
             Debug.Log("玩家死亡");
         }
+        // 更新血量UI
+        UpdateHealthUI();
     }
 
     /// <summary>
@@ -60,13 +150,23 @@ public class Player : MonoBehaviour
     /// </summary>
     public void TakeEnemyProjectileDamage(float damage)
     {
-        _health -= damage;
+        float actualDamage = CalculateActualDamage(damage);
+        _health -= actualDamage;
+
+        // 输出伤害信息用于调试
+        if (actualDamage < damage)
+        {
+            Debug.Log($"护甲减伤：原始伤害{damage}，护甲{_armor}，实际伤害{actualDamage}");
+        }
+
         if (_health <= 0)
         {
             _health = 0;
             //TODO: 完成游戏结算逻辑
             Debug.Log("玩家死亡");
         }
+        // 更新血量UI
+        UpdateHealthUI();
     }
 
     /// <summary>
@@ -79,6 +179,26 @@ public class Player : MonoBehaviour
         {
             _health = _maxHealth;
         }
+        // 更新血量UI
+        UpdateHealthUI();
     }
 
+    /// <summary>
+    /// 增加最大生命值和当前生命值
+    /// </summary>
+    /// <param name="amount">增加的数值</param>
+    public void IncreaseMaxHealthAndCurrentHealth(float amount)
+    {
+        _maxHealth += amount;
+        _health += amount;
+
+        // 更新血量UI的最大值和当前值
+        if (_healthSlider != null)
+        {
+            _healthSlider.maxValue = _maxHealth;
+            _healthSlider.value = _health;
+        }
+
+        Debug.Log($"生命值提升：最大生命值增加{amount}，当前最大生命值{_maxHealth}，当前生命值{_health}");
+    }
 }
