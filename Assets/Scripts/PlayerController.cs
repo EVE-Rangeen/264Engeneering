@@ -4,15 +4,16 @@ using UnityEngine;
 
 /// <summary>
 /// 2D角色控制器，支持WASD移动和冲刺功能
+/// 2025-06-24 肖沐奇 创建
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
     [Header("移动设置")]
-    [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _dashSpeed = 15f;
     [SerializeField] private float _dashDuration = 0.2f;
     [SerializeField] private float _dashCooldown = 1f;
 
+    private float _moveSpeed = 5f;
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
     private Vector2 _lastMoveDirection = Vector2.right; // 默认朝向右
@@ -132,5 +133,10 @@ public class PlayerController : MonoBehaviour
     public bool IsDashing()
     {
         return _isDashing;
+    }
+
+    public void SetMoveSpeed(float speed)
+    {
+        _moveSpeed = speed;
     }
 }
