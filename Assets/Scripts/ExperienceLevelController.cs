@@ -42,6 +42,23 @@ public class ExperienceLevelController : MonoBehaviour
         {
             currentLevel = expLevels.Count - 1;
         }
+
+        UIController.instance.levelUpPanel.SetActive(true);
+        UpgradeManager.instance.SelectRandomWeapons();
+        Timer.instance.PauseTimer();
     }
 
+    /// <summary>
+    /// 当玩家选择升级选项时触发
+    /// </summary>
+    /// <param name="selectedWeapon">选中的武器数据</param>
+    public void OnUpgradeSelected()
+    {
+        
+        // 关闭升级面板
+        UIController.instance.levelUpPanel.SetActive(false);
+        
+        // 恢复游戏时间
+        Timer.instance.ResumeTimer();
+    }
 }
