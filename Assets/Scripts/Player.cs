@@ -64,6 +64,7 @@ public class Player : MonoBehaviour
         if (_health <= 0)
         {
             _health = 0;
+            //TODO: 完成游戏结算逻辑
             Debug.Log("玩家死亡");
         }
     }
@@ -79,6 +80,5 @@ public class Player : MonoBehaviour
             _health = _maxHealth;
         }
     }
-
 
 }
