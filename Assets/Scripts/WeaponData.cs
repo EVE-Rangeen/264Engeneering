@@ -23,7 +23,7 @@ public class WeaponData : ScriptableObject
     [SerializeField] private Sprite _weaponIcon;
     [SerializeField] private WeaponType _weaponType = WeaponType.近战武器;
     [SerializeField, TextArea(2, 4)] private string _weaponDescription = "武器描述";
-    [SerializeField] private int _weaponLevel = 1;
+    [SerializeField] private int _weaponLevel = 0;
 
     [Header("伤害属性")]
     [SerializeField] private float _damage = 10f;
@@ -127,8 +127,8 @@ public class WeaponData : ScriptableObject
         _cooldownTime = Mathf.Max(0f, _cooldownTime);
         _knockback = Mathf.Max(0f, _knockback);
 
-        // 确保武器等级至少为1
-        _weaponLevel = Mathf.Max(1, _weaponLevel);
+        // 确保武器等级至少为0
+        _weaponLevel = Mathf.Max(0, _weaponLevel);
 
         // 确保武器名称不为空
         if (string.IsNullOrEmpty(_weaponName))
