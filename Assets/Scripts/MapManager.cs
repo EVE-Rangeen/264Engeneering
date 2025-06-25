@@ -5,10 +5,21 @@ using UnityEngine.Tilemaps;
 
 /// <summary>
 /// 地图管理器 - 使用柏林噪声生成无限地图
-/// 2025-06-25 肖沐奇
+/// 挂在在游戏关卡场景的Grid下
+/// 2025-06-25 肖沐奇 创建
 /// </summary>
 public class MapManager : MonoBehaviour
 {
+
+    private static MapManager _instance;
+    public static MapManager Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+
     [Header("地图生成设置")]
     [SerializeField] private int _chunkSize = 16; // 地图块大小
     [SerializeField] private int _viewDistance = 3; // 视野距离（加载多少个地图块）
@@ -48,7 +59,15 @@ public class MapManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        // 获取组件引用
+        // 单例模式实现
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+
+        // 获取Grid组件引用
         _grid = GetComponent<Grid>();
 
         // 查找BaseTilemap子对象
@@ -78,6 +97,8 @@ public class MapManager : MonoBehaviour
 
         // 初始化噪声偏移数组
         InitializeNoiseOffsets();
+
+
     }
 
     /// <summary>
@@ -345,6 +366,17 @@ public class MapManager : MonoBehaviour
         if (_player != null)
         {
             GenerateInitialMap();
+        }
+    }
+
+    /// <summary>
+    /// 销毁时清理单例引用
+    /// </summary>
+    void OnDestroy()
+    {
+        if (_instance == this)
+        {
+            _instance = null;
         }
     }
 

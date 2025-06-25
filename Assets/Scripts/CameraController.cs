@@ -4,6 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// 2D相机控制器，实现平滑跟随玩家移动
+/// 2025-06-24 肖沐奇 创建
 /// </summary>
 public class CameraController : MonoBehaviour
 {

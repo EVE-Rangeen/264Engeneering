@@ -4,11 +4,18 @@ using UnityEngine;
 
 /// <summary>
 /// 敌人管理器 - 负责敌人的生成、管理和销毁
-/// 实现类似吸血鬼幸存者的怪物刷新机制
+/// 2025-06-25 肖沐奇 创建
 /// </summary>
 public class EnemyManager : MonoBehaviour
 {
-    public static EnemyManager instance;
+    private static EnemyManager _instance;
+    public static EnemyManager Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
 
     [Header("玩家引用")]
     [SerializeField] private Transform _player;
@@ -43,19 +50,25 @@ public class EnemyManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+        _instance = this;
     }
 
     void Start()
     {
         InitializeEnemyManager();
+    }
+
+    void OnDestroy()
+    {
+        if (_instance == this)
+        {
+            _instance = null;
+        }
     }
 
     void Update()
