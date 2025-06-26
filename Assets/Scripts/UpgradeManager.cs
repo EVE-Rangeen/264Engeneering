@@ -190,8 +190,8 @@ public class UpgradeManager : MonoBehaviour
         WeaponData weaponInList = WeaponManager.instance.GetCurrentWeapon(weaponListIndex);
         if (weaponInList != null)
         {
-            // 使用反射直接修改私有字段 _weaponLevel
-            var field = typeof(WeaponData).GetField("_weaponLevel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            // 使用反射直接修改私有字段 _currentLevel
+            var field = typeof(WeaponData).GetField("_currentLevel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             if (field != null)
             {
                 int oldLevel = (int)field.GetValue(weaponInList);
@@ -214,40 +214,11 @@ public class UpgradeManager : MonoBehaviour
         UIController.instance.levelUpPanel.SetActive(false);
         UIController.instance.pauseButton.interactable = true;
         
-        // 更新武器等级显示文本
-        UpdateWeaponLevelDisplay();
-        
+        // 更新显示文本
+        UIController.instance.UpdateWeaponLevelDisplay();
+        UIController.instance.UpdatePlayerAttributeDisplay();
+
         // 恢复游戏时间
         Timer.instance.ResumeTimer();
-    }
-
-    /// <summary>
-    /// 更新武器等级显示文本
-    /// </summary>
-    private void UpdateWeaponLevelDisplay()
-    {
-        string weaponLevelText = "武器等级\n";
-        
-        // 遍历所有当前武器，只显示等级大于0的武器
-        var currentWeapons = WeaponManager.instance.CurrentWeapons;
-        bool hasWeapons = false;
-        
-        foreach (var weapon in currentWeapons)
-        {
-            if (weapon.WeaponLevel > 0)
-            {
-                weaponLevelText += $"{weapon.WeaponName}: 等级 {weapon.WeaponLevel}\n";
-                hasWeapons = true;
-            }
-        }
-        
-        // 如果没有武器，显示提示信息
-        if (!hasWeapons)
-        {
-            weaponLevelText += "暂无武器";
-        }
-        
-        // 更新UI文本
-        UIController.instance.weaponInfoText.text = weaponLevelText;
     }
 } 

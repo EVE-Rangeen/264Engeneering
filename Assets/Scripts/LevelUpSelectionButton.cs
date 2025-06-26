@@ -12,7 +12,7 @@ public class LevelUpSelectionButton : MonoBehaviour
     public void UpdateButtonDisplay(WeaponData weapon)
     {
         upgradeDescText.text = weapon.WeaponName + " 升级";
-        nameLevelText.text = "当前等级: " + weapon.WeaponLevel;
+        nameLevelText.text = "当前等级: " + weapon.CurrentLevel + "/" + weapon.MaxLevel;
         icon.sprite = weapon.WeaponIcon;
         Debug.Log("更新按钮显示: " + weapon.WeaponName);
     }
