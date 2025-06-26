@@ -236,12 +236,6 @@ public class Player : MonoBehaviour
         float actualDamage = CalculateActualDamage(damage);
         _health -= actualDamage;
 
-        // 输出伤害信息用于调试
-        if (actualDamage < damage)
-        {
-            Debug.Log($"护甲减伤：原始伤害{damage}，护甲{_armor}，实际伤害{actualDamage}");
-        }
-
         if (_health <= 0)
         {
             _health = 0;
