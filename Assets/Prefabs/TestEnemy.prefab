@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5499136574619465458}
   - component: {fileID: 2268939753853168124}
-  - component: {fileID: 7899546920492536775}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -85,41 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &7899546920492536775
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2939746240374628129}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!1 &7421856201611476280
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,6 +96,7 @@ GameObject:
   - component: {fileID: 4217534947198247641}
   - component: {fileID: 7757943476636949408}
   - component: {fileID: 743359825840303534}
+  - component: {fileID: 6862574286585379792}
   m_Layer: 0
   m_Name: TestEnemy
   m_TagString: Enemy
@@ -167,12 +132,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f19fd35a3e449059f9d7ec8b68c4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
-  _health: 100
+  _maxHealth: 10
+  _health: 10
   _damage: 1
   _moveSpeed: 1
   _mass: 1
   _expType: 0
+  _moneyType: 0
+  _dropPossibility: 0.8
+  _expWeight: 0.7
 --- !u!114 &7757943476636949408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,3 +182,38 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &6862574286585379792
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7421856201611476280}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.29

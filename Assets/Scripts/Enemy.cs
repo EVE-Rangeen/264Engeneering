@@ -16,7 +16,7 @@ public enum MoneyType
 }
 
 /// <summary>
-/// 敌人基类，所有敌人继承自此类
+/// 敌人逻辑
 /// 2025-06-25 肖沐奇 创建
 /// </summary>
 public class Enemy : MonoBehaviour
@@ -65,15 +65,11 @@ public class Enemy : MonoBehaviour
         // 如果碰撞对象是玩家，则对它造成伤害
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("敌人与玩家碰撞");
-            Debug.Log(collision.gameObject.name);
             Player playerComponent = collision.gameObject.GetComponent<Player>();
             if (playerComponent != null)
             {
                 playerComponent.TakeEnemyDamage(_damage);
             }
-            // 测试用，敌人受到玩家武器的伤害
-            TakeDamage(20);
         }
     }
 

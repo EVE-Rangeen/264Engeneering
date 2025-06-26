@@ -8,7 +8,7 @@ public class EnemyDamager : MonoBehaviour
 {
     [Header("伤害设置")]
     [Tooltip("对敌人造成的伤害数值")]
-    public float damageAmount = 5f;
+    public float damage = 5f;
     [Tooltip("是否在击中敌人后销毁自身")]
     public bool destroyOnImpact = false;
     [Tooltip("弹药的生命周期，单位秒")]
@@ -54,7 +54,7 @@ public class EnemyDamager : MonoBehaviour
     {
         _targetSize = transform.localScale;
         transform.localScale = Vector3.zero;
-        
+
         // 如果生命周期设置为很大的值，则不自动销毁
         if (lifeTime > 100f)
         {
@@ -171,15 +171,15 @@ public class EnemyDamager : MonoBehaviour
         {
             case 0: // 仅使用Tag
                 return obj.CompareTag(enemyTag);
-            
+
             case 1: // 仅使用SortingLayer
                 SpriteRenderer spriteRenderer = obj.GetComponent<SpriteRenderer>();
                 return spriteRenderer != null && spriteRenderer.sortingLayerName == enemySortingLayer;
-            
+
             case 2: // 同时使用Tag和SortingLayer
                 SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
                 return obj.CompareTag(enemyTag) && sr != null && sr.sortingLayerName == enemySortingLayer;
-            
+
             default:
                 return obj.CompareTag(enemyTag);
         }
@@ -191,9 +191,14 @@ public class EnemyDamager : MonoBehaviour
     /// <param name="enemy">敌人对象</param>
     private void DealDamage(GameObject enemy)
     {
-        //TakeDamage(damageAmount);
-        Debug.Log($"对敌人 {enemy.name} 造成 {damageAmount} 点伤害");
-        
+        // 获取敌人组件，获取父节点是因为Collider2D挂载在Enemy的子物体上
+        Enemy enemyComponent = enemy.GetComponent<Enemy>();
+        if (enemyComponent != null)
+        {
+            enemyComponent.TakeDamage(damage);
+            Debug.Log($"对敌人 {enemy.name} 造成 {damage} 点伤害");
+        }
+
         // 应用击退效果
         if (shouldKnockBack)
         {
@@ -212,10 +217,10 @@ public class EnemyDamager : MonoBehaviour
         {
             // 计算击退方向（从弹药到敌人的方向）
             Vector2 knockBackDirection = (enemy.transform.position - transform.position).normalized;
-            
+
             // 应用击退力
             enemyRb.AddForce(knockBackDirection * knockBackForce, ForceMode2D.Impulse);
-            
+
             Debug.Log($"对敌人施加了击退效果，力度：{knockBackForce}");
         }
     }
@@ -223,9 +228,9 @@ public class EnemyDamager : MonoBehaviour
     /// <summary>
     /// 获取武器对怪物造成的伤害 返回伤害数值
     /// </summary>
-    
+
     public float GetAppliedDamageAmount()
     {
-        return damageAmount;
+        return damage;
     }
 }

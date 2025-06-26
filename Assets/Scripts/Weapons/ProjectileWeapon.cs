@@ -11,7 +11,10 @@ public class ProjectileWeapon : MonoBehaviour
     //public EnemyDamager damager; // 仅用于Inspector拖拽预制体引用
     [SerializeField] private GameObject projectilePrefab; // 仅用于Inspector拖拽预制体引用
 
-    [Header("左轮参数")]
+    [Header("武器索引")]
+    [SerializeField] private int weaponIndex = 0;
+
+    [Header("射弹武器参数")]
     [Tooltip("每弹夹子弹数量")]
     [SerializeField] private int clipSize = 6;
     [Tooltip("射击距离")]
@@ -57,6 +60,10 @@ public class ProjectileWeapon : MonoBehaviour
 
     void FireBullet(Vector3 targetPos)
     {
+        WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
+        float damage = weaponData.Damage;
+        float finalDamage = damage * PlayerAttributeManager.instance.PlayerComponent.PowerFactor;
+
         // 用projectilePrefab作为预制体
         GameObject bulletObj = Instantiate(projectilePrefab, transform.position, Quaternion.identity, null);
         Vector3 dir = (targetPos - transform.position).normalized;
@@ -64,6 +71,9 @@ public class ProjectileWeapon : MonoBehaviour
         bulletObj.SetActive(true);
         // 获取Projectile组件（如需进一步初始化）
         Projectile proj = bulletObj.GetComponent<Projectile>();
+
+        EnemyDamager enemyDamager = bulletObj.GetComponent<EnemyDamager>();
+        enemyDamager.damage = finalDamage;
         // 你可以在这里做一些额外的初始化，比如设置伤害等
         SFXManager.instance.PlaySFXPitched(fireSFXIndex);
     }

@@ -31,21 +31,20 @@ public class WeaponData : ScriptableObject
     [SerializeField] private int _maxLevel = 10;
 
     [Header("伤害属性")]
-    [SerializeField] private float _damage = 10f;
-    [SerializeField] private float _attackSpeed = 1f;
-    [SerializeField] private float _attackRange = 1f;
+    [SerializeField] private float _damage = 10f;       // 武器基础伤害
+    //TODO: 以下的属性，都还没有实现数值计算。
+    [SerializeField] private float _attackRange = 1f;   // 射弹攻击范围，用于设置武器的各类攻击范围，对于不同种类武器含义不同
 
     [Header("攻击效果")]
-    [SerializeField] private int _attackCount = 1;
-    [SerializeField] private int _piercing = 0;
-    [SerializeField] private float _cooldownTime = 1f;
-    [SerializeField] private float _knockback = 0f;
+    [SerializeField] private int _attackCount = 1;  // 射弹攻击数量，单轮执行攻击次数
+    [SerializeField] private int _piercing = 0; // 穿透次数，0表示不穿透
+    [SerializeField] private float _cooldownTime = 1f; // 两轮攻击间隔时间
+    [SerializeField] private float _knockback = 0f; // 击退力度，最终作用于敌人的Rigidbody2D的AddForce，0表示无击退
 
     [Header("弹道属性")]
-    [SerializeField] private float _projectileSpeed = 10f;
-    [SerializeField] private float _duration = 5f;
-    [SerializeField] private float _bulletInterval = 0.1f;
-    [SerializeField] private bool _destroyAfterShoot = false;
+    [SerializeField] private float _projectileSpeed = 10f; // 射弹飞行速度，用于设置武器的各类运动速度，对于不同种类武器含义不同
+    [SerializeField] private float _duration = 5f;  // 射弹持续时间，用于设置武器的各类持续时间，对于不同种类武器含义不同
+    [SerializeField] private float _bulletInterval = 0.1f; // 射弹发射间隔时间，单轮攻击执行中，每次射弹的攻击间隔
 
     /// <summary>
     /// 武器名称
@@ -92,10 +91,6 @@ public class WeaponData : ScriptableObject
     /// </summary>
     public float Damage => _damage;
 
-    /// <summary>
-    /// 武器攻击速度（每秒攻击次数）
-    /// </summary>
-    public float AttackSpeed => _attackSpeed;
 
     /// <summary>
     /// 攻击范围
@@ -137,10 +132,6 @@ public class WeaponData : ScriptableObject
     /// </summary>
     public float BulletInterval => _bulletInterval;
 
-    /// <summary>
-    /// 是否在射击后销毁武器
-    /// </summary>
-    public bool DestroyAfterShoot => _destroyAfterShoot;
 
     /// <summary>
     /// 获取武器的完整描述信息
@@ -151,17 +142,15 @@ public class WeaponData : ScriptableObject
         return $"武器名称: {_weaponName}\n" +
                $"武器类型: {_weaponType}\n" +
                $"等级: {_currentLevel}/{_maxLevel}\n" +
-               $"伤害: {_damage}\n" +
-               $"攻击速度: {_attackSpeed}/秒\n" +
-               $"攻击范围: {_attackRange}\n" +
-               $"攻击数量: {_attackCount}\n" +
-               $"穿刺: {_piercing}\n" +
-               $"冷却时间: {_cooldownTime}秒\n" +
-               $"击退: {_knockback}\n" +
-               $"弹射物速度: {_projectileSpeed}\n" +
-               $"持续时间: {_duration}秒\n" +
-               $"子弹间隔: {_bulletInterval}秒\n" +
-               $"射击后销毁: {(_destroyAfterShoot ? "是" : "否")}";
+               $"武器基础伤害: {_damage}\n" +
+               $"射弹攻击范围: {_attackRange}\n" +
+               $"单轮攻击次数: {_attackCount}\n" +
+               $"穿透次数: {_piercing}\n" +
+               $"两轮攻击间隔时间: {_cooldownTime}秒\n" +
+               $"击退力度: {_knockback}\n" +
+               $"弹射物飞行速度: {_projectileSpeed}\n" +
+               $"弹射物持续时间: {_duration}秒\n" +
+               $"弹射物发射间隔: {_bulletInterval}秒\n";
     }
 
     /// <summary>
@@ -171,7 +160,6 @@ public class WeaponData : ScriptableObject
     {
         // 确保数值在合理范围内
         _damage = Mathf.Max(0f, _damage);
-        _attackSpeed = Mathf.Max(0.1f, _attackSpeed);
         _attackRange = Mathf.Max(0f, _attackRange);
         _attackCount = Mathf.Max(1, _attackCount);
         _piercing = Mathf.Max(0, _piercing);
@@ -186,7 +174,7 @@ public class WeaponData : ScriptableObject
         // 确保武器等级至少为0
         _currentLevel = Mathf.Max(0, _currentLevel);
         _maxLevel = Mathf.Max(1, _maxLevel);
-        
+
         // 确保当前等级不超过最大等级
         _currentLevel = Mathf.Min(_currentLevel, _maxLevel);
 
@@ -202,4 +190,4 @@ public class WeaponData : ScriptableObject
             _weaponDescriptions.Add("暂无描述");
         }
     }
-} 
+}
