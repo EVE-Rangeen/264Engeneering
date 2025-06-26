@@ -12,27 +12,12 @@ public class PlayerStatsManager : MonoBehaviour
     /// 人物属性管理器单例实例
     /// </summary>
     public static PlayerStatsManager instance;
-
-    [Header("基础属性")]
-    [SerializeField] private float _maxHealth = 100f;
-    [SerializeField] private float _healthRegeneration = 1f;
-    [SerializeField] private float _armor = 0f;
-    [SerializeField] private float _attackPower = 10f;
     [SerializeField] private int _totalCoins = 0;
-
-    [Header("当前状态 (运行时只读)")]
-    [SerializeField] private float _currentHealth;
 
     [Header("属性升级数据")]
     [SerializeField] private List<AttributeUpgradeData> _upgradeableAttributes = new List<AttributeUpgradeData>();
 
-    public float MaxHealth => _maxHealth;
-    public float HealthRegeneration => _healthRegeneration;
-    public float Armor => _armor;
-    public float AttackPower => _attackPower;
     public int TotalCoins => _totalCoins;
-    public float CurrentHealth => _currentHealth;
-    public float HealthPercentage => _maxHealth > 0 ? _currentHealth / _maxHealth : 0f;
 
     /// <summary>
     /// 获取所有可升级属性数据（只读）
@@ -129,58 +114,6 @@ public class PlayerStatsManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 升级最大血量
-    /// </summary>
-    /// <param name="amount">增加的血量值</param>
-    public void UpgradeMaxHealth(float amount)
-    {
-        float oldMaxHealth = _maxHealth;
-        _maxHealth += amount;
-        
-        // 按比例增加当前血量
-        float healthRatio = _currentHealth / oldMaxHealth;
-        _currentHealth = _maxHealth * healthRatio;
-
-        Debug.Log($"最大血量升级: {oldMaxHealth} -> {_maxHealth}");
-    }
-
-    /// <summary>
-    /// 升级血量回复
-    /// </summary>
-    /// <param name="amount">增加的回复速度</param>
-    public void UpgradeHealthRegeneration(float amount)
-    {
-        float oldRegen = _healthRegeneration;
-        _healthRegeneration += amount;
-        
-        Debug.Log($"血量回复升级: {oldRegen} -> {_healthRegeneration}");
-    }
-
-    /// <summary>
-    /// 升级护甲
-    /// </summary>
-    /// <param name="amount">增加的护甲值</param>
-    public void UpgradeArmor(float amount)
-    {
-        float oldArmor = _armor;
-        _armor += amount;
-        
-        Debug.Log($"护甲升级: {oldArmor} -> {_armor}");
-    }
-
-    /// <summary>
-    /// 升级攻击力
-    /// </summary>
-    /// <param name="amount">增加的攻击力</param>
-    public void UpgradeAttackPower(float amount)
-    {
-        float oldAttack = _attackPower;
-        _attackPower += amount;
-        
-        Debug.Log($"攻击力升级: {oldAttack} -> {_attackPower}");
-    }
-
-    /// <summary>
     /// 花费金币
     /// </summary>
     /// <param name="amount">要花费的金币数量</param>
@@ -209,19 +142,6 @@ public class PlayerStatsManager : MonoBehaviour
         
         Debug.LogWarning($"金币不足！当前: {_totalCoins}, 需要: {amount}");
         return false;
-    }
-
-    /// <summary>
-    /// 获取玩家属性描述
-    /// </summary>
-    /// <returns>属性描述字符串</returns>
-    public string GetStatsDescription()
-    {
-        return $"血量: {_currentHealth:F1}/{_maxHealth:F1}\n" +
-               $"血量回复: {_healthRegeneration:F1}/秒\n" +
-               $"护甲: {_armor:F1}\n" +
-               $"攻击力: {_attackPower:F1}\n" +
-               $"金币: {_totalCoins}";
     }
 
     /// <summary>

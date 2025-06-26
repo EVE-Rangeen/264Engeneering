@@ -10,6 +10,7 @@ public class StatsUIController : MonoBehaviour
     public TMP_Text coinText;
     public List<TMP_Text> levelTexts;
     public List<TMP_Text> descriptionTexts;
+    public List<TMP_Text> costTexts;
     
     void Awake()
     {
@@ -41,7 +42,69 @@ public class StatsUIController : MonoBehaviour
         if (index >= 0 && index < PlayerStatsManager.instance.UpgradeableAttributes.Count && index < descriptionTexts.Count)
         {
             var attribute = PlayerStatsManager.instance.UpgradeableAttributes[index];
-            descriptionTexts[index].text = attribute.AttributeDescription;
+            
+            // 检查是否已达到最高等级
+            if (attribute.IsMaxLevel)
+            {
+                // 已满级时只显示当前数值
+                if (attribute.CurrentLevel > 0 && attribute.CurrentLevel <= attribute.UpgradeValues.Count)
+                {
+                    float currentValue = attribute.UpgradeValues[attribute.CurrentLevel - 1];
+                    descriptionTexts[index].text = $"{attribute.AttributeName}: {currentValue} (已满级)";
+                }
+                else
+                {
+                    descriptionTexts[index].text = $"{attribute.AttributeName}: 已满级";
+                }
+            }
+            else
+            {
+                // 获取当前等级和下一等级的数值
+                float currentValue = 0f;
+                float nextValue = 0f;
+                
+                // 当前等级的数值（等级0时为0）
+                if (attribute.CurrentLevel > 0 && attribute.CurrentLevel <= attribute.UpgradeValues.Count)
+                {
+                    currentValue = attribute.UpgradeValues[attribute.CurrentLevel - 1];
+                }
+                
+                // 下一等级的数值
+                if (attribute.CurrentLevel < attribute.UpgradeValues.Count)
+                {
+                    nextValue = attribute.UpgradeValues[attribute.CurrentLevel];
+                }
+                
+                // 显示格式：属性名: 从 当前值 升为 下一等级值
+                descriptionTexts[index].text = $"{attribute.AttributeName}: 从 {currentValue} 升为 {nextValue}";
+            }
+        }
+    }
+
+    public void UpdateCostTexts(int index)
+    {
+        if (index >= 0 && index < PlayerStatsManager.instance.UpgradeableAttributes.Count && index < costTexts.Count)
+        {
+            var attribute = PlayerStatsManager.instance.UpgradeableAttributes[index];
+            
+            // 检查是否已达到最高等级
+            if (attribute.IsMaxLevel)
+            {
+                costTexts[index].text = "已满级";
+            }
+            else
+            {
+                // 获取当前等级的升级费用
+                if (attribute.CurrentLevel < attribute.UpgradeCosts.Count)
+                {
+                    int upgradeCost = attribute.UpgradeCosts[attribute.CurrentLevel];
+                    costTexts[index].text = $"所需金币: {upgradeCost}";
+                }
+                else
+                {
+                    costTexts[index].text = "无法升级";
+                }
+            }
         }
     }
 
@@ -55,6 +118,7 @@ public class StatsUIController : MonoBehaviour
                 // 升级成功，更新UI
                 UpdateLevelTexts(buttonIndex);
                 UpdateDescriptionTexts(buttonIndex);
+                UpdateCostTexts(buttonIndex);
                 
                 // 同时更新金币显示
                 UpdateCoin();

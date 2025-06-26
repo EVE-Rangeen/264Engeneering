@@ -13,6 +13,9 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private GameObject _upgradeOption2;
     [SerializeField] private GameObject _upgradeOption3;
 
+    [Header("武器图标生成器")]
+    [SerializeField] private WeaponIconGenerator _weaponIconGenerator;
+
     // 存储当前随机选择的3个武器
     private WeaponData _currentSelectedWeapon1;
     private WeaponData _currentSelectedWeapon2;
@@ -37,6 +40,21 @@ public class UpgradeManager : MonoBehaviour
     /// 升级选项3
     /// </summary>
     public GameObject UpgradeOption3 => _upgradeOption3;
+
+    /// <summary>
+    /// 当前选中的武器1
+    /// </summary>
+    public WeaponData CurrentSelectedWeapon1 => _currentSelectedWeapon1;
+
+    /// <summary>
+    /// 当前选中的武器2
+    /// </summary>
+    public WeaponData CurrentSelectedWeapon2 => _currentSelectedWeapon2;
+
+    /// <summary>
+    /// 当前选中的武器3
+    /// </summary>
+    public WeaponData CurrentSelectedWeapon3 => _currentSelectedWeapon3;
 
     void Awake()
     {
@@ -178,7 +196,13 @@ public class UpgradeManager : MonoBehaviour
             {
                 int oldLevel = (int)field.GetValue(weaponInList);
                 field.SetValue(weaponInList, oldLevel + 1);
-                Debug.Log($"升级武器: {weaponInList.WeaponName} 从等级 {oldLevel} 到 {weaponInList.WeaponLevel}");
+                
+                // 只有当武器从等级0升级时才添加图标（第一次获得武器）
+                if (oldLevel == 0)
+                {
+                    // 添加武器图标到UI
+                    _weaponIconGenerator.AddWeaponIcon(weaponInList, $"UpgradedWeapon_{weaponInList.WeaponName}");
+                }
             }
         }
         else
