@@ -98,11 +98,12 @@ public class PlayerStatsManager : MonoBehaviour
                 // 保存属性等级
                 Save($"{baseKey}.Level", attribute.CurrentLevel);
                 
+                // 保存当前等级对应的UpgradeValues
+                float currentUpgradeValue = attribute.UpgradeValues[attribute.CurrentLevel];
+                Save($"{baseKey}.CurrentUpgradeValue", currentUpgradeValue);
+                
                 // 保存属性名称（用于调试和数据识别）
                 Save($"{baseKey}.Name", attribute.AttributeName);
-                
-                // 保存属性描述（可选，用于完整性）
-                Save($"{baseKey}.Description", attribute.AttributeDescription);
             }
         }
         catch (System.Exception e)

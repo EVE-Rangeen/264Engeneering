@@ -57,7 +57,7 @@ public class StatsUIController : MonoBehaviour
                 // 已满级时只显示当前数值
                 if (attribute.CurrentLevel > 0 && attribute.CurrentLevel <= attribute.UpgradeValues.Count)
                 {
-                    float currentValue = attribute.UpgradeValues[attribute.CurrentLevel - 1];
+                    float currentValue = attribute.UpgradeValues[attribute.CurrentLevel];
                     descriptionTexts[index].text = $"{attribute.AttributeName}: {currentValue} (已满级)";
                 }
                 else

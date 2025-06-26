@@ -23,7 +23,8 @@ public class WeaponData : ScriptableObject
     [SerializeField] private Sprite _weaponIcon;
     [SerializeField] private WeaponType _weaponType = WeaponType.近战武器;
     [SerializeField, TextArea(2, 4)] private string _weaponDescription = "武器描述";
-    [SerializeField] private int _weaponLevel = 0;
+    [SerializeField] private int _currentLevel = 0;
+    [SerializeField] private int _maxLevel = 10;
 
     [Header("伤害属性")]
     [SerializeField] private float _damage = 10f;
@@ -65,7 +66,22 @@ public class WeaponData : ScriptableObject
     /// <summary>
     /// 武器等级
     /// </summary>
-    public int WeaponLevel => _weaponLevel;
+    public int WeaponLevel => _currentLevel;
+
+    /// <summary>
+    /// 当前等级
+    /// </summary>
+    public int CurrentLevel => _currentLevel;
+
+    /// <summary>
+    /// 最大等级
+    /// </summary>
+    public int MaxLevel => _maxLevel;
+
+    /// <summary>
+    /// 是否已达到最大等级
+    /// </summary>
+    public bool IsMaxLevel => _currentLevel >= _maxLevel;
 
     /// <summary>
     /// 武器伤害
@@ -130,7 +146,7 @@ public class WeaponData : ScriptableObject
     {
         return $"武器名称: {_weaponName}\n" +
                $"武器类型: {_weaponType}\n" +
-               $"等级: {_weaponLevel}\n" +
+               $"等级: {_currentLevel}/{_maxLevel}\n" +
                $"伤害: {_damage}\n" +
                $"攻击速度: {_attackSpeed}/秒\n" +
                $"攻击范围: {_attackRange}\n" +
@@ -164,7 +180,11 @@ public class WeaponData : ScriptableObject
         _bulletInterval = Mathf.Max(0.01f, _bulletInterval);
 
         // 确保武器等级至少为0
-        _weaponLevel = Mathf.Max(0, _weaponLevel);
+        _currentLevel = Mathf.Max(0, _currentLevel);
+        _maxLevel = Mathf.Max(1, _maxLevel);
+        
+        // 确保当前等级不超过最大等级
+        _currentLevel = Mathf.Min(_currentLevel, _maxLevel);
 
         // 确保武器名称不为空
         if (string.IsNullOrEmpty(_weaponName))
