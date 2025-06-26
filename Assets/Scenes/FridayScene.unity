@@ -1546,10 +1546,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _accessoryDataList:
   - _accessoryName: "\u5F39\u5DE2"
-    _level: 0
-    _effectFunction:
-      m_PersistentCalls:
-        m_Calls: []
+    _accessoryIcon: {fileID: -353671600, guid: 17e1b31ee8f7c5840913bea4140f1a45, type: 3}
+    _accessoryDescriptions:
+    - 2
+    - 3
+    - 3
+    _currentLevel: 0
+    _maxLevel: 3
+  - _accessoryName: "\u91CD\u9774"
+    _accessoryIcon: {fileID: -640134399, guid: 17e1b31ee8f7c5840913bea4140f1a45, type: 3}
+    _accessoryDescriptions:
+    - 2
+    - 3
+    - 4
+    - 4
+    _currentLevel: 0
+    _maxLevel: 4
+  - _accessoryName: "\u5B89\u5361\u5341\u5B57"
+    _accessoryIcon: {fileID: 1170490685, guid: 17e1b31ee8f7c5840913bea4140f1a45, type: 3}
+    _accessoryDescriptions:
+    - 2
+    - 3
+    - 4
+    - 5
+    - 5
+    _currentLevel: 0
+    _maxLevel: 5
   _currentAccessories: []
 --- !u!1 &678004109
 GameObject:
@@ -4679,6 +4701,7 @@ MonoBehaviour:
   _upgradeOption2: {fileID: 1523767440}
   _upgradeOption3: {fileID: 1453401048}
   _weaponIconGenerator: {fileID: 1211020949}
+  _accessoryIconGenerator: {fileID: 1889762814}
 --- !u!1 &1672091911
 GameObject:
   m_ObjectHideFlags: 0

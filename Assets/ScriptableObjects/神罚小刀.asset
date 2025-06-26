@@ -10,13 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: baaaa64eedbeb1147aa1c69ca06cacac, type: 3}
-  m_Name: "\u5C0F\u5200"
+  m_Name: "\u795E\u7F5A\u5C0F\u5200"
   m_EditorClassIdentifier: 
-  _weaponName: "\u5C0F\u5200"
+  _weaponName: "\u795E\u7F5A\u5C0F\u5200"
   _weaponIcon: {fileID: -5775063, guid: 17e1b31ee8f7c5840913bea4140f1a45, type: 3}
   _weaponType: 0
-  _weaponDescription: "\u5C0F\u5200\uFF0C\u8FD1\u6218"
-  _weaponLevel: 0
+  _weaponDescriptions:
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 8
+  _currentLevel: 0
+  _maxLevel: 8
   _damage: 10
   _attackSpeed: 1
   _attackRange: 1
@@ -24,3 +33,7 @@ MonoBehaviour:
   _piercing: 0
   _cooldownTime: 1
   _knockback: 0
+  _projectileSpeed: 10
+  _duration: 5
+  _bulletInterval: 0.1
+  _destroyAfterShoot: 0
