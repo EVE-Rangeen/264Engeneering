@@ -44,7 +44,9 @@ public class ExperienceLevelController : MonoBehaviour
         }
 
         UIController.instance.levelUpPanel.SetActive(true);
+        UIController.instance.pauseButton.interactable = false;
         UpgradeManager.instance.SelectRandomWeapons();
         Timer.instance.PauseTimer();
+
     }
 }

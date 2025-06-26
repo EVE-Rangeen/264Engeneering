@@ -104,8 +104,6 @@ public class PlayerStatsManager : MonoBehaviour
                 // 保存属性描述（可选，用于完整性）
                 Save($"{baseKey}.Description", attribute.AttributeDescription);
             }
-            
-            Debug.Log($"保存数据完成 - 金币: {_totalCoins}, 可升级属性: {_upgradeableAttributes.Count} 个");
         }
         catch (System.Exception e)
         {
