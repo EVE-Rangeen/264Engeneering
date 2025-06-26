@@ -21,6 +21,9 @@ public class ProjectileWeapon : MonoBehaviour
     [Tooltip("每颗子弹间隔时间")]
     [SerializeField] private float fireInterval = 0.07f; // 每颗子弹间隔时间，单位秒
 
+    [Header("音效")]
+    [Tooltip("射击音效的索引值（SFXManager中数组对应的音效的索引）")]
+    [SerializeField] private int fireSFXIndex = 0;
     private float cooldownTimer = 0f;
     private bool isFiring = false;
 
@@ -62,7 +65,7 @@ public class ProjectileWeapon : MonoBehaviour
         // 获取Projectile组件（如需进一步初始化）
         Projectile proj = bulletObj.GetComponent<Projectile>();
         // 你可以在这里做一些额外的初始化，比如设置伤害等
-        SFXManager.instance.PlaySFXPitched(0);
+        SFXManager.instance.PlaySFXPitched(fireSFXIndex);
     }
 
     GameObject FindNearestEnemy()

@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// 角色默认朝向枚举
+/// </summary>
+public enum DefaultFacingDirection
+{
+    Left,   // 默认朝左
+    Right   // 默认朝右
+}
+
+/// <summary>
 /// 2D角色控制器，支持WASD移动和冲刺功能
 /// 2025-06-24 肖沐奇 创建
 /// </summary>
@@ -13,10 +22,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _dashDuration = 0.2f;
     [SerializeField] private float _dashCooldown = 1f;
 
+    [Header("朝向设置")]
+    [SerializeField] private DefaultFacingDirection _defaultFacingDirection = DefaultFacingDirection.Right;
+    [SerializeField] private Transform _facingTransform;
+
     private float _moveSpeed = 5f;
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
-    private Vector2 _lastMoveDirection = Vector2.right; // 默认朝向右
+    private Vector2 _lastMoveDirection;
     private bool _canDash = true;
     private bool _isDashing = false;
 
@@ -34,6 +47,31 @@ public class PlayerController : MonoBehaviour
         {
             // 设置插值模式使得显示更加平滑
             _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        }
+
+        // 如果没有指定朝向Transform，则使用自身Transform
+        if (_facingTransform == null)
+        {
+            _facingTransform = transform;
+        }
+
+        // 根据默认朝向初始化_lastMoveDirection
+        InitializeLastMoveDirection();
+    }
+
+    /// <summary>
+    /// 根据默认朝向初始化最后移动方向
+    /// </summary>
+    private void InitializeLastMoveDirection()
+    {
+        switch (_defaultFacingDirection)
+        {
+            case DefaultFacingDirection.Left:
+                _lastMoveDirection = Vector2.left;
+                break;
+            case DefaultFacingDirection.Right:
+                _lastMoveDirection = Vector2.right;
+                break;
         }
     }
 
@@ -74,6 +112,8 @@ public class PlayerController : MonoBehaviour
         if (_moveInput != Vector2.zero)
         {
             _lastMoveDirection = _moveInput;
+            // 更新角色朝向
+            UpdateFacingDirection();
         }
     }
 
@@ -95,6 +135,50 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 velocity = _moveInput * _moveSpeed;
         _rb.velocity = velocity;
+    }
+
+    /// <summary>
+    /// 更新角色朝向
+    /// </summary>
+    private void UpdateFacingDirection()
+    {
+        if (_facingTransform == null) return;
+
+        // 只有在有水平移动时才更新朝向
+        if (Mathf.Abs(_lastMoveDirection.x) > 0.1f)
+        {
+            bool isMovingRight = _lastMoveDirection.x > 0;
+            Vector3 currentScale = _facingTransform.localScale;
+
+            switch (_defaultFacingDirection)
+            {
+                case DefaultFacingDirection.Left:
+                    // 默认朝左：向左移动时保持原始x缩放，向右移动时翻转x缩放
+                    if (isMovingRight)
+                    {
+                        currentScale.x = -Mathf.Abs(currentScale.x);
+                    }
+                    else
+                    {
+                        currentScale.x = Mathf.Abs(currentScale.x);
+                    }
+                    break;
+
+                case DefaultFacingDirection.Right:
+                    // 默认朝右：向右移动时保持原始x缩放，向左移动时翻转x缩放
+                    if (isMovingRight)
+                    {
+                        currentScale.x = Mathf.Abs(currentScale.x);
+                    }
+                    else
+                    {
+                        currentScale.x = -Mathf.Abs(currentScale.x);
+                    }
+                    break;
+            }
+
+            _facingTransform.localScale = currentScale;
+        }
     }
 
     /// <summary>

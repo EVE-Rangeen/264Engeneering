@@ -4,6 +4,49 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 /// <summary>
+/// GameObject生成配置
+/// </summary>
+[System.Serializable]
+public class ObjectSpawnConfig
+{
+    [Header("基础设置")]
+    public GameObject prefab; // 预制体
+    public string objectName; // 物体名称
+
+    [Header("生成设置")]
+    public int minCount = 1; // 每个chunk最小生成数量
+    public int maxCount = 3; // 每个chunk最大生成数量
+    public float spawnChance = 1f; // 生成概率 (0-1)
+
+    [Header("位置设置")]
+    public bool canSpawnOnSpecial = false; // 是否可以在特殊地块上生成
+    public bool canSpawnOnNormal = true; // 是否可以在普通地块上生成
+    public float minDistance = 1f; // 与其他物体的最小距离
+
+    [Header("限制设置")]
+    public bool hasGlobalLimit = false; // 是否有全局数量限制
+    public int globalLimit = 100; // 全局数量限制
+}
+
+/// <summary>
+/// 生成的物体信息
+/// </summary>
+[System.Serializable]
+public class SpawnedObjectInfo
+{
+    public Vector3 position;
+    public string configName;
+    public GameObject gameObject;
+
+    public SpawnedObjectInfo(Vector3 pos, string name, GameObject obj)
+    {
+        position = pos;
+        configName = name;
+        gameObject = obj;
+    }
+}
+
+/// <summary>
 /// 地图管理器 - 使用柏林噪声生成无限地图
 /// 挂在在游戏关卡场景的Grid下
 /// 2025-06-25 肖沐奇 创建
@@ -42,6 +85,11 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform _player; // 玩家对象
     [SerializeField] private Camera _camera; // 主相机
 
+    [Header("GameObject生成设置")]
+    [SerializeField] private ObjectSpawnConfig[] _spawnConfigs; // 生成配置数组
+    [SerializeField] private Transform _objectParent; // 生成物体的父对象
+    [SerializeField] private int _maxSpawnAttempts = 50; // 每个物体的最大生成尝试次数
+
     // 私有字段
     private Grid _grid;
     private Tilemap _tilemap;
@@ -53,6 +101,10 @@ public class MapManager : MonoBehaviour
 
     // 噪声偏移数组，用于打破对称性
     private Vector2[] _octaveOffsets;
+
+    // GameObject生成管理
+    private Dictionary<Vector2Int, List<SpawnedObjectInfo>> _chunkObjects = new Dictionary<Vector2Int, List<SpawnedObjectInfo>>();
+    private Dictionary<string, int> _globalObjectCounts = new Dictionary<string, int>(); // 全局物体计数
 
     /// <summary>
     /// 初始化组件和随机数生成器
@@ -127,7 +179,24 @@ public class MapManager : MonoBehaviour
             _normalTile = Resources.Load<TileBase>("Tiles/Grass/Grass_0");
             if (_normalTile == null)
             {
-                Debug.LogWarning("MapManager: 未设置草地瓦片，请在Inspector中设置GrassTile！");
+                Debug.LogWarning("MapManager: 未设置普通瓦片，请在Inspector中设置NormalTile！");
+            }
+        }
+
+        // 创建物体父对象
+        if (_objectParent == null)
+        {
+            GameObject parentObject = new GameObject("Generated Objects");
+            parentObject.transform.SetParent(transform);
+            _objectParent = parentObject.transform;
+        }
+
+        // 初始化全局物体计数
+        foreach (var config in _spawnConfigs)
+        {
+            if (config.hasGlobalLimit)
+            {
+                _globalObjectCounts[config.objectName] = 0;
             }
         }
 
@@ -233,6 +302,9 @@ public class MapManager : MonoBehaviour
                 }
             }
         }
+
+        // 生成GameObject
+        GenerateObjectsInChunk(chunkCoord);
     }
 
     /// <summary>
@@ -246,6 +318,180 @@ public class MapManager : MonoBehaviour
 
         // 清除该区域的所有瓦片
         _tilemap.SetTilesBlock(area, new TileBase[_chunkSize * _chunkSize]);
+
+        // 移除该chunk中的所有GameObject
+        RemoveObjectsInChunk(chunkCoord);
+    }
+
+    /// <summary>
+    /// 在指定chunk中生成GameObject
+    /// </summary>
+    /// <param name="chunkCoord">chunk坐标</param>
+    private void GenerateObjectsInChunk(Vector2Int chunkCoord)
+    {
+        if (_spawnConfigs == null || _spawnConfigs.Length == 0) return;
+
+        // 检查是否已经生成过物体
+        if (_chunkObjects.ContainsKey(chunkCoord))
+        {
+            // 重新激活已存在的物体
+            RestoreObjectsInChunk(chunkCoord);
+            return;
+        }
+
+        List<SpawnedObjectInfo> spawnedObjects = new List<SpawnedObjectInfo>();
+        List<Vector3> occupiedPositions = new List<Vector3>();
+
+        Vector3Int chunkStartPos = new Vector3Int(chunkCoord.x * _chunkSize, chunkCoord.y * _chunkSize, 0);
+
+        foreach (var config in _spawnConfigs)
+        {
+            if (config.prefab == null) continue;
+
+            // 检查全局限制
+            if (config.hasGlobalLimit && _globalObjectCounts.ContainsKey(config.objectName))
+            {
+                if (_globalObjectCounts[config.objectName] >= config.globalLimit)
+                {
+                    continue; // 已达到全局限制，跳过
+                }
+            }
+
+            // 检查生成概率
+            if (_random.NextDouble() > config.spawnChance) continue;
+
+            // 确定要生成的数量
+            int spawnCount = _random.Next(config.minCount, config.maxCount + 1);
+
+            for (int i = 0; i < spawnCount; i++)
+            {
+                // 检查全局限制（每次生成前检查）
+                if (config.hasGlobalLimit && _globalObjectCounts.ContainsKey(config.objectName))
+                {
+                    if (_globalObjectCounts[config.objectName] >= config.globalLimit)
+                    {
+                        break; // 已达到全局限制，停止生成
+                    }
+                }
+
+                Vector3 spawnPosition = FindValidSpawnPosition(chunkStartPos, config, occupiedPositions);
+
+                if (spawnPosition != Vector3.zero)
+                {
+                    GameObject spawnedObject = Instantiate(config.prefab, spawnPosition, Quaternion.identity, _objectParent);
+                    spawnedObject.name = $"{config.objectName}_{chunkCoord.x}_{chunkCoord.y}_{i}";
+
+                    SpawnedObjectInfo objectInfo = new SpawnedObjectInfo(spawnPosition, config.objectName, spawnedObject);
+                    spawnedObjects.Add(objectInfo);
+                    occupiedPositions.Add(spawnPosition);
+
+                    // 更新全局计数
+                    if (config.hasGlobalLimit)
+                    {
+                        if (!_globalObjectCounts.ContainsKey(config.objectName))
+                        {
+                            _globalObjectCounts[config.objectName] = 0;
+                        }
+                        _globalObjectCounts[config.objectName]++;
+                    }
+                }
+            }
+        }
+
+        // 保存生成的物体信息
+        _chunkObjects[chunkCoord] = spawnedObjects;
+    }
+
+    /// <summary>
+    /// 移除指定chunk中的所有GameObject
+    /// </summary>
+    /// <param name="chunkCoord">chunk坐标</param>
+    private void RemoveObjectsInChunk(Vector2Int chunkCoord)
+    {
+        if (!_chunkObjects.ContainsKey(chunkCoord)) return;
+
+        foreach (var objectInfo in _chunkObjects[chunkCoord])
+        {
+            if (objectInfo.gameObject != null)
+            {
+                objectInfo.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 恢复指定chunk中的GameObject
+    /// </summary>
+    /// <param name="chunkCoord">chunk坐标</param>
+    private void RestoreObjectsInChunk(Vector2Int chunkCoord)
+    {
+        if (!_chunkObjects.ContainsKey(chunkCoord)) return;
+
+        foreach (var objectInfo in _chunkObjects[chunkCoord])
+        {
+            if (objectInfo.gameObject != null)
+            {
+                objectInfo.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 寻找有效的生成位置
+    /// </summary>
+    /// <param name="chunkStartPos">chunk起始位置</param>
+    /// <param name="config">生成配置</param>
+    /// <param name="occupiedPositions">已占用的位置</param>
+    /// <returns>有效位置，如果找不到返回Vector3.zero</returns>
+    private Vector3 FindValidSpawnPosition(Vector3Int chunkStartPos, ObjectSpawnConfig config, List<Vector3> occupiedPositions)
+    {
+        for (int attempt = 0; attempt < _maxSpawnAttempts; attempt++)
+        {
+            // 在chunk内随机选择一个位置
+            int randomX = _random.Next(0, _chunkSize);
+            int randomY = _random.Next(0, _chunkSize);
+            Vector3Int tilePos = new Vector3Int(chunkStartPos.x + randomX, chunkStartPos.y + randomY, 0);
+            Vector3 worldPos = _grid.CellToWorld(tilePos) + _grid.cellSize * 0.5f; // 居中到tile
+
+            // 检查tile类型是否符合要求
+            TileBase tile = _tilemap.GetTile(tilePos);
+            if (!IsValidTileForSpawn(tile, config)) continue;
+
+            // 检查与其他物体的距离
+            bool tooClose = false;
+            foreach (var pos in occupiedPositions)
+            {
+                if (Vector3.Distance(worldPos, pos) < config.minDistance)
+                {
+                    tooClose = true;
+                    break;
+                }
+            }
+
+            if (!tooClose)
+            {
+                return worldPos;
+            }
+        }
+
+        return Vector3.zero; // 找不到有效位置
+    }
+
+    /// <summary>
+    /// 检查tile是否适合生成物体
+    /// </summary>
+    /// <param name="tile">要检查的tile</param>
+    /// <param name="config">生成配置</param>
+    /// <returns>是否适合生成</returns>
+    private bool IsValidTileForSpawn(TileBase tile, ObjectSpawnConfig config)
+    {
+        if (tile == null) return false;
+
+        // 根据tile类型判断
+        if (tile == _normalTile && config.canSpawnOnNormal) return true;
+        if (tile == _specialTile && config.canSpawnOnSpecial) return true;
+
+        return false;
     }
 
     /// <summary>
@@ -348,6 +594,28 @@ public class MapManager : MonoBehaviour
             RemoveChunk(chunk);
         }
         _generatedChunks.Clear();
+
+        // 清除所有生成的物体
+        foreach (var chunkObjects in _chunkObjects.Values)
+        {
+            foreach (var objectInfo in chunkObjects)
+            {
+                if (objectInfo.gameObject != null)
+                {
+                    Destroy(objectInfo.gameObject);
+                }
+            }
+        }
+        _chunkObjects.Clear();
+
+        // 重置全局物体计数
+        foreach (var config in _spawnConfigs)
+        {
+            if (config.hasGlobalLimit)
+            {
+                _globalObjectCounts[config.objectName] = 0;
+            }
+        }
 
         // 重新生成地图
         if (_player != null)
