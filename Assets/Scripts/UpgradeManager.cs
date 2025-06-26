@@ -212,8 +212,42 @@ public class UpgradeManager : MonoBehaviour
 
         // 关闭升级面板
         UIController.instance.levelUpPanel.SetActive(false);
+        UIController.instance.pauseButton.interactable = true;
+        
+        // 更新武器等级显示文本
+        UpdateWeaponLevelDisplay();
         
         // 恢复游戏时间
         Timer.instance.ResumeTimer();
+    }
+
+    /// <summary>
+    /// 更新武器等级显示文本
+    /// </summary>
+    private void UpdateWeaponLevelDisplay()
+    {
+        string weaponLevelText = "武器等级\n";
+        
+        // 遍历所有当前武器，只显示等级大于0的武器
+        var currentWeapons = WeaponManager.instance.CurrentWeapons;
+        bool hasWeapons = false;
+        
+        foreach (var weapon in currentWeapons)
+        {
+            if (weapon.WeaponLevel > 0)
+            {
+                weaponLevelText += $"{weapon.WeaponName}: 等级 {weapon.WeaponLevel}\n";
+                hasWeapons = true;
+            }
+        }
+        
+        // 如果没有武器，显示提示信息
+        if (!hasWeapons)
+        {
+            weaponLevelText += "暂无武器";
+        }
+        
+        // 更新UI文本
+        UIController.instance.weaponInfoText.text = weaponLevelText;
     }
 } 

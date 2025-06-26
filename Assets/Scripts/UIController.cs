@@ -12,6 +12,10 @@ public class UIController : MonoBehaviour
     public TMP_Text coinText;
     public TMP_Text timeText;
     public GameObject levelUpPanel;
+    public Button pauseButton;
+    public TMP_Text weaponInfoText;
+    public TMP_Text accessoryInfoText;
+    public TMP_Text playerInfoText;
 
     void Awake()
     {

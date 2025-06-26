@@ -21,6 +21,14 @@ public class StatsUIController : MonoBehaviour
     {
         // 在Start中调用，确保PlayerStatsManager已经初始化
         UpdateCoin();
+        
+        // 遍历所有可升级属性，更新对应的UI文本
+        for (int i = 0; i < PlayerStatsManager.instance.UpgradeableAttributes.Count; i++)
+        {
+            UpdateLevelTexts(i);
+            UpdateDescriptionTexts(i);
+            UpdateCostTexts(i);
+        }
     }
 
     public void UpdateCoin()
@@ -62,18 +70,9 @@ public class StatsUIController : MonoBehaviour
                 // 获取当前等级和下一等级的数值
                 float currentValue = 0f;
                 float nextValue = 0f;
-                
-                // 当前等级的数值（等级0时为0）
-                if (attribute.CurrentLevel > 0 && attribute.CurrentLevel <= attribute.UpgradeValues.Count)
-                {
-                    currentValue = attribute.UpgradeValues[attribute.CurrentLevel - 1];
-                }
-                
-                // 下一等级的数值
-                if (attribute.CurrentLevel < attribute.UpgradeValues.Count)
-                {
-                    nextValue = attribute.UpgradeValues[attribute.CurrentLevel];
-                }
+        
+                currentValue = attribute.UpgradeValues[attribute.CurrentLevel];
+                nextValue = attribute.UpgradeValues[attribute.CurrentLevel + 1];
                 
                 // 显示格式：属性名: 从 当前值 升为 下一等级值
                 descriptionTexts[index].text = $"{attribute.AttributeName}: 从 {currentValue} 升为 {nextValue}";
