@@ -60,7 +60,7 @@ public class ProjectileWeapon : MonoBehaviour
 
     void FireBullet(Vector3 targetPos)
     {
-        WeaponData weaponData = WeaponManager.instance.GetCurrentWeapon(weaponIndex);
+        WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
         float damage = weaponData.Damage;
         float finalDamage = damage * PlayerAttributeManager.instance.PlayerComponent.PowerFactor;
 
