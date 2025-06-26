@@ -33,6 +33,16 @@ public class ComboAttackWeapon : MonoBehaviour
     [SerializeField] private bool _autoAttack = true; // 是否自动攻击
     [SerializeField] private float _autoAttackInterval = 1f; // 自动攻击间隔
 
+    [Header("插地大剑表现")]
+    [Tooltip("插地大剑预制体（仅表现，无伤害）")]
+    [SerializeField] private GameObject _downSwordPrefab;
+    [Tooltip("插地大剑比AOE提前出现的时间（秒）")]
+    [SerializeField] private float _downSwordLeadTime = 0.2f;
+
+    [Header("动画控制")]
+    [Tooltip("角色或武器的Animator组件（从Inspector拖入）")]
+    [SerializeField] private Animator _animator;
+
     // 私有字段
     private int _currentCombo = 0; // 当前连击数
     private float _lastAttackTime = 0f; // 上次攻击时间
@@ -146,7 +156,6 @@ public class ComboAttackWeapon : MonoBehaviour
     private void PerformAttack()
     {
         _lastAttackTime = Time.time;
-        // _comboTimer = 0f;
         _currentCombo++;
 
         switch (_currentCombo)
@@ -174,7 +183,6 @@ public class ComboAttackWeapon : MonoBehaviour
         _isAttacking = true;
         _canAttack = false;
 
-        // 检查预制体是否存在
         if (_leftSwordPrefab == null)
         {
             Debug.LogError("左剑攻击预制体未设置");
@@ -183,15 +191,29 @@ public class ComboAttackWeapon : MonoBehaviour
             yield break;
         }
 
-        // 克隆左剑攻击物体
         GameObject leftSwordInstance = Instantiate(_leftSwordPrefab, transform.position, transform.rotation, transform);
-        // 确保克隆的物体是激活状态
         leftSwordInstance.SetActive(true);
-        
-        // 等待剑攻击持续时间
-        yield return new WaitForSeconds(_swordAttackDuration);
-        
-        // 销毁攻击物体
+        // 设置Animator参数IsLeft为true（只用Inspector拖入的_animator）
+        if (_animator != null)
+        {
+            _animator.SetBool("IsLeft", true);
+        }
+        // 左剑：从+45°（斜上）挥到-45°（斜下）
+        float elapsed = 0f;
+        float duration = _swordAttackDuration;
+        Quaternion startRot = Quaternion.Euler(0, 0,-45f);
+        Quaternion endRot = Quaternion.Euler(0, 0, 45f);
+        leftSwordInstance.transform.localRotation = startRot;
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            leftSwordInstance.transform.localRotation = Quaternion.Lerp(startRot, endRot, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        leftSwordInstance.transform.localRotation = endRot;
+
+        yield return null;
         if (leftSwordInstance != null)
         {
             Destroy(leftSwordInstance);
@@ -209,7 +231,6 @@ public class ComboAttackWeapon : MonoBehaviour
         _isAttacking = true;
         _canAttack = false;
 
-        // 检查预制体是否存在
         if (_rightSwordPrefab == null)
         {
             Debug.LogError("右剑攻击预制体未设置");
@@ -218,15 +239,29 @@ public class ComboAttackWeapon : MonoBehaviour
             yield break;
         }
 
-        // 克隆右剑攻击物体
         GameObject rightSwordInstance = Instantiate(_rightSwordPrefab, transform.position, transform.rotation, transform);
-        // 确保克隆的物体是激活状态
         rightSwordInstance.SetActive(true);
-        
-        // 等待剑攻击持续时间
-        yield return new WaitForSeconds(_swordAttackDuration);
-        
-        // 销毁攻击物体
+        // 设置Animator参数IsLeft为false（只用Inspector拖入的_animator）
+        if (_animator != null)
+        {
+            _animator.SetBool("IsLeft", false);
+        }
+        // 右剑：从-45°（斜下）挥到+45°（斜上）
+        float elapsed = 0f;
+        float duration = _swordAttackDuration;
+        Quaternion startRot = Quaternion.Euler(0, 0, 45f);
+        Quaternion endRot = Quaternion.Euler(0, 0, -45f);
+        rightSwordInstance.transform.localRotation = startRot;
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            rightSwordInstance.transform.localRotation = Quaternion.Lerp(startRot, endRot, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        rightSwordInstance.transform.localRotation = endRot;
+
+        yield return null;
         if (rightSwordInstance != null)
         {
             Destroy(rightSwordInstance);
@@ -237,35 +272,44 @@ public class ComboAttackWeapon : MonoBehaviour
     }
 
     /// <summary>
-    /// AOE攻击协程
+    /// AOE攻击协程（含插地大剑表现）
     /// </summary>
     private IEnumerator _CoAoeAttack()
     {
         _isAttacking = true;
         _canAttack = false;
 
-        // 检查预制体是否存在
+        // 1. 先实例化插地大剑（仅表现，无伤害）
+        GameObject downSwordInstance = null;
+        if (_downSwordPrefab != null)
+        {
+            downSwordInstance = Instantiate(_downSwordPrefab, transform.position, transform.rotation, transform);
+            downSwordInstance.SetActive(true);
+        }
+
+        // 2. 等待提前量
+        yield return new WaitForSeconds(_downSwordLeadTime);
+
+        // 3. 实例化AOE伤害
         if (_aoeAttackPrefab == null)
         {
             Debug.LogError("AOE攻击预制体未设置");
             _isAttacking = false;
             _canAttack = true;
+            if (downSwordInstance != null) Destroy(downSwordInstance);
             yield break;
         }
-
-        // 克隆AOE攻击物体
         GameObject aoeAttackInstance = Instantiate(_aoeAttackPrefab, transform.position, transform.rotation, transform);
-        // 确保克隆的物体是激活状态
         aoeAttackInstance.SetActive(true);
-        
-        // 等待AOE攻击持续时间
+
+        // 4. 等待AOE持续时间
         yield return new WaitForSeconds(_aoeAttackDuration);
-        
-        // 销毁攻击物体
-        if (aoeAttackInstance != null)
-        {
-            Destroy(aoeAttackInstance);
-        }
+
+        // 5. 销毁AOE实例
+        if (aoeAttackInstance != null) Destroy(aoeAttackInstance);
+
+        // 6. 销毁插地大剑（可选：如需更长表现可单独控制）
+        if (downSwordInstance != null) Destroy(downSwordInstance);
 
         _isAttacking = false;
         _canAttack = true;

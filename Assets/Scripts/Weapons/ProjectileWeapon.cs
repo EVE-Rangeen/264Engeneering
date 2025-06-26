@@ -9,17 +9,17 @@ using UnityEngine;
 public class ProjectileWeapon : MonoBehaviour
 {
     //public EnemyDamager damager; // 仅用于Inspector拖拽预制体引用
-    public Projectile projectile; // 仅用于Inspector拖拽预制体引用
+    [SerializeField] private GameObject projectilePrefab; // 仅用于Inspector拖拽预制体引用
 
     [Header("左轮参数")]
     [Tooltip("每弹夹子弹数量")]
-    public int clipSize = 6;
+    [SerializeField] private int clipSize = 6;
     [Tooltip("射击距离")]
-    public float range = 10f;
+    [SerializeField] private float range = 10f;
     [Tooltip("射击间隔")]
-    public float cooldown = 2f;
+    [SerializeField] private float cooldown = 2f;
     [Tooltip("每颗子弹间隔时间")]
-    public float fireInterval = 0.07f; // 每颗子弹间隔时间，单位秒
+    [SerializeField] private float fireInterval = 0.07f; // 每颗子弹间隔时间，单位秒
 
     private float cooldownTimer = 0f;
     private bool isFiring = false;
@@ -54,26 +54,33 @@ public class ProjectileWeapon : MonoBehaviour
 
     void FireBullet(Vector3 targetPos)
     {
-        // 用projectile.gameObject作为预制体
-        GameObject bulletObj = Instantiate(projectile.gameObject, transform.position, Quaternion.identity, null);
+        // 用projectilePrefab作为预制体
+        GameObject bulletObj = Instantiate(projectilePrefab, transform.position, Quaternion.identity, null);
         Vector3 dir = (targetPos - transform.position).normalized;
         bulletObj.transform.up = dir; // 让子弹朝向目标
         bulletObj.SetActive(true);
+        // 获取Projectile组件（如需进一步初始化）
+        Projectile proj = bulletObj.GetComponent<Projectile>();
         // 你可以在这里做一些额外的初始化，比如设置伤害等
+        SFXManager.instance.PlaySFXPitched(0);
     }
 
     GameObject FindNearestEnemy()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        // 用物理方法在射程内查找敌人，减少遍历数量
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);
         GameObject nearest = null;
         float minDist = float.MaxValue;
-        foreach (var enemy in enemies)
+        foreach (var hit in hits)
         {
-            float d = Vector3.Distance(transform.position, enemy.transform.position);
-            if (d < minDist)
+            if (hit.CompareTag("Enemy"))
             {
-                minDist = d;
-                nearest = enemy;
+                float d = Vector3.Distance(transform.position, hit.transform.position);
+                if (d < minDist)
+                {
+                    minDist = d;
+                    nearest = hit.gameObject;
+                }
             }
         }
         return nearest;
