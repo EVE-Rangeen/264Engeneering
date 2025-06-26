@@ -29,7 +29,7 @@ public class WeaponManager : MonoBehaviour
     /// <summary>
     /// 获取当前武器实例列表（只读）
     /// </summary>
-    public IReadOnlyList<WeaponData> CurrentWeapons => _currentWeapons;
+    public List<WeaponData> CurrentWeapons => _currentWeapons;
 
     /// <summary>
     /// 初始化单例
@@ -75,7 +75,7 @@ public class WeaponManager : MonoBehaviour
     /// </summary>
     /// <param name="index">武器索引</param>
     /// <returns>武器实例，如果索引无效返回null</returns>
-    public WeaponData GetCurrentWeapon(int index)
+    public WeaponData GetSelectedWeapon(int index)
     {
         if (index >= 0 && index < _currentWeapons.Count)
         {
@@ -122,28 +122,40 @@ public class WeaponManager : MonoBehaviour
     /// <param name="newLevel">新等级</param>
     private void HandleDemonHunterPistolEffect(int newLevel)
     {
+        // 获取猎魔手枪的当前武器实例（假设是第一个武器）
+        WeaponData demonHunterPistol = _currentWeapons[0];
+        
         switch (newLevel)
         {
             case 1:
-                Debug.Log("猎魔手枪等级1：基础射击");
+                // LV1: 增加基础伤害3
+                demonHunterPistol.Damage += 3f;
                 break;
             case 2:
-                Debug.Log("猎魔手枪等级2：提升射速");
+                // LV2: 穿透增加2
+                demonHunterPistol.Piercing += 2;
                 break;
             case 3:
-                Debug.Log("猎魔手枪等级3：增加穿刺");
+                // LV3: 增加基础伤害3
+                demonHunterPistol.Damage += 3f;
                 break;
             case 4:
-                Debug.Log("猎魔手枪等级4：双重射击");
+                // LV4: 穿透增加2
+                demonHunterPistol.Piercing += 2;
                 break;
             case 5:
-                Debug.Log("猎魔手枪等级5：爆炸子弹");
+                // LV5: 增加基础伤害3，增加飞行速度50%
+                demonHunterPistol.Damage += 3f;
+                demonHunterPistol.ProjectileSpeed *= 1.5f;
                 break;
             case 6:
-                Debug.Log("猎魔手枪等级6：追踪弹药");
+                // LV6: 穿透增加2
+                demonHunterPistol.Piercing += 2;
                 break;
             case 7:
-                Debug.Log("猎魔手枪等级7：终极连射");
+                // LV7: 增加基础伤害3，增加飞行速度50%
+                demonHunterPistol.Damage += 3f;
+                demonHunterPistol.ProjectileSpeed *= 1.5f;
                 break;
             default:
                 Debug.Log($"猎魔手枪等级 {newLevel}：未定义效果");
@@ -157,28 +169,41 @@ public class WeaponManager : MonoBehaviour
     /// <param name="newLevel">新等级</param>
     private void HandleGreatSwordEffect(int newLevel)
     {
+        // 获取大剑的当前武器实例（假设是第二个武器）
+        WeaponData greatSword = _currentWeapons[1];
+        
         switch (newLevel)
         {
             case 1:
-                Debug.Log("大剑等级1：基础挥砍");
+                // LV1: 增加基础伤害5点，增大攻击范围10%
+                greatSword.Damage += 5f;
+                greatSword.AttackRange *= 1.1f;
                 break;
             case 2:
-                Debug.Log("大剑等级2：增加伤害");
+                // LV2: 增加基础伤害5点
+                greatSword.Damage += 5f;
                 break;
             case 3:
-                Debug.Log("大剑等级3：扩大范围");
+                // LV3: 减小冷却时间0.2f
+                greatSword.BulletInterval *= 0.2f;
                 break;
             case 4:
-                Debug.Log("大剑等级4：旋风斩击");
+                // LV4: 增加基础伤害5点，增大攻击范围10%
+                greatSword.Damage += 5f;
+                greatSword.AttackRange *= 1.1f;
                 break;
             case 5:
-                Debug.Log("大剑等级5：震地波");
+                // LV5: 增加基础伤害5点
+                greatSword.Damage += 5f;
                 break;
             case 6:
-                Debug.Log("大剑等级6：剑气斩");
+                // LV6: 减小冷却时间0.2f
+                greatSword.BulletInterval *= 0.2f;
                 break;
             case 7:
-                Debug.Log("大剑等级7：终极剑舞");
+                // LV7: 增加基础伤害5点，增大攻击范围10%
+                greatSword.Damage += 5f;
+                greatSword.AttackRange *= 1.1f;
                 break;
             default:
                 Debug.Log($"大剑等级 {newLevel}：未定义效果");
@@ -192,28 +217,41 @@ public class WeaponManager : MonoBehaviour
     /// <param name="newLevel">新等级</param>
     private void HandleDivineKnifeEffect(int newLevel)
     {
+        // 获取神罚小刀的当前武器实例（假设是第三个武器）
+        WeaponData divineKnife = _currentWeapons[2];
+        
         switch (newLevel)
         {
             case 1:
-                Debug.Log("神罚小刀等级1：基础投掷");
+                // LV1: 增加一个数量
+                divineKnife.AttackCount += 1;
                 break;
             case 2:
-                Debug.Log("神罚小刀等级2：增加数量");
+                // LV2: 增大范围100%，基础伤害增加10点
+                divineKnife.AttackRange *= 2.0f;
+                divineKnife.Damage += 10f;
                 break;
             case 3:
-                Debug.Log("神罚小刀等级3：回旋飞刀");
+                // LV3: 增加一个数量
+                divineKnife.AttackCount += 1;
                 break;
             case 4:
-                Debug.Log("神罚小刀等级4：多重投射");
+                // LV4: 增大范围100%，基础伤害增加10点
+                divineKnife.AttackRange *= 2.0f;
+                divineKnife.Damage += 10f;
                 break;
             case 5:
-                Debug.Log("神罚小刀等级5：神圣之光");
+                // LV5: 增加一个数量
+                divineKnife.AttackCount += 1;
                 break;
             case 6:
-                Debug.Log("神罚小刀等级6：追击模式");
+                // LV6: 增大范围100%，基础伤害增加10点
+                divineKnife.AttackRange *= 2.0f;
+                divineKnife.Damage += 10f;
                 break;
             case 7:
-                Debug.Log("神罚小刀等级7：天罚之刃");
+                // LV7: 增加一个数量
+                divineKnife.AttackCount += 1;
                 break;
             default:
                 Debug.Log($"神罚小刀等级 {newLevel}：未定义效果");

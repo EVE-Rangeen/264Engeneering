@@ -251,7 +251,7 @@ public class UpgradeManager : MonoBehaviour
     /// <param name="upgradeItem">武器升级项目</param>
     private void UpgradeWeapon(UpgradeItem upgradeItem)
     {
-        WeaponData weaponInList = WeaponManager.instance.GetCurrentWeapon(upgradeItem.Index);
+        WeaponData weaponInList = WeaponManager.instance.GetSelectedWeapon(upgradeItem.Index);
         if (weaponInList != null)
         {
             // 使用反射直接修改私有字段 _currentLevel

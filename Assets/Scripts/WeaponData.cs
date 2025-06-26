@@ -89,49 +89,83 @@ public class WeaponData : ScriptableObject
     /// <summary>
     /// 武器伤害
     /// </summary>
-    public float Damage => _damage;
-
+    public float Damage
+    {
+        get => _damage;
+        set => _damage = value;
+    }
 
     /// <summary>
     /// 攻击范围
     /// </summary>
-    public float AttackRange => _attackRange;
+    public float AttackRange
+    {
+        get => _attackRange;
+        set => _attackRange = value;
+    }
 
     /// <summary>
     /// 攻击数量（一次攻击产生的弹幕/攻击次数）
     /// </summary>
-    public int AttackCount => _attackCount;
+    public int AttackCount
+    {
+        get => _attackCount;
+        set => _attackCount = value;
+    }
 
     /// <summary>
     /// 穿刺次数（0表示不穿刺）
     /// </summary>
-    public int Piercing => _piercing;
+    public int Piercing
+    {
+        get => _piercing;
+        set => _piercing = value;
+    }
 
     /// <summary>
     /// 冷却时间（秒）
     /// </summary>
-    public float CooldownTime => _cooldownTime;
+    public float CooldownTime
+    {
+        get => _cooldownTime;
+        set => _cooldownTime = value;
+    }
 
     /// <summary>
     /// 击退力度
     /// </summary>
-    public float Knockback => _knockback;
+    public float Knockback
+    {
+        get => _knockback;
+        set => _knockback = value;
+    }
 
     /// <summary>
     /// 弹射物飞行速度
     /// </summary>
-    public float ProjectileSpeed => _projectileSpeed;
+    public float ProjectileSpeed
+    {
+        get => _projectileSpeed;
+        set => _projectileSpeed = value;
+    }
 
     /// <summary>
     /// 武器/弹射物持续时间（秒）
     /// </summary>
-    public float Duration => _duration;
+    public float Duration
+    {
+        get => _duration;
+        set => _duration = value;
+    }
 
     /// <summary>
     /// 子弹发射间隔（秒）
     /// </summary>
-    public float BulletInterval => _bulletInterval;
-
+    public float BulletInterval
+    {
+        get => _bulletInterval;
+        set => _bulletInterval = value;
+    }
 
     /// <summary>
     /// 获取武器的完整描述信息

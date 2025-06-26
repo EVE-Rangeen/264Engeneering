@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\u795E\u7F5A\u5C0F\u5200"
   m_EditorClassIdentifier: 
   _weaponName: "\u795E\u7F5A\u5C0F\u5200"
-  _weaponIcon: {fileID: -5775063, guid: 17e1b31ee8f7c5840913bea4140f1a45, type: 3}
+  _weaponIcon: {fileID: 21300000, guid: e75aa503d85971f4ab2847c2759ddcb4, type: 3}
   _weaponType: 0
   _weaponDescriptions:
   - 2
@@ -27,7 +27,6 @@ MonoBehaviour:
   _currentLevel: 0
   _maxLevel: 8
   _damage: 10
-  _attackSpeed: 1
   _attackRange: 1
   _attackCount: 1
   _piercing: 0
@@ -36,4 +35,3 @@ MonoBehaviour:
   _projectileSpeed: 10
   _duration: 5
   _bulletInterval: 0.1
-  _destroyAfterShoot: 0
