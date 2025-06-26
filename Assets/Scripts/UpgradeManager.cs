@@ -238,6 +238,7 @@ public class UpgradeManager : MonoBehaviour
         
         // 更新显示文本
         UIController.instance.UpdateWeaponLevelDisplay();
+        UIController.instance.UpdateAccessoryLevelDisplay();
         UIController.instance.UpdatePlayerAttributeDisplay();
 
         // 恢复游戏时间

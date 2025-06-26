@@ -10,15 +10,30 @@ using TMPro;
 public class UIController : MonoBehaviour
 {
     public static UIController instance;
+
+    [Header("UI组件")]
     public Slider expSlider;
     public TMP_Text expText;
     public TMP_Text coinText;
     public TMP_Text timeText;
-    public GameObject levelUpPanel;
     public Button pauseButton;
+
+    [Header("升级界面")]
+    public GameObject levelUpPanel;
+    [Header("暂停界面")]
     public TMP_Text weaponInfoText;
     public TMP_Text accessoryInfoText;
     public TMP_Text playerInfoText;
+    [Header("结算界面")]
+    public TMP_Text gameModeText;
+    public TMP_Text survivalTimeText;
+    public TMP_Text gainCoinText;
+    public TMP_Text MaxLevelText;
+    public TMP_Text beatenEnemyText;
+    public TMP_Text totalWeaponText;
+    public TMP_Text totalAccessoryText;
+    
+    
 
     void Awake()
     {
@@ -34,6 +49,7 @@ public class UIController : MonoBehaviour
     {
         // 更新显示文本
         UpdateWeaponLevelDisplay();
+        UpdateAccessoryLevelDisplay();
         UpdatePlayerAttributeDisplay();
     }
 
@@ -47,6 +63,52 @@ public class UIController : MonoBehaviour
     public void UpdateCoin()
     {
         coinText.text = "金币: " + CoinController.instance._currentCoins;
+    }
+
+    /// <summary>
+    /// 更新获得金币显示（结算界面用）
+    /// </summary>
+    public void UpdateGainCoinDisplay()
+    {
+        gainCoinText.text = "获得金币: " + CoinController.instance._currentCoins;
+    }
+
+    /// <summary>
+    /// 更新生存时间显示（结算界面用）
+    /// </summary>
+    public void UpdateSurvivalTimeDisplay()
+    {
+        survivalTimeText.text = "生存时间: " + Timer.instance.GetTime();
+    }
+
+    /// <summary>
+    /// 更新最高等级显示（结算界面用）
+    /// </summary>
+    public void UpdateMaxLevelDisplay()
+    {
+        MaxLevelText.text = "最高等级: " + ExperienceLevelController.instance.currentLevel;
+    }
+
+    /// <summary>
+    /// 更新全部结算界面显示
+    /// 统一调用所有结算界面相关的更新方法
+    /// </summary>
+    public void UpdateGameResultDisplay()
+    {
+        // 更新生存时间
+        UpdateSurvivalTimeDisplay();
+        
+        // 更新最高等级
+        UpdateMaxLevelDisplay();
+        
+        // 更新获得金币
+        UpdateGainCoinDisplay();
+        
+        // 更新获得武器
+        UpdateTotalWeaponDisplay();
+        
+        // 更新获得饰品
+        UpdateTotalAccessoryDisplay();
     }
 
     public void UpdateTime()
@@ -82,6 +144,36 @@ public class UIController : MonoBehaviour
     }
 
     /// <summary>
+    /// 更新饰品等级显示
+    /// </summary>
+    public void UpdateAccessoryLevelDisplay()
+    {
+        string accessoryLevelText = "饰品等级\n";
+        
+        // 遍历所有当前饰品，只显示等级大于0的饰品
+        var currentAccessories = AccessoryManager.instance.CurrentAccessories;
+        bool hasAccessories = false;
+        
+        foreach (var accessory in currentAccessories)
+        {
+            if (accessory.CurrentLevel > 0)
+            {
+                accessoryLevelText += $"{accessory.AccessoryName}: 等级 {accessory.CurrentLevel}/{accessory.MaxLevel}\n";
+                hasAccessories = true;
+            }
+        }
+        
+        // 如果没有饰品，显示提示信息
+        if (!hasAccessories)
+        {
+            accessoryLevelText += "暂无饰品";
+        }
+        
+        // 更新UI文本
+        accessoryInfoText.text = accessoryLevelText;
+    }
+
+    /// <summary>
     /// 更新人物属性显示
     /// </summary>
     public void UpdatePlayerAttributeDisplay()
@@ -106,5 +198,65 @@ public class UIController : MonoBehaviour
 
         // 更新UI文本
         playerInfoText.text = playerAttributeText;
+    }
+
+    /// <summary>
+    /// 更新总武器显示（结算界面用）
+    /// </summary>
+    public void UpdateTotalWeaponDisplay()
+    {
+        string totalWeaponText = "获得武器\n";
+        
+        // 遍历所有当前武器，只显示等级大于0的武器
+        var currentWeapons = WeaponManager.instance.CurrentWeapons;
+        bool hasWeapons = false;
+        
+        foreach (var weapon in currentWeapons)
+        {
+            if (weapon.WeaponLevel > 0)
+            {
+                totalWeaponText += $"{weapon.WeaponName}: 等级 {weapon.CurrentLevel}/{weapon.MaxLevel}\n";
+                hasWeapons = true;
+            }
+        }
+        
+        // 如果没有武器，显示提示信息
+        if (!hasWeapons)
+        {
+            totalWeaponText += "暂无武器";
+        }
+        
+        // 更新UI文本
+        this.totalWeaponText.text = totalWeaponText;
+    }
+
+    /// <summary>
+    /// 更新总饰品显示（结算界面用）
+    /// </summary>
+    public void UpdateTotalAccessoryDisplay()
+    {
+        string totalAccessoryText = "获得饰品\n";
+        
+        // 遍历所有当前饰品，只显示等级大于0的饰品
+        var currentAccessories = AccessoryManager.instance.CurrentAccessories;
+        bool hasAccessories = false;
+        
+        foreach (var accessory in currentAccessories)
+        {
+            if (accessory.CurrentLevel > 0)
+            {
+                totalAccessoryText += $"{accessory.AccessoryName}: 等级 {accessory.CurrentLevel}/{accessory.MaxLevel}\n";
+                hasAccessories = true;
+            }
+        }
+        
+        // 如果没有饰品，显示提示信息
+        if (!hasAccessories)
+        {
+            totalAccessoryText += "暂无饰品";
+        }
+        
+        // 更新UI文本
+        this.totalAccessoryText.text = totalAccessoryText;
     }
 }

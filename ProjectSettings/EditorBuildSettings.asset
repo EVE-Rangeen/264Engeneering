@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/DataTest.unity
     guid: 03429642fee5bde49a08f893ca26f2d6
   - enabled: 1
+    path: Assets/Scenes/FridayScene.unity
+    guid: fa63310b35da3df4aa552c2e6c644748
+  - enabled: 1
     path: Assets/Scenes/AttributeInterface.unity
     guid: a30709962214c374a8283f3f87d5257e
   m_configObjects: {}
