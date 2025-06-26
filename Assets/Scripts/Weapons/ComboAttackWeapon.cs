@@ -43,6 +43,12 @@ public class ComboAttackWeapon : MonoBehaviour
     [Tooltip("角色或武器的Animator组件（从Inspector拖入）")]
     [SerializeField] private Animator _animator;
 
+    [Header("音效")]
+    [Tooltip("挥剑音效的索引值（SFXManager中数组对应的音效的索引）")]
+    [SerializeField] private int swordSFXIndex = 0;
+    [Tooltip("插地大剑音效的索引值（SFXManager中数组对应的音效的索引）")]
+    [SerializeField] private int aoeSFXIndex = 0;   
+
     // 私有字段
     private int _currentCombo = 0; // 当前连击数
     private float _lastAttackTime = 0f; // 上次攻击时间
@@ -64,6 +70,12 @@ public class ComboAttackWeapon : MonoBehaviour
 
         // 验证预制体设置
         ValidatePrefabs();
+
+        // 初始化时禁用Animator，防止自动播放动画
+        if (_animator != null)
+        {
+            _animator.enabled = false;
+        }
 
         // 如果启用自动攻击，开始自动攻击协程
         if (_autoAttack)
@@ -182,6 +194,10 @@ public class ComboAttackWeapon : MonoBehaviour
     {
         _isAttacking = true;
         _canAttack = false;
+        
+        // 播放挥剑音效
+        SFXManager.instance.PlaySFXPitched(swordSFXIndex);
+        Debug.Log("播放左剑音效");
 
         if (_leftSwordPrefab == null)
         {
@@ -191,19 +207,25 @@ public class ComboAttackWeapon : MonoBehaviour
             yield break;
         }
 
+        // 实例化左剑攻击物体
         GameObject leftSwordInstance = Instantiate(_leftSwordPrefab, transform.position, transform.rotation, transform);
         leftSwordInstance.SetActive(true);
-        // 设置Animator参数IsLeft为true（只用Inspector拖入的_animator）
+
+        // 启用Animator并设置参数
         if (_animator != null)
         {
+            _animator.enabled = true;
             _animator.SetBool("IsLeft", true);
+            _animator.Play("left", 0, 0f); // 强制从头播放动画
         }
-        // 左剑：从+45°（斜上）挥到-45°（斜下）
+
+        // 左剑：从-45°（斜下）挥到+45°（斜上）
         float elapsed = 0f;
         float duration = _swordAttackDuration;
-        Quaternion startRot = Quaternion.Euler(0, 0,-45f);
+        Quaternion startRot = Quaternion.Euler(0, 0, -45f);
         Quaternion endRot = Quaternion.Euler(0, 0, 45f);
         leftSwordInstance.transform.localRotation = startRot;
+        
         while (elapsed < duration)
         {
             float t = elapsed / duration;
@@ -213,7 +235,16 @@ public class ComboAttackWeapon : MonoBehaviour
         }
         leftSwordInstance.transform.localRotation = endRot;
 
+        // 等待一帧确保动画播放完成
         yield return null;
+        
+        // 禁用Animator防止最后一帧显示
+        if (_animator != null)
+        {
+            _animator.enabled = false;
+        }
+
+        // 销毁攻击实例
         if (leftSwordInstance != null)
         {
             Destroy(leftSwordInstance);
@@ -230,6 +261,10 @@ public class ComboAttackWeapon : MonoBehaviour
     {
         _isAttacking = true;
         _canAttack = false;
+        
+        // 播放挥剑音效
+        SFXManager.instance.PlaySFXPitched(swordSFXIndex);
+        Debug.Log("播放右剑音效");
 
         if (_rightSwordPrefab == null)
         {
@@ -239,19 +274,25 @@ public class ComboAttackWeapon : MonoBehaviour
             yield break;
         }
 
+        // 实例化右剑攻击物体
         GameObject rightSwordInstance = Instantiate(_rightSwordPrefab, transform.position, transform.rotation, transform);
         rightSwordInstance.SetActive(true);
-        // 设置Animator参数IsLeft为false（只用Inspector拖入的_animator）
+
+        // 启用Animator并设置参数
         if (_animator != null)
         {
+            _animator.enabled = true;
             _animator.SetBool("IsLeft", false);
+            _animator.Play("right", 0, 0f); // 强制从头播放动画
         }
-        // 右剑：从-45°（斜下）挥到+45°（斜上）
+
+        // 右剑：从+45°（斜上）挥到-45°（斜下）
         float elapsed = 0f;
         float duration = _swordAttackDuration;
         Quaternion startRot = Quaternion.Euler(0, 0, 45f);
         Quaternion endRot = Quaternion.Euler(0, 0, -45f);
         rightSwordInstance.transform.localRotation = startRot;
+        
         while (elapsed < duration)
         {
             float t = elapsed / duration;
@@ -261,7 +302,16 @@ public class ComboAttackWeapon : MonoBehaviour
         }
         rightSwordInstance.transform.localRotation = endRot;
 
+        // 等待一帧确保动画播放完成
         yield return null;
+        
+        // 禁用Animator防止最后一帧显示
+        if (_animator != null)
+        {
+            _animator.enabled = false;
+        }
+
+        // 销毁攻击实例
         if (rightSwordInstance != null)
         {
             Destroy(rightSwordInstance);
@@ -289,6 +339,10 @@ public class ComboAttackWeapon : MonoBehaviour
 
         // 2. 等待提前量
         yield return new WaitForSeconds(_downSwordLeadTime);
+
+        // 播放插地大剑音效
+        SFXManager.instance.PlaySFXPitched(aoeSFXIndex);
+        Debug.Log("播放插地大剑音效");
 
         // 3. 实例化AOE伤害
         if (_aoeAttackPrefab == null)
