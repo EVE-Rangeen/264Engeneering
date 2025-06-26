@@ -70,8 +70,6 @@ public class Enemy : MonoBehaviour
             {
                 playerComponent.TakeEnemyDamage(_damage);
             }
-            // 测试用，敌人受到玩家武器的伤害
-            TakeDamage(20);
         }
     }
 
