@@ -9,6 +9,12 @@ public enum ExpType
     VeryHigh,
 }
 
+public enum MoneyType
+{
+    Coin,
+    Purse,
+}
+
 /// <summary>
 /// 敌人基类，所有敌人继承自此类
 /// 2025-06-25 肖沐奇 创建
@@ -22,6 +28,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _moveSpeed = 1f; // 移动速度，作用于EnemyController
     [SerializeField] private float _mass = 1f; // 质量，影响敌人被击退的距离
     [SerializeField] private ExpType _expType = ExpType.Normal; // 经验类型
+    [SerializeField] private MoneyType _moneyType = MoneyType.Coin; // 金钱类型
+    [SerializeField] private float _dropPossibility = 0.8f; // 总掉落概率
+    [SerializeField][Range(0f, 1f)] private float _expWeight = 0.7f; // 经验权重，0表示只掉落金币，1表示只掉落经验
     #endregion
 
     private EnemyController _enemyController;
@@ -63,6 +72,8 @@ public class Enemy : MonoBehaviour
             {
                 playerComponent.TakeEnemyDamage(_damage);
             }
+            // 测试用，敌人受到玩家武器的伤害
+            TakeDamage(20);
         }
     }
 
@@ -76,6 +87,87 @@ public class Enemy : MonoBehaviour
         if (_health <= 0)
         {
             _health = 0;
+            Die();
+        }
+    }
+
+    /// <summary>
+    /// 敌人死亡处理
+    /// </summary>
+    private void Die()
+    {
+        // 首先判断是否掉落物品
+        if (Random.Range(0f, 1f) < _dropPossibility)
+        {
+            // 根据权重决定掉落经验还是金币
+            if (Random.Range(0f, 1f) < _expWeight)
+            {
+                SpawnExp();
+            }
+            else
+            {
+                SpawnMoney();
+            }
+        }
+
+        // 销毁敌人对象
+        Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// 生成经验Prefab
+    /// </summary>
+    private void SpawnExp()
+    {
+        string expPrefabPath = "";
+        switch (_expType)
+        {
+            case ExpType.Normal:
+                expPrefabPath = "Prefabs/NormalExp";
+                break;
+            case ExpType.High:
+                expPrefabPath = "Prefabs/HighExp";
+                break;
+            case ExpType.VeryHigh:
+                expPrefabPath = "Prefabs/VeryHighExp";
+                break;
+        }
+
+        GameObject expPrefab = Resources.Load<GameObject>(expPrefabPath);
+        if (expPrefab != null)
+        {
+            Instantiate(expPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogError($"无法加载经验Prefab：{expPrefabPath}");
+        }
+    }
+
+    /// <summary>
+    /// 生成金币Prefab
+    /// </summary>
+    private void SpawnMoney()
+    {
+        string moneyPrefabPath = "";
+        switch (_moneyType)
+        {
+            case MoneyType.Coin:
+                moneyPrefabPath = "Prefabs/Coin";
+                break;
+            case MoneyType.Purse:
+                moneyPrefabPath = "Prefabs/Purse";
+                break;
+        }
+
+        GameObject moneyPrefab = Resources.Load<GameObject>(moneyPrefabPath);
+        if (moneyPrefab != null)
+        {
+            Instantiate(moneyPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogError($"无法加载金币Prefab：{moneyPrefabPath}");
         }
     }
 }
