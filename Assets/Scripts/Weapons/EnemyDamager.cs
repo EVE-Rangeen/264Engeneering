@@ -191,6 +191,7 @@ public class EnemyDamager : MonoBehaviour
     /// <param name="enemy">敌人对象</param>
     private void DealDamage(GameObject enemy)
     {
+        //TakeDamage(damageAmount);
         Debug.Log($"对敌人 {enemy.name} 造成 {damageAmount} 点伤害");
         
         // 应用击退效果
@@ -220,10 +221,10 @@ public class EnemyDamager : MonoBehaviour
     }
 
     /// <summary>
-    /// 获取射弹对怪物造成的伤害
+    /// 获取武器对怪物造成的伤害 返回伤害数值
     /// </summary>
-    /// <returns>伤害值</returns>
-    public float GetProjectileDamage()
+    
+    public float GetAppliedDamageAmount()
     {
         return damageAmount;
     }
