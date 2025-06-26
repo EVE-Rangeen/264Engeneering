@@ -1916,22 +1916,22 @@ MonoBehaviour:
     _attributeDescription: "\u8840\u91CF\u4ECE1\u5347\u52302"
     _currentLevel: 0
     _maxLevel: 6
-    _upgradeCosts: 000000000100000002000000030000000400000005000000
+    _upgradeCosts: 020000000100000002000000030000000400000005000000
     _upgradeValues:
-    - 0
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
+    - 100
+    - 110
+    - 120
+    - 130
+    - 140
+    - 150
+    - 160
   - _attributeName: "\u8840\u91CF\u56DE\u590D"
     _attributeDescription: "\u8840\u91CF\u56DE\u590D\u4ECE1\u5347\u52302"
     _currentLevel: 0
     _maxLevel: 6
     _upgradeCosts: 000000000100000002000000030000000400000005000000
     _upgradeValues:
-    - 0
+    - 1
     - 1
     - 2
     - 3
@@ -1944,7 +1944,7 @@ MonoBehaviour:
     _maxLevel: 6
     _upgradeCosts: 000000000100000002000000030000000400000005000000
     _upgradeValues:
-    - 0
+    - 1
     - 1
     - 2
     - 3
@@ -1957,7 +1957,7 @@ MonoBehaviour:
     _maxLevel: 6
     _upgradeCosts: 000000000100000002000000030000000400000005000000
     _upgradeValues:
-    - 0
+    - 1
     - 1
     - 2
     - 3
@@ -1970,7 +1970,7 @@ MonoBehaviour:
     _maxLevel: 6
     _upgradeCosts: 000000000100000002000000030000000400000005000000
     _upgradeValues:
-    - 0
+    - 1.2
     - 1
     - 2
     - 3
@@ -1983,7 +1983,7 @@ MonoBehaviour:
     _maxLevel: 6
     _upgradeCosts: 000000000100000002000000030000000400000005000000
     _upgradeValues:
-    - 0
+    - 3
     - 1
     - 2
     - 3
@@ -1996,7 +1996,7 @@ MonoBehaviour:
     _maxLevel: 6
     _upgradeCosts: 000000000100000002000000030000000400000005000000
     _upgradeValues:
-    - 0
+    - 3
     - 1
     - 2
     - 3

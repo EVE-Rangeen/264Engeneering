@@ -10,13 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: baaaa64eedbeb1147aa1c69ca06cacac, type: 3}
-  m_Name: "\u5DE6\u8F6E"
+  m_Name: "\u730E\u9B54\u624B\u67AA"
   m_EditorClassIdentifier: 
-  _weaponName: "\u5DE6\u8F6E"
+  _weaponName: "\u730E\u9B54\u624B\u67AA"
   _weaponIcon: {fileID: 1368778989, guid: 17e1b31ee8f7c5840913bea4140f1a45, type: 3}
   _weaponType: 1
-  _weaponDescription: "\u5DE6\u8F6E\uFF0C\u8FDC\u7A0B"
-  _weaponLevel: 0
+  _weaponDescriptions:
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 8
+  _currentLevel: 0
+  _maxLevel: 8
   _damage: 10
   _attackSpeed: 1
   _attackRange: 1

@@ -1,3 +1,6 @@
+/// <summary>
+/// 谈恩萁创建
+/// </summary>
 using UnityEngine;
 using System.Collections.Generic;
 

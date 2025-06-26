@@ -15,8 +15,17 @@ MonoBehaviour:
   _weaponName: "\u5927\u5251"
   _weaponIcon: {fileID: 971082649, guid: 17e1b31ee8f7c5840913bea4140f1a45, type: 3}
   _weaponType: 0
-  _weaponDescription: "\u5927\u5251\uFF0C\u8FD1\u6218"
-  _weaponLevel: 0
+  _weaponDescriptions:
+  - "2\u7EA7"
+  - "3\u7EA7"
+  - "4\u7EA7"
+  - "5\u7EA7"
+  - "6\u7EA7"
+  - "7\u7EA7"
+  - "8\u7EA7"
+  - "8\u7EA7"
+  _currentLevel: 0
+  _maxLevel: 8
   _damage: 10
   _attackSpeed: 1
   _attackRange: 1
@@ -24,3 +33,7 @@ MonoBehaviour:
   _piercing: 0
   _cooldownTime: 1
   _knockback: 0
+  _projectileSpeed: 10
+  _duration: 5
+  _bulletInterval: 0.1
+  _destroyAfterShoot: 0

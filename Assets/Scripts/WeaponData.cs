@@ -1,4 +1,8 @@
+/// <summary>
+/// 谈恩萁创建
+/// </summary>
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// 武器类型枚举
@@ -22,7 +26,7 @@ public class WeaponData : ScriptableObject
     [SerializeField] private string _weaponName = "新武器";
     [SerializeField] private Sprite _weaponIcon;
     [SerializeField] private WeaponType _weaponType = WeaponType.近战武器;
-    [SerializeField, TextArea(2, 4)] private string _weaponDescription = "武器描述";
+    [SerializeField, TextArea(2, 4)] private List<string> _weaponDescriptions = new List<string> { "武器描述" };
     [SerializeField] private int _currentLevel = 0;
     [SerializeField] private int _maxLevel = 10;
 
@@ -61,7 +65,7 @@ public class WeaponData : ScriptableObject
     /// <summary>
     /// 武器描述
     /// </summary>
-    public string WeaponDescription => _weaponDescription;
+    public List<string> WeaponDescriptions => _weaponDescriptions;
 
     /// <summary>
     /// 武器等级
@@ -193,9 +197,9 @@ public class WeaponData : ScriptableObject
         }
 
         // 确保武器描述不为空
-        if (string.IsNullOrEmpty(_weaponDescription))
+        if (_weaponDescriptions.Count == 0)
         {
-            _weaponDescription = "暂无描述";
+            _weaponDescriptions.Add("暂无描述");
         }
     }
 } 

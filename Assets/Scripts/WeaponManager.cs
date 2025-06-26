@@ -1,3 +1,6 @@
+/// <summary>
+/// 谈恩萁创建
+/// </summary>
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -68,22 +71,6 @@ public class WeaponManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 根据索引获取武器数据
-    /// </summary>
-    /// <param name="index">武器索引</param>
-    /// <returns>武器数据，如果索引无效返回null</returns>
-    public WeaponData GetWeaponData(int index)
-    {
-        if (index >= 0 && index < _weaponDataList.Count)
-        {
-            return _weaponDataList[index];
-        }
-        
-        Debug.LogWarning($"无效的武器数据索引: {index}");
-        return null;
-    }
-
-    /// <summary>
     /// 根据索引获取当前武器实例
     /// </summary>
     /// <param name="index">武器索引</param>
@@ -100,142 +87,137 @@ public class WeaponManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 根据武器名称获取武器数据
+    /// 执行武器特殊效果
     /// </summary>
-    /// <param name="weaponName">武器名称</param>
-    /// <returns>武器数据，如果未找到返回null</returns>
-    public WeaponData GetWeaponDataByName(string weaponName)
-    {
-        foreach (WeaponData weaponData in _weaponDataList)
-        {
-            if (weaponData != null && weaponData.WeaponName == weaponName)
-            {
-                return weaponData;
-            }
-        }
-        
-        Debug.LogWarning($"未找到名为 '{weaponName}' 的武器数据");
-        return null;
-    }
-
-    /// <summary>
-    /// 根据武器名称获取当前武器实例
-    /// </summary>
-    /// <param name="weaponName">武器名称</param>
-    /// <returns>武器实例，如果未找到返回null</returns>
-    public WeaponData GetCurrentWeaponByName(string weaponName)
-    {
-        foreach (WeaponData weapon in _currentWeapons)
-        {
-            if (weapon != null && weapon.WeaponName == weaponName)
-            {
-                return weapon;
-            }
-        }
-        
-        Debug.LogWarning($"未找到名为 '{weaponName}' 的当前武器实例");
-        return null;
-    }
-
-    /// <summary>
-    /// 添加新的武器数据到列表
-    /// </summary>
-    /// <param name="weaponData">要添加的武器数据</param>
-    public void AddWeaponData(WeaponData weaponData)
+    /// <param name="weaponData">武器数据</param>
+    /// <param name="newLevel">新等级</param>
+    public void ExecuteWeaponSpecialEffect(WeaponData weaponData, int newLevel)
     {
         if (weaponData == null)
         {
-            Debug.LogWarning("尝试添加空的武器数据");
+            Debug.LogWarning("武器数据为空，无法执行特殊效果");
             return;
         }
 
-        if (!_weaponDataList.Contains(weaponData))
+        switch (weaponData.WeaponName)
         {
-            _weaponDataList.Add(weaponData);
-            
-            // 同时创建对应的武器实例
-            WeaponData newWeapon = Instantiate(weaponData);
-            _currentWeapons.Add(newWeapon);
-        }
-        else
-        {
-            Debug.LogWarning($"武器数据 '{weaponData.WeaponName}' 已存在于列表中");
-        }
-    }
-
-    /// <summary>
-    /// 移除武器数据和对应的实例
-    /// </summary>
-    /// <param name="index">要移除的武器索引</param>
-    public void RemoveWeapon(int index)
-    {
-        if (index >= 0 && index < _weaponDataList.Count)
-        {
-            string weaponName = _weaponDataList[index]?.WeaponName ?? "未知武器";
-            _weaponDataList.RemoveAt(index);
-            
-            if (index < _currentWeapons.Count)
-            {
-                if (_currentWeapons[index] != null)
-                {
-                    DestroyImmediate(_currentWeapons[index]);
-                }
-                _currentWeapons.RemoveAt(index);
-            }
-            
-            Debug.Log($"移除武器: {weaponName}");
-        }
-        else
-        {
-            Debug.LogWarning($"无效的武器移除索引: {index}");
+            case "猎魔手枪":
+                HandleDemonHunterPistolEffect(newLevel);
+                break;
+            case "大剑":
+                HandleGreatSwordEffect(newLevel);
+                break;
+            case "神罚小刀":
+                HandleDivineKnifeEffect(newLevel);
+                break;
+            default:
+                Debug.LogWarning($"未找到武器 '{weaponData.WeaponName}' 的特殊效果处理方法");
+                break;
         }
     }
 
     /// <summary>
-    /// 重置所有当前武器到初始状态
+    /// 处理猎魔手枪特殊效果
     /// </summary>
-    public void ResetAllWeaponsToOriginal()
+    /// <param name="newLevel">新等级</param>
+    private void HandleDemonHunterPistolEffect(int newLevel)
     {
-        for (int i = 0; i < _currentWeapons.Count && i < _weaponDataList.Count; i++)
+        switch (newLevel)
         {
-            if (_currentWeapons[i] != null && _weaponDataList[i] != null)
-            {
-                DestroyImmediate(_currentWeapons[i]);
-                _currentWeapons[i] = Instantiate(_weaponDataList[i]);
-            }
-        }
-        
-        Debug.Log("所有武器已重置到初始状态");
-    }
-
-    /// <summary>
-    /// 重置指定武器到初始状态
-    /// </summary>
-    /// <param name="index">武器索引</param>
-    public void ResetWeaponToOriginal(int index)
-    {
-        if (index >= 0 && index < _currentWeapons.Count && index < _weaponDataList.Count)
-        {
-            if (_currentWeapons[index] != null && _weaponDataList[index] != null)
-            {
-                string weaponName = _currentWeapons[index].WeaponName;
-                DestroyImmediate(_currentWeapons[index]);
-                _currentWeapons[index] = Instantiate(_weaponDataList[index]);
-                Debug.Log($"武器 '{weaponName}' 已重置到初始状态");
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"无效的武器重置索引: {index}");
+            case 1:
+                Debug.Log("猎魔手枪等级1：基础射击");
+                break;
+            case 2:
+                Debug.Log("猎魔手枪等级2：提升射速");
+                break;
+            case 3:
+                Debug.Log("猎魔手枪等级3：增加穿刺");
+                break;
+            case 4:
+                Debug.Log("猎魔手枪等级4：双重射击");
+                break;
+            case 5:
+                Debug.Log("猎魔手枪等级5：爆炸子弹");
+                break;
+            case 6:
+                Debug.Log("猎魔手枪等级6：追踪弹药");
+                break;
+            case 7:
+                Debug.Log("猎魔手枪等级7：终极连射");
+                break;
+            default:
+                Debug.Log($"猎魔手枪等级 {newLevel}：未定义效果");
+                break;
         }
     }
 
     /// <summary>
-    /// 获取武器总数
+    /// 处理大剑特殊效果
     /// </summary>
-    /// <returns>武器总数</returns>
-    public int GetWeaponCount()
+    /// <param name="newLevel">新等级</param>
+    private void HandleGreatSwordEffect(int newLevel)
     {
-        return _weaponDataList.Count;
+        switch (newLevel)
+        {
+            case 1:
+                Debug.Log("大剑等级1：基础挥砍");
+                break;
+            case 2:
+                Debug.Log("大剑等级2：增加伤害");
+                break;
+            case 3:
+                Debug.Log("大剑等级3：扩大范围");
+                break;
+            case 4:
+                Debug.Log("大剑等级4：旋风斩击");
+                break;
+            case 5:
+                Debug.Log("大剑等级5：震地波");
+                break;
+            case 6:
+                Debug.Log("大剑等级6：剑气斩");
+                break;
+            case 7:
+                Debug.Log("大剑等级7：终极剑舞");
+                break;
+            default:
+                Debug.Log($"大剑等级 {newLevel}：未定义效果");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 处理神罚小刀特殊效果
+    /// </summary>
+    /// <param name="newLevel">新等级</param>
+    private void HandleDivineKnifeEffect(int newLevel)
+    {
+        switch (newLevel)
+        {
+            case 1:
+                Debug.Log("神罚小刀等级1：基础投掷");
+                break;
+            case 2:
+                Debug.Log("神罚小刀等级2：增加数量");
+                break;
+            case 3:
+                Debug.Log("神罚小刀等级3：回旋飞刀");
+                break;
+            case 4:
+                Debug.Log("神罚小刀等级4：多重投射");
+                break;
+            case 5:
+                Debug.Log("神罚小刀等级5：神圣之光");
+                break;
+            case 6:
+                Debug.Log("神罚小刀等级6：追击模式");
+                break;
+            case 7:
+                Debug.Log("神罚小刀等级7：天罚之刃");
+                break;
+            default:
+                Debug.Log($"神罚小刀等级 {newLevel}：未定义效果");
+                break;
+        }
     }
 } 

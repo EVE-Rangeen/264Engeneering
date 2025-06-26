@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 音效管理器，管理所有音效的播放。
+/// 2025-06-26杜宜峰
+/// </summary>
 public class SFXManager : MonoBehaviour
 {
     public static SFXManager instance;
