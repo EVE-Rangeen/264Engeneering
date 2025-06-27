@@ -20,7 +20,7 @@ public class WeaponPrefabGenerator : MonoBehaviour
     public void GenerateWeaponPrefab(string weaponName)
     {
         // 从Resources文件夹加载预制体
-        GameObject weaponPrefab = Resources.Load<GameObject>(weaponName);
+        GameObject weaponPrefab = Resources.Load<GameObject>("Prefabs/Weapon/" + weaponName);
         
         if (weaponPrefab == null)
         {
