@@ -27,7 +27,7 @@ public class WeaponManager : MonoBehaviour
     public IReadOnlyList<WeaponData> WeaponDataList => _weaponDataList;
 
     /// <summary>
-    /// 获取当前武器实例列表（只读）
+    /// 获取当前武器实例列表（可读写）
     /// </summary>
     public List<WeaponData> CurrentWeapons => _currentWeapons;
 

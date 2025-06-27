@@ -10,27 +10,47 @@ using TMPro;
 public class UIController : MonoBehaviour
 {
     public static UIController instance;
+    public static int defeatedEnemyCount = 0;
 
     [Header("UI组件")]
+    //经验条
     public Slider expSlider;
+    //经验文本
     public TMP_Text expText;
+    //金币文本
     public TMP_Text coinText;
+    //时间文本
     public TMP_Text timeText;
+    //暂停按钮
     public Button pauseButton;
 
     [Header("升级界面")]
+    //升级界面
     public GameObject levelUpPanel;
     [Header("暂停界面")]
+    //武器信息文本
     public TMP_Text weaponInfoText;
+    //饰品信息文本
     public TMP_Text accessoryInfoText;
+    //人物信息文本
     public TMP_Text playerInfoText;
+    [Header("设置界面")]
+    //是否开启神力模式
+    public Toggle powerModeToggle;
     [Header("结算界面")]
+    //游戏模式文本
     public TMP_Text gameModeText;
+    //生存时间文本
     public TMP_Text survivalTimeText;
+    //获得金币文本
     public TMP_Text gainCoinText;
+    //最高等级文本
     public TMP_Text MaxLevelText;
+    //击败敌人文本
     public TMP_Text beatenEnemyText;
+    //获得武器文本
     public TMP_Text totalWeaponText;
+    //获得饰品文本
     public TMP_Text totalAccessoryText;
     
     
@@ -65,6 +85,26 @@ public class UIController : MonoBehaviour
         coinText.text = "金币: " + CoinController.instance._currentCoins;
     }
 
+    public void UpdatePowerMode()
+    {
+        var player = PlayerAttributeManager.instance.PlayerComponent;
+        
+        if (powerModeToggle.isOn)
+        {
+            // Toggle刚被打开：开启神力模式
+            player.MaxHealth *= 2f;
+            player.Armor += 3f;
+            Debug.Log($"神力模式已开启：最大血量翻倍至{player.MaxHealth}，护甲+3至{player.Armor}");
+        }
+        else
+        {
+            // Toggle刚被关闭：关闭神力模式
+            player.MaxHealth /= 2f;
+            player.Armor -= 3f;
+            Debug.Log($"神力模式已关闭：最大血量恢复至{player.MaxHealth}，护甲-3至{player.Armor}");
+        }
+    }
+
     /// <summary>
     /// 更新获得金币显示（结算界面用）
     /// </summary>
@@ -90,6 +130,14 @@ public class UIController : MonoBehaviour
     }
 
     /// <summary>
+    /// 更新游戏模式显示
+    /// </summary>
+    public void UpdateGameModeDisplay()
+    {
+        gameModeText.text = "游戏模式: " + (powerModeToggle.isOn ? "神力模式" : "普通模式");
+    }
+
+    /// <summary>
     /// 更新全部结算界面显示
     /// 统一调用所有结算界面相关的更新方法
     /// </summary>
@@ -109,6 +157,9 @@ public class UIController : MonoBehaviour
         
         // 更新获得饰品
         UpdateTotalAccessoryDisplay();
+
+        // 更新游戏模式
+        UpdateGameModeDisplay();
     }
 
     public void UpdateTime()
