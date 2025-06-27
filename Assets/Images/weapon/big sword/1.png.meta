@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5a2640c7a46e6824c82f99dfc40a8569
+guid: 77e933a95b3be014aafcf848ffed2f0a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,97 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: wp_lightningdagger_vfx_0
+      name: 1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 288
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ead0b4bf4ca03174b9853db170b69807
+      internalID: 1204668730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1_1
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 96
+        width: 288
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da7a12992c140984d9ab9ed69094376d
+      internalID: -1706842141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1_2
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 96
+        width: 288
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88b8d8354a84f754ab8f0ee918535f54
+      internalID: 1718672815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1_3
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 96
+        width: 288
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94d3b584d0f1a3441b46af48ec1e5139
+      internalID: -160159717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 14
-        height: 20
+        width: 288
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +195,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad564cd1ebd0e2c46b490b93a65858b8
-      internalID: 1614915304
+      spriteID: a97e493c3a8223247be64c2e945fb1be
+      internalID: 1316812107
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wp_lightningdagger_vfx_1
+      name: 1_5
       rect:
         serializedVersion: 2
-        x: 14
+        x: 288
         y: 0
-        width: 14
-        height: 20
+        width: 288
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,20 +216,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 19da221beb5c8d148860ab8aa28974c6
-      internalID: 270833257
+      spriteID: 7a593324bab6bd643b9efeda8266a9d5
+      internalID: -927616017
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wp_lightningdagger_vfx_2
+      name: 1_6
       rect:
         serializedVersion: 2
-        x: 28
+        x: 576
         y: 0
-        width: 14
-        height: 20
+        width: 288
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +237,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 47c36e5962277c44e978a83ff47da586
-      internalID: -681245637
+      spriteID: 95db7f74ed7c0d0448c36232a9da685b
+      internalID: 1645864261
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wp_lightningdagger_vfx_3
+      name: 1_7
       rect:
         serializedVersion: 2
-        x: 42
+        x: 864
         y: 0
-        width: 14
-        height: 20
+        width: 288
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,8 +258,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3abae08a2bca7aa48a2dce4cad188dc1
-      internalID: -1421628577
+      spriteID: c9613e1bed6e3a447972c6d249548e2c
+      internalID: -1657788307
       vertices: []
       indices: 
       edges: []
@@ -191,10 +275,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      wp_lightningdagger_vfx_0: 1614915304
-      wp_lightningdagger_vfx_1: 270833257
-      wp_lightningdagger_vfx_2: -681245637
-      wp_lightningdagger_vfx_3: -1421628577
+      1_0: 1204668730
+      1_1: -1706842141
+      1_2: 1718672815
+      1_3: -160159717
+      1_4: 1316812107
+      1_5: -927616017
+      1_6: 1645864261
+      1_7: -1657788307
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
