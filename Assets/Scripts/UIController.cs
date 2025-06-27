@@ -138,6 +138,14 @@ public class UIController : MonoBehaviour
     }
 
     /// <summary>
+    /// 更新击败敌人数量显示
+    /// </summary>
+    public void UpdateDefeatedEnemyCountDisplay()
+    {
+        beatenEnemyText.text = "击败敌人: " + defeatedEnemyCount;
+    }
+
+    /// <summary>
     /// 更新全部结算界面显示
     /// 统一调用所有结算界面相关的更新方法
     /// </summary>
@@ -160,6 +168,9 @@ public class UIController : MonoBehaviour
 
         // 更新游戏模式
         UpdateGameModeDisplay();
+
+        // 更新击败敌人数量
+        UpdateDefeatedEnemyCountDisplay();
     }
 
     public void UpdateTime()
@@ -240,7 +251,7 @@ public class UIController : MonoBehaviour
         playerAttributeText += $"护甲值: {player.Armor:F1}\n";
         playerAttributeText += $"力量因子: {player.PowerFactor:F2}\n";
         playerAttributeText += $"移动速度: {player.MoveSpeed:F1}\n";
-        playerAttributeText += $"冷却因子: {player.CoolDownFactor:F2}\n";
+        playerAttributeText += $"冷却因子: {player.CooldownReductionFactor:F2}\n";
         playerAttributeText += $"攻击范围因子: {player.AttackAreaFactor:F2}\n";
         playerAttributeText += $"射弹数量增量: {player.ProjectileAmountIncrement}\n";
         playerAttributeText += $"武器持续时间因子: {player.WeaponDurationFactor:F2}\n";
