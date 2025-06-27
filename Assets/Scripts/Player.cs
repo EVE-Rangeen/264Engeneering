@@ -104,7 +104,11 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 射弹数量增量
     /// </summary>
-    public int ProjectileAmountIncrement => _projectileAmountIncrement;
+    public int ProjectileAmountIncrement
+    {
+        get => _projectileAmountIncrement;
+        set => _projectileAmountIncrement = value;
+    }
 
     /// <summary>
     /// 武器持续时间因子
