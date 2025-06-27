@@ -10,6 +10,7 @@ using TMPro;
 public class UIController : MonoBehaviour
 {
     public static UIController instance;
+    public static int defeatedEnemyCount = 0;
 
     [Header("UI组件")]
     //经验条
@@ -84,6 +85,26 @@ public class UIController : MonoBehaviour
         coinText.text = "金币: " + CoinController.instance._currentCoins;
     }
 
+    public void UpdatePowerMode()
+    {
+        var player = PlayerAttributeManager.instance.PlayerComponent;
+        
+        if (powerModeToggle.isOn)
+        {
+            // Toggle刚被打开：开启神力模式
+            player.MaxHealth *= 2f;
+            player.Armor += 3f;
+            Debug.Log($"神力模式已开启：最大血量翻倍至{player.MaxHealth}，护甲+3至{player.Armor}");
+        }
+        else
+        {
+            // Toggle刚被关闭：关闭神力模式
+            player.MaxHealth /= 2f;
+            player.Armor -= 3f;
+            Debug.Log($"神力模式已关闭：最大血量恢复至{player.MaxHealth}，护甲-3至{player.Armor}");
+        }
+    }
+
     /// <summary>
     /// 更新获得金币显示（结算界面用）
     /// </summary>
@@ -109,6 +130,14 @@ public class UIController : MonoBehaviour
     }
 
     /// <summary>
+    /// 更新游戏模式显示
+    /// </summary>
+    public void UpdateGameModeDisplay()
+    {
+        gameModeText.text = "游戏模式: " + (powerModeToggle.isOn ? "神力模式" : "普通模式");
+    }
+
+    /// <summary>
     /// 更新全部结算界面显示
     /// 统一调用所有结算界面相关的更新方法
     /// </summary>
@@ -128,6 +157,9 @@ public class UIController : MonoBehaviour
         
         // 更新获得饰品
         UpdateTotalAccessoryDisplay();
+
+        // 更新游戏模式
+        UpdateGameModeDisplay();
     }
 
     public void UpdateTime()
