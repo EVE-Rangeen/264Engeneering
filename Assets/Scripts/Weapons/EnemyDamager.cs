@@ -15,19 +15,19 @@ public class EnemyDamager : MonoBehaviour
     public float lifeTime = 2f;
 
     [Header("击退设置")]
-    [Tooltip("是否对敌人造成击退效果")]
+    [Tooltip("是否对敌人造成击退效果 每个手动设置是否击退这个数值")]
     public bool shouldKnockBack = false;
     [Tooltip("击退的力度")]
     public float knockBackForce = 5f;
 
     [Header("持续伤害设置")]
-    [Tooltip("是否造成持续伤害")]
+    [Tooltip("是否造成持续伤害 每个手动设置是否造成持续伤害")]
     public bool damageOverTime = false;
     [Tooltip("持续伤害间隔时间")]
     public float timeBetweenDamage = 0.5f;
 
     [Header("其他设置")]
-    [Tooltip("是否销毁父物体")]
+    [Tooltip("是否销毁父物体 每个手动设置是否销毁父物体")]
     public bool destroyParent = false;
     [Tooltip("生长速度")]
     public float growSpeed = 5f;
@@ -40,6 +40,10 @@ public class EnemyDamager : MonoBehaviour
     [Tooltip("检测方式：0=Tag, 1=SortingLayer, 2=Both")]
     public int detectionMethod = 0;
 
+    // [Header("武器索引")]
+    // [Tooltip("武器索引(每个Prefab手动在造成伤害的物品上面设置Weapon脚本中查看)")]
+    // public int weaponIndex = 0;
+
     // 私有字段
     private float _timer;
     private Vector3 _targetSize;
@@ -47,11 +51,23 @@ public class EnemyDamager : MonoBehaviour
     private System.Collections.Generic.List<GameObject> _enemiesInRange = new System.Collections.Generic.List<GameObject>();
     private bool _shouldDestroy = false; // 是否应该销毁
 
+
+
+
     /// <summary>
     /// 初始化
     /// </summary>
     private void Start()
     {
+        // // 通过武器索引获取武器数据
+        // if (weaponIndex < 0)
+        // {
+        //     Debug.LogError("武器索引不能为负数，请检查设置。");
+        //     return;
+        // }
+        // GetWeaponDataByIndex(weaponIndex);
+
+
         _targetSize = transform.localScale;
         transform.localScale = Vector3.zero;
 
@@ -225,10 +241,56 @@ public class EnemyDamager : MonoBehaviour
         }
     }
 
+    // /// <summary>
+    // /// 通过武器索引获取武器数据
+    // /// </summary>
+    // /// <param name="weaponIndex">武器索引</param>
+    // public void GetWeaponDataByIndex(int weaponIndex)
+    // {
+    //     if (WeaponManager.instance != null && weaponIndex >= 0 && weaponIndex < WeaponManager.instance.CurrentWeapons.Count)
+    //     {
+    //         WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
+    //         if (weaponData != null)
+    //         {
+    //             // 更新伤害属性
+    //             damage = weaponData.Damage;
+
+    //             // 更新击退力度属性
+    //             knockBackForce = weaponData.Knockback;
+
+    //             // 更新生长速度
+    //             growSpeed = weaponData.ProjectileSpeed;
+
+    //             // 更新生命周期（如有需要，可映射为持续时间）
+    //             lifeTime = weaponData.Duration;
+
+    //             //更新武器攻击距离属性
+    //             // attackRange = weaponData.AttackRange;
+
+    //             //更新武器攻击数量
+    //             // attackCount = weaponData.AttackCount;
+
+    //             //更新武器穿透属性
+    //             // piercing = weaponData.Piercing;
+
+    //             //更新武器冷却时间（每轮之间的间隔）
+    //             // cooldownTime = weaponData.CooldownTime;
+
+    //             //更新武器子弹间隔
+    //             timeBetweenDamage = weaponData.BulletInterval;
+
+
+    //             //更新武器攻击范围
+    //             // attackRange = weaponData.AttackRange;
+
+    //         }
+    //     }
+    // }
+
     /// <summary>
     /// 获取武器对怪物造成的伤害 返回伤害数值
     /// </summary>
-
+    /// 
     public float GetAppliedDamageAmount()
     {
         return damage;
