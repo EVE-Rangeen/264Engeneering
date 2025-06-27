@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     private float _armor = 0f;  //护甲，减免和护甲数值相等的伤害
     private float _powerFactor = 1.0f; // 力量因子,按比例修改攻击力
     private float _moveSpeed = 5f; // 移动速度，作用于PlayerController
-    private float _coolDownfactor = 1.0f; // 冷却因子，按比例修改技能冷却时间
+    private float _cooldownReductionFactor = 0.0f; // 冷却因子，按比例减少技能冷却时间
     private float _attackAreaFactor = 1.0f; // 攻击范围因子，按比例修改攻击范围
     private int _projectileAmountIncrement = 0; //作用于所有武器，增加所有武器的射弹数
     private float _weaponDurationFactor = 1.0f; // 武器持续时间因子，按比例修改武器持续时间
@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 冷却因子
     /// </summary>
-    public float CoolDownFactor => _coolDownfactor;
+    public float CooldownReductionFactor => _cooldownReductionFactor;
 
     /// <summary>
     /// 攻击范围因子
