@@ -99,98 +99,98 @@ public class AccessoryManager : MonoBehaviour
         switch (newLevel)
         {
             case 1:
-                Debug.Log("弹巢等级1：增加弹药容量");
+                // LV1: 增加射弹数量+1
+                PlayerAttributeManager.instance.PlayerComponent.ProjectileAmountIncrement += 1;
                 break;
             case 2:
-                Debug.Log("弹巢等级2：提升装填速度");
+                // LV2: 增加射弹数量+1
+                PlayerAttributeManager.instance.PlayerComponent.ProjectileAmountIncrement += 1;
                 break;
             case 3:
-                Debug.Log("弹巢等级3：弹药回复");
-                break;
-            case 4:
-                Debug.Log("弹巢等级4：特殊弹药");
-                break;
-            case 5:
-                Debug.Log("弹巢等级5：连发模式");
-                break;
-            case 6:
-                Debug.Log("弹巢等级6：弹药共享");
-                break;
-            case 7:
-                Debug.Log("弹巢等级7：无限弹药");
+                // LV3: 增加射弹数量+1（最大等级）
+                PlayerAttributeManager.instance.PlayerComponent.ProjectileAmountIncrement += 1;
                 break;
             default:
-                Debug.Log($"弹巢等级 {newLevel}：未定义效果");
+                Debug.Log($"弹巢等级 {newLevel}：已达到最大等级或无效等级");
                 break;
         }
     }
 
     /// <summary>
     /// 处理重靴特殊效果
+    /// 每级：护甲+1，移动速度+5%（最大等级5）
     /// </summary>
     /// <param name="newLevel">新等级</param>
     private void HandleHeavyBootsEffect(int newLevel)
     {
+        var player = PlayerAttributeManager.instance.PlayerComponent;
+        
         switch (newLevel)
         {
             case 1:
-                Debug.Log("重靴等级1：增加移动稳定性");
+                // LV1: 护甲+1，移动速度+5%
+                player.Armor += 1;
+                player.MoveSpeed *= 1.05f;
                 break;
             case 2:
-                Debug.Log("重靴等级2：踩踏伤害");
+                // LV2: 护甲+1，移动速度+5%
+                player.Armor += 1;
+                player.MoveSpeed *= 1.05f;
                 break;
             case 3:
-                Debug.Log("重靴等级3：冲刺攻击");
+                // LV3: 护甲+1，移动速度+5%
+                player.Armor += 1;
+                player.MoveSpeed *= 1.05f;
                 break;
             case 4:
-                Debug.Log("重靴等级4：震地践踏");
+                // LV4: 护甲+1，移动速度+5%
+                player.Armor += 1;
+                player.MoveSpeed *= 1.05f;
                 break;
             case 5:
-                Debug.Log("重靴等级5：钢铁之足");
-                break;
-            case 6:
-                Debug.Log("重靴等级6：雷霆践踏");
-                break;
-            case 7:
-                Debug.Log("重靴等级7：毁灭冲击");
+                // LV5: 护甲+1，移动速度+5%（最大等级）
+                player.Armor += 1;
+                player.MoveSpeed *= 1.05f;
                 break;
             default:
-                Debug.Log($"重靴等级 {newLevel}：未定义效果");
+                Debug.Log($"重靴等级 {newLevel}：已达到最大等级或无效等级");
                 break;
         }
     }
 
     /// <summary>
     /// 处理安卡十字特殊效果
+    /// 每级：生命回复+0.2（最大等级5）
     /// </summary>
     /// <param name="newLevel">新等级</param>
     private void HandleAnkhCrossEffect(int newLevel)
     {
+        var player = PlayerAttributeManager.instance.PlayerComponent;
+        
         switch (newLevel)
         {
             case 1:
-                Debug.Log("安卡十字等级1：生命祝福");
+                // LV1: 生命回复+0.2
+                player.Recovery += 0.2f;
                 break;
             case 2:
-                Debug.Log("安卡十字等级2：缓慢回复");
+                // LV2: 生命回复+0.2
+                player.Recovery += 0.2f;
                 break;
             case 3:
-                Debug.Log("安卡十字等级3：神圣护盾");
+                // LV3: 生命回复+0.2
+                player.Recovery += 0.2f;
                 break;
             case 4:
-                Debug.Log("安卡十字等级4：复活之力");
+                // LV4: 生命回复+0.2
+                player.Recovery += 0.2f;
                 break;
             case 5:
-                Debug.Log("安卡十字等级5：圣光治愈");
-                break;
-            case 6:
-                Debug.Log("安卡十字等级6：不死之身");
-                break;
-            case 7:
-                Debug.Log("安卡十字等级7：永恒守护");
+                // LV5: 生命回复+0.2（最大等级）
+                player.Recovery += 0.2f;
                 break;
             default:
-                Debug.Log($"安卡十字等级 {newLevel}：未定义效果");
+                Debug.Log($"安卡十字等级 {newLevel}：已达到最大等级或无效等级");
                 break;
         }
     }

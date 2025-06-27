@@ -49,37 +49,65 @@ public class WeaponData : ScriptableObject
     /// <summary>
     /// 武器名称
     /// </summary>
-    public string WeaponName => _weaponName;
+    public string WeaponName
+    {
+        get => _weaponName;
+        set => _weaponName = value;
+    }
 
     /// <summary>
     /// 武器图标
     /// </summary>
-    public Sprite WeaponIcon => _weaponIcon;
+    public Sprite WeaponIcon
+    {
+        get => _weaponIcon;
+        set => _weaponIcon = value;
+    }
 
     /// <summary>
     /// 武器类型
     /// </summary>
-    public WeaponType WeaponType => _weaponType;
+    public WeaponType WeaponType
+    {
+        get => _weaponType;
+        set => _weaponType = value;
+    }
 
     /// <summary>
     /// 武器描述
     /// </summary>
-    public List<string> WeaponDescriptions => _weaponDescriptions;
+    public List<string> WeaponDescriptions
+    {
+        get => _weaponDescriptions;
+        set => _weaponDescriptions = value;
+    }
 
     /// <summary>
     /// 武器等级
     /// </summary>
-    public int WeaponLevel => _currentLevel;
+    public int WeaponLevel
+    {
+        get => _currentLevel;
+        set => _currentLevel = Mathf.Clamp(value, 0, _maxLevel);
+    }
 
     /// <summary>
     /// 当前等级
     /// </summary>
-    public int CurrentLevel => _currentLevel;
+    public int CurrentLevel
+    {
+        get => _currentLevel;
+        set => _currentLevel = Mathf.Clamp(value, 0, _maxLevel);
+    }
 
     /// <summary>
     /// 最大等级
     /// </summary>
-    public int MaxLevel => _maxLevel;
+    public int MaxLevel
+    {
+        get => _maxLevel;
+        set => _maxLevel = Mathf.Max(1, value);
+    }
 
     /// <summary>
     /// 是否已达到最大等级

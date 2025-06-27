@@ -251,32 +251,37 @@ public class UpgradeManager : MonoBehaviour
     /// <param name="upgradeItem">武器升级项目</param>
     private void UpgradeWeapon(UpgradeItem upgradeItem)
     {
-        WeaponData weaponInList = WeaponManager.instance.GetSelectedWeapon(upgradeItem.Index);
-        if (weaponInList != null)
+        var currentWeapons = WeaponManager.instance.CurrentWeapons;
+        if (upgradeItem.Index >= 0 && upgradeItem.Index < currentWeapons.Count)
         {
-            // 使用反射直接修改私有字段 _currentLevel
-            var field = typeof(WeaponData).GetField("_currentLevel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (field != null)
+            WeaponData weaponInList = currentWeapons[upgradeItem.Index];
+            if (weaponInList != null)
             {
-                int oldLevel = (int)field.GetValue(weaponInList);
+                // 直接使用属性的set方法修改等级
+                int oldLevel = weaponInList.CurrentLevel;
                 int newLevel = oldLevel + 1;
-                field.SetValue(weaponInList, newLevel);
+                weaponInList.CurrentLevel = newLevel;
                 
                 Debug.Log($"武器 {weaponInList.WeaponName} 从等级 {oldLevel} 升级到 {newLevel}");
                 
                 // 执行武器特殊效果
                 WeaponManager.instance.ExecuteWeaponSpecialEffect(weaponInList, newLevel);
                 
-                // 只有当武器从等级0升级时才添加图标（第一次获得武器）
+                // 只有当武器从等级0升级时才添加图标（第一次获得武器）与生成预制体
                 if (oldLevel == 0 && _weaponIconGenerator != null)
                 {
                     _weaponIconGenerator.AddWeaponIcon(weaponInList, $"UpgradedWeapon_{weaponInList.WeaponName}");
+                    WeaponPrefabGenerator.instance.GenerateWeaponPrefab(weaponInList.WeaponName);
                 }
+            }
+            else
+            {
+                Debug.LogError($"索引为 {upgradeItem.Index} 的武器为空");
             }
         }
         else
         {
-            Debug.LogError($"无法获取索引为 {upgradeItem.Index} 的武器");
+            Debug.LogError($"无效的武器索引: {upgradeItem.Index}");
         }
     }
     
@@ -314,7 +319,7 @@ public class UpgradeManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"无法获取索引为 {upgradeItem.Index} 的饰品");
+            Debug.LogError($"无效的饰品索引: {upgradeItem.Index}");
         }
     }
 } 

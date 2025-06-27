@@ -12,25 +12,44 @@ public class UIController : MonoBehaviour
     public static UIController instance;
 
     [Header("UI组件")]
+    //经验条
     public Slider expSlider;
+    //经验文本
     public TMP_Text expText;
+    //金币文本
     public TMP_Text coinText;
+    //时间文本
     public TMP_Text timeText;
+    //暂停按钮
     public Button pauseButton;
 
     [Header("升级界面")]
+    //升级界面
     public GameObject levelUpPanel;
     [Header("暂停界面")]
+    //武器信息文本
     public TMP_Text weaponInfoText;
+    //饰品信息文本
     public TMP_Text accessoryInfoText;
+    //人物信息文本
     public TMP_Text playerInfoText;
+    [Header("设置界面")]
+    //是否开启神力模式
+    public Toggle powerModeToggle;
     [Header("结算界面")]
+    //游戏模式文本
     public TMP_Text gameModeText;
+    //生存时间文本
     public TMP_Text survivalTimeText;
+    //获得金币文本
     public TMP_Text gainCoinText;
+    //最高等级文本
     public TMP_Text MaxLevelText;
+    //击败敌人文本
     public TMP_Text beatenEnemyText;
+    //获得武器文本
     public TMP_Text totalWeaponText;
+    //获得饰品文本
     public TMP_Text totalAccessoryText;
     
     
