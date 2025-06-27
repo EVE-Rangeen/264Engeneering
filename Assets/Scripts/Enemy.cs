@@ -108,6 +108,7 @@ public class Enemy : MonoBehaviour
 
         // 销毁敌人对象
         Destroy(gameObject);
+        UIController.defeatedEnemyCount++;
     }
 
     /// <summary>
