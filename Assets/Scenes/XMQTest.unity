@@ -429,7 +429,7 @@ MonoBehaviour:
       spawnWeight: 0.3
       minSpawnCount: 2
       maxSpawnCount: 5
-    - enemyPrefab: {fileID: 7421856201611476280, guid: 7a07aa774e2704004891e13306d0be32, type: 3}
+    - enemyPrefab: {fileID: 7421856201611476280, guid: b59d5517fd0464977a7430add3f69659, type: 3}
       spawnWeight: 0.7
       minSpawnCount: 2
       maxSpawnCount: 5
@@ -629,14 +629,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 542292125449671674, guid: 4805b3a2958594ca4998a3d6620eb877, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 974472862615110010, guid: 4805b3a2958594ca4998a3d6620eb877, type: 3}
-      propertyPath: m_Mass
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 1030202617153884892, guid: 4805b3a2958594ca4998a3d6620eb877, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

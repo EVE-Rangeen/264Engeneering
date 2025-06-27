@@ -24,10 +24,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("朝向设置")]
     [SerializeField] private DefaultFacingDirection _defaultFacingDirection = DefaultFacingDirection.Right;
-    [SerializeField] private Transform _facingTransform;
+    [SerializeField] private Transform _rendererTransform;
 
     private float _moveSpeed = 5f;
     private Rigidbody2D _rb;
+    private Animator _animator;
     private Vector2 _moveInput;
     private Vector2 _lastMoveDirection;
     private bool _canDash = true;
@@ -50,9 +51,16 @@ public class PlayerController : MonoBehaviour
         }
 
         // 如果没有指定朝向Transform，则使用自身Transform
-        if (_facingTransform == null)
+        if (_rendererTransform == null)
         {
-            _facingTransform = transform;
+            _rendererTransform = transform;
+        }
+
+        // 获取Animator组件
+        _animator = _rendererTransform.GetComponent<Animator>();
+        if (_animator == null)
+        {
+            Debug.LogError("在_rendererTransform上未找到Animator组件！");
         }
 
         // 根据默认朝向初始化_lastMoveDirection
@@ -85,6 +93,7 @@ public class PlayerController : MonoBehaviour
             HandleMovementInput();
         }
         HandleDashInput();
+        UpdateAnimationState();
     }
 
     /// <summary>
@@ -138,17 +147,33 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
+    /// 更新动画状态
+    /// </summary>
+    private void UpdateAnimationState()
+    {
+        if (_animator == null) return;
+
+        // 检测是否有移动输入（WASD）
+        bool hasMovementInput = _moveInput != Vector2.zero;
+
+        // 如果有任何输入（移动或冲刺）则设置IsRunning为true
+        bool isRunning = hasMovementInput || _isDashing;
+
+        _animator.SetBool("IsRunning", isRunning);
+    }
+
+    /// <summary>
     /// 更新角色朝向
     /// </summary>
     private void UpdateFacingDirection()
     {
-        if (_facingTransform == null) return;
+        if (_rendererTransform == null) return;
 
         // 只有在有水平移动时才更新朝向
         if (Mathf.Abs(_lastMoveDirection.x) > 0.1f)
         {
             bool isMovingRight = _lastMoveDirection.x > 0;
-            Vector3 currentScale = _facingTransform.localScale;
+            Vector3 currentScale = _rendererTransform.localScale;
 
             switch (_defaultFacingDirection)
             {
@@ -177,7 +202,7 @@ public class PlayerController : MonoBehaviour
                     break;
             }
 
-            _facingTransform.localScale = currentScale;
+            _rendererTransform.localScale = currentScale;
         }
     }
 

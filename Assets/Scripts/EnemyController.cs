@@ -8,8 +8,11 @@ using UnityEngine;
 /// </summary>
 public class EnemyController : MonoBehaviour
 {
-    [Header("移动设置")]
-    [SerializeField] private float _moveSpeed = 3f;
+    private float _moveSpeed = 1f;
+
+    [Header("朝向设置")]
+    [SerializeField] private DefaultFacingDirection _defaultFacingDirection = DefaultFacingDirection.Right;
+    [SerializeField] private Transform _rendererTransform;
 
     private Transform _playerTransform;
     private Rigidbody2D _rb;
@@ -29,6 +32,31 @@ public class EnemyController : MonoBehaviour
         {
             // 设置插值模式使得显示更加平滑
             _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        }
+
+        // 如果没有指定朝向Transform，则使用自身Transform
+        if (_rendererTransform == null)
+        {
+            _rendererTransform = transform;
+        }
+
+        // 根据默认朝向初始化移动方向
+        InitializeMoveDirection();
+    }
+
+    /// <summary>
+    /// 根据默认朝向初始化移动方向
+    /// </summary>
+    private void InitializeMoveDirection()
+    {
+        switch (_defaultFacingDirection)
+        {
+            case DefaultFacingDirection.Left:
+                _moveDirection = Vector2.left;
+                break;
+            case DefaultFacingDirection.Right:
+                _moveDirection = Vector2.right;
+                break;
         }
     }
 
@@ -78,6 +106,9 @@ public class EnemyController : MonoBehaviour
     {
         Vector3 direction = _playerTransform.position - transform.position;
         _moveDirection = direction.normalized;
+
+        // 更新敌人朝向
+        UpdateFacingDirection();
     }
 
     /// <summary>
@@ -87,6 +118,50 @@ public class EnemyController : MonoBehaviour
     {
         Vector2 velocity = _moveDirection * _moveSpeed;
         _rb.velocity = velocity;
+    }
+
+    /// <summary>
+    /// 更新敌人朝向
+    /// </summary>
+    private void UpdateFacingDirection()
+    {
+        if (_rendererTransform == null) return;
+
+        // 只有在有水平移动时才更新朝向
+        if (Mathf.Abs(_moveDirection.x) > 0.1f)
+        {
+            bool isMovingRight = _moveDirection.x > 0;
+            Vector3 currentScale = _rendererTransform.localScale;
+
+            switch (_defaultFacingDirection)
+            {
+                case DefaultFacingDirection.Left:
+                    // 默认朝左：向左移动时保持原始x缩放，向右移动时翻转x缩放
+                    if (isMovingRight)
+                    {
+                        currentScale.x = -Mathf.Abs(currentScale.x);
+                    }
+                    else
+                    {
+                        currentScale.x = Mathf.Abs(currentScale.x);
+                    }
+                    break;
+
+                case DefaultFacingDirection.Right:
+                    // 默认朝右：向右移动时保持原始x缩放，向左移动时翻转x缩放
+                    if (isMovingRight)
+                    {
+                        currentScale.x = Mathf.Abs(currentScale.x);
+                    }
+                    else
+                    {
+                        currentScale.x = -Mathf.Abs(currentScale.x);
+                    }
+                    break;
+            }
+
+            _rendererTransform.localScale = currentScale;
+        }
     }
 
     /// <summary>
