@@ -11,7 +11,7 @@ public class EnemyDamager : MonoBehaviour
     public float damage = 5f;
     [Tooltip("是否在击中敌人后销毁自身")]
     public bool destroyOnImpact = false;
-    [Tooltip("弹药的生命周期，单位秒")]
+    [Tooltip("弹药的生命周期，单位秒 大于100则为不销毁")]
     public float lifeTime = 2f;
 
     [Header("击退设置")]
@@ -221,7 +221,7 @@ public class EnemyDamager : MonoBehaviour
             // 应用击退力
             enemyRb.AddForce(knockBackDirection * knockBackForce, ForceMode2D.Impulse);
 
-            Debug.Log($"对敌人施加了击退效果，力度：{knockBackForce}");
+            Debug.Log($"对敌人施加了击退效果，力度（AddForce）：{knockBackForce}");
         }
     }
 

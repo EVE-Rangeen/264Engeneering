@@ -211,10 +211,6 @@ public class ComboAttackWeapon : MonoBehaviour
         GameObject leftSwordInstance = Instantiate(_leftSwordPrefab, transform.position, transform.rotation, transform);
         leftSwordInstance.SetActive(true);
 
-        // 设置SpriteRenderer为不翻转（左挥）
-        SpriteRenderer leftSr = leftSwordInstance.GetComponent<SpriteRenderer>();
-        if (leftSr != null) leftSr.flipX = false;
-
         // 启用Animator并设置参数
         if (_animator != null)
         {
@@ -223,7 +219,6 @@ public class ComboAttackWeapon : MonoBehaviour
             _animator.ResetTrigger("IsRight");
             _animator.Play("Idle", 0, 0f); // 先回Idle
             _animator.SetTrigger("IsLeft"); // 触发左攻击
-            _animator.SetTrigger("IsIdle");// 触发Idle
         }
 
         // 左剑：从-45°（斜下）挥到+45°（斜上）
@@ -285,10 +280,6 @@ public class ComboAttackWeapon : MonoBehaviour
         GameObject rightSwordInstance = Instantiate(_rightSwordPrefab, transform.position, transform.rotation, transform);
         rightSwordInstance.SetActive(true);
 
-        // 设置SpriteRenderer为翻转（右挥）
-        SpriteRenderer rightSr = rightSwordInstance.GetComponent<SpriteRenderer>();
-        if (rightSr != null) rightSr.flipY = true;
-
         // 启用Animator并设置参数
         if (_animator != null)
         {
@@ -297,7 +288,7 @@ public class ComboAttackWeapon : MonoBehaviour
             _animator.ResetTrigger("IsRight");
             _animator.Play("Idle", 0, 0f); // 先回Idle
             _animator.SetTrigger("IsRight"); // 触发右攻击
-            _animator.SetTrigger("IsIdle");// 触发Idle
+            _animator.SetTrigger("IsIdle");
         }
 
         // 右剑：从+45°（斜上）挥到-45°（斜下）

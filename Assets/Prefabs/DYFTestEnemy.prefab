@@ -95,6 +95,8 @@ GameObject:
   - component: {fileID: 6988512429635595598}
   - component: {fileID: 4095085138415313730}
   - component: {fileID: 1854466363604161457}
+  - component: {fileID: 7865902108535990802}
+  - component: {fileID: 2292095963952858298}
   m_Layer: 0
   m_Name: DYFTestEnemy
   m_TagString: Enemy
@@ -180,3 +182,37 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7865902108535990802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4441998658179836919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f19fd35a3e449059f9d7ec8b68c4a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 5
+  _health: 5
+  _damage: 1
+  _moveSpeed: 1
+  _mass: 1
+  _expType: 0
+  _moneyType: 0
+  _dropPossibility: 0.8
+  _expWeight: 0.7
+--- !u!114 &2292095963952858298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4441998658179836919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed35e6428ea7e425b84fd04fe0190751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 3
