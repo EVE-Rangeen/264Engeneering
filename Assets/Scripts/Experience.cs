@@ -6,7 +6,7 @@ using UnityEngine;
 /// 经验掉落物逻辑
 /// 2025-06-26 肖沐奇 创建
 /// </summary>
-public class Experience : MonoBehaviour
+public class Experience : Pickup
 {
     [Header("经验类型")]
     [SerializeField] private ExpType _expType = ExpType.Normal;
@@ -23,36 +23,22 @@ public class Experience : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    public override void PickedUp()
     {
-        Debug.Log("碰撞对象：" + collision.gameObject.name);
-        // 检查碰撞对象或其父对象是否有Player标签，因为渲染Sprite的Collider是Player的子对象
-        GameObject playerObject = null;
+        // 防止重复拾取
+        if (_isPickedUp) return;
 
-        // 先检查碰撞对象本身
-        if (collision.gameObject.CompareTag("Player"))
+        if (_experienceConfig != null)
         {
-            playerObject = collision.gameObject;
+            int amount = _experienceConfig.GetExperienceAmount(_expType);
+            ExperienceLevelController.instance.AddExperience(amount);
         }
-        // 如果碰撞对象不是Player，检查其父对象
-        else if (collision.transform.parent != null && collision.transform.parent.CompareTag("Player"))
+        else
         {
-            playerObject = collision.transform.parent.gameObject;
+            Debug.LogError("ExperienceConfig 未加载！请确保 Resources/ScriptableObjects/Exp Config 文件存在。");
         }
 
-        // 如果找到了玩家对象，则添加经验
-        if (playerObject != null)
-        {
-            if (_experienceConfig != null)
-            {
-                int amount = _experienceConfig.GetExperienceAmount(_expType);
-                ExperienceLevelController.instance.AddExperience(amount);
-            }
-            else
-            {
-                Debug.LogError("ExperienceConfig 未加载！请确保 Resources/ScriptableObjects/Exp Config 文件存在。");
-            }
-            Destroy(gameObject);
-        }
+        // 调用基类的拾取动画
+        base.PickedUp();
     }
 }

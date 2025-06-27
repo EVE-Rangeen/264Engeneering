@@ -31,11 +31,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private MoneyType _moneyType = MoneyType.Coin; // 金钱类型
     [SerializeField] private float _dropPossibility = 0.8f; // 总掉落概率
     [SerializeField][Range(0f, 1f)] private float _expWeight = 0.7f; // 经验权重，0表示只掉落金币，1表示只掉落经验
+    [SerializeField] private float _deathAnimationDuration = 1f; // 死亡动画持续时间
     #endregion
 
     private EnemyController _enemyController;
-
     private Rigidbody2D _rb;
+    private Animator _animator;
 
     private void Awake()
     {
@@ -57,6 +58,13 @@ public class Enemy : MonoBehaviour
         else
         {
             _rb.mass = _mass;
+        }
+
+        //初始化Animator组件
+        _animator = GetComponentInChildren<Animator>();
+        if (_animator == null)
+        {
+            Debug.LogError("Enemy需要Animator组件来播放死亡动画！");
         }
     }
 
@@ -92,6 +100,31 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Die()
     {
+        // 设置死亡动画参数
+        if (_animator != null)
+        {
+            _animator.SetBool("IsDead", true);
+        }
+
+        // 停止敌人移动
+        if (_enemyController != null)
+        {
+            _enemyController.SetMoveSpeed(0f);
+        }
+
+        // 启动死亡协程，先播放动画再掉落物品
+        StartCoroutine(_CoHandleDeath());
+    }
+
+    /// <summary>
+    /// 处理死亡流程的协程：播放动画 -> 掉落物品 -> 销毁对象
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator _CoHandleDeath()
+    {
+        // 等待死亡动画播放完成
+        yield return new WaitForSeconds(_deathAnimationDuration);
+
         // 首先判断是否掉落物品
         if (Random.Range(0f, 1f) < _dropPossibility)
         {
@@ -106,9 +139,11 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        // 更新UI击败敌人计数
+        UIController.defeatedEnemyCount++;
+
         // 销毁敌人对象
         Destroy(gameObject);
-        UIController.defeatedEnemyCount++;
     }
 
     /// <summary>

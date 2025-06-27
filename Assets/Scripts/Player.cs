@@ -9,6 +9,9 @@ using UnityEngine.UI;
 /// </summary>
 public class Player : MonoBehaviour
 {
+
+    [SerializeField] private float _magnetRange = 1.0f; // 吸取范围半径
+
     #region 玩家属性（局外成长的）
     private float _maxHealth = 100f; // 最大生命值
     private float _health = 100f; // 当前生命值
@@ -161,6 +164,12 @@ public class Player : MonoBehaviour
         _healthRecoveryCoroutine = StartCoroutine(_CoHealthRecovery());
     }
 
+    private void Update()
+    {
+        // 检测并拾取周围的Pickup物体
+        DetectAndPickupItems();
+    }
+
     private void OnDestroy()
     {
         // 停止回血协程
@@ -305,4 +314,56 @@ public class Player : MonoBehaviour
 
         Debug.Log($"生命值提升：最大生命值增加{amount}，当前最大生命值{_maxHealth}，当前生命值{_health}");
     }
+
+    /// <summary>
+    /// 检测并拾取周围的Pickup物体
+    /// </summary>
+    private void DetectAndPickupItems()
+    {
+        // 计算实际的吸取范围（基础范围 * 范围因子）
+        float actualMagnetRange = _magnetRange * _magnetAreaFactor;
+
+        // 使用OverlapCircleAll检测范围内的所有碰撞体
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, actualMagnetRange);
+
+        foreach (Collider2D collider in colliders)
+        {
+            // 检查是否有Pickup组件
+            Pickup pickup = collider.GetComponent<Pickup>();
+            if (pickup != null)
+            {
+                // 调用拾取接口
+                pickup.PickedUp();
+            }
+        }
+    }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// 在Scene视图中绘制拾取范围
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        // 计算实际的吸取范围（基础范围 * 范围因子）
+        float actualMagnetRange = _magnetRange * _magnetAreaFactor;
+
+        // 设置Gizmo颜色为半透明的绿色
+        Gizmos.color = new Color(0f, 1f, 0f, 0.3f);
+
+        // 绘制实心圆表示拾取范围
+        Gizmos.DrawSphere(transform.position, actualMagnetRange);
+
+        // 设置Gizmo颜色为绿色线框
+        Gizmos.color = Color.green;
+
+        // 绘制线框圆表示拾取范围边界
+        Gizmos.DrawWireSphere(transform.position, actualMagnetRange);
+
+        // 在范围旁边显示数值信息
+        UnityEditor.Handles.Label(
+            transform.position + Vector3.up * (actualMagnetRange + 0.5f),
+            $"拾取范围: {actualMagnetRange:F1}\n基础: {_magnetRange:F1} × 因子: {_magnetAreaFactor:F1}"
+        );
+    }
+#endif
 }
