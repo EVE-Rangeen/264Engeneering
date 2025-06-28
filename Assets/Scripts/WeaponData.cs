@@ -32,7 +32,7 @@ public class WeaponData : ScriptableObject
 
     [Header("伤害属性")]
     [SerializeField] private float _damage = 10f;       // 武器基础伤害
-    [SerializeField] private float _collateralDamage = 0f; // 连带伤害，对周围敌人造成的额外伤害
+    [SerializeField] private float _specialAttackMultiplier = 0f; // 特殊攻击倍率，用于设置武器的各类特殊攻击倍率，对于不同种类武器含义不同
     //TODO: 以下的属性，都还没有实现数值计算。
     [SerializeField] private float _attackRange = 1f;   // 射弹攻击范围，用于设置武器的各类攻击范围，对于不同种类武器含义不同
 
@@ -127,9 +127,10 @@ public class WeaponData : ScriptableObject
     /// <summary>
     /// 连带伤害
     /// </summary>
-    public float CollateralDamage
+    public float SpecialAttackMultiplier
     {
-        get => _collateralDamage;
+        get => _specialAttackMultiplier;
+        set => _specialAttackMultiplier = value;
     }
 
     /// <summary>
@@ -214,7 +215,7 @@ public class WeaponData : ScriptableObject
                $"武器类型: {_weaponType}\n" +
                $"等级: {_currentLevel}/{_maxLevel}\n" +
                $"武器基础伤害: {_damage}\n" +
-               $"连带伤害: {_collateralDamage}\n" +
+               $"特殊攻击倍率: {_specialAttackMultiplier}\n" +
                $"射弹攻击范围: {_attackRange}\n" +
                $"单轮攻击次数: {_attackCount}\n" +
                $"穿透次数: {_piercing}\n" +
@@ -232,7 +233,7 @@ public class WeaponData : ScriptableObject
     {
         // 确保数值在合理范围内
         _damage = Mathf.Max(0f, _damage);
-        _collateralDamage = Mathf.Max(0f, _collateralDamage);
+        _specialAttackMultiplier = Mathf.Max(0f, _specialAttackMultiplier);
         _attackRange = Mathf.Max(0f, _attackRange);
         _attackCount = Mathf.Max(1, _attackCount);
         _piercing = Mathf.Max(0, _piercing);
