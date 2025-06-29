@@ -179,6 +179,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d10c115927005a43ad118717fa208f4, type: 3}
+--- !u!1 &131990816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 131990817}
+  m_Layer: 0
+  m_Name: FlameThrowerAnimator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &131990817
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131990816}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1599019739}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &240746170 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 880846046256910923, guid: e61e9412abe4740b980629c45127f3d7, type: 3}
@@ -929,6 +960,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c70388f6416d84c49a5267009fbb649e, type: 2}
   - {fileID: 11400000, guid: 7634526920294ae4ea34a8544eb3bc6b, type: 2}
   - {fileID: 11400000, guid: 673f1764d467d29409993ef034deb945, type: 2}
+  - {fileID: 11400000, guid: c78527319926e3f488a502c5592e6cdd, type: 2}
   _currentWeapons: []
 --- !u!1 &889854936
 GameObject:
@@ -1716,7 +1748,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1599019739
 Transform:
   m_ObjectHideFlags: 0
@@ -1731,6 +1763,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1957808986}
+  - {fileID: 131990817}
   m_Father: {fileID: 1922829282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1599019740
@@ -1745,11 +1778,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ecf9cffc3817a499a692d0bda8546c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponIndex: 3
   attackZone: {fileID: 1957808985}
-  attackDuration: 0.3
-  attackCooldown: 1
-  attackRange: 3
-  attackAngle: 90
+  _attackAreaVisual: {fileID: 0}
+  _lineColor: {r: 1, g: 0, b: 0, a: 1}
+  _lineWidth: 0.1
+  _showVisualEffect: 1
+  fireSFXIndex: 0
+  _attackCooldown: 1
+  _attackRange: 3
+  _attackAngle: 45
+  _damageInterval: 0.5
 --- !u!4 &1614324989 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6486188218308317548, guid: e61e9412abe4740b980629c45127f3d7, type: 3}
@@ -11623,8 +11662,8 @@ Transform:
   m_Children:
   - {fileID: 1568427111}
   - {fileID: 1787360412}
-  - {fileID: 1599019739}
   - {fileID: 1857922723}
+  - {fileID: 1599019739}
   m_Father: {fileID: 1155191908}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1957808985
@@ -11637,7 +11676,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1957808986}
   - component: {fileID: 1957808988}
-  - component: {fileID: 1957808987}
   m_Layer: 0
   m_Name: AttackZone
   m_TagString: Untagged
@@ -11660,56 +11698,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1599019739}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &1957808987
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957808985}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.3653316, y: 0.17918989}
-      - {x: 0.36793303, y: -0.15595059}
-      - {x: 1.6516507, y: -1.0177776}
-      - {x: 2.0064116, y: 0.0023040324}
-      - {x: 1.6627418, y: 1.0112131}
-  m_UseDelaunayMesh: 0
 --- !u!114 &1957808988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11725,9 +11713,9 @@ MonoBehaviour:
   damage: 5
   destroyOnImpact: 0
   lifeTime: 1000
-  shouldKnockBack: 0
+  shouldKnockBack: 1
   knockBackForce: 5
-  damageOverTime: 0
+  damageOverTime: 1
   timeBetweenDamage: 0.5
   destroyParent: 0
   growSpeed: 5
@@ -11851,6 +11839,10 @@ PrefabInstance:
     - target: {fileID: 5561275168283406322, guid: 8890a4b1627b22f4cb504bb5670f49c2, type: 3}
       propertyPath: m_Name
       value: LightingDagger
+      objectReference: {fileID: 0}
+    - target: {fileID: 5561275168283406322, guid: 8890a4b1627b22f4cb504bb5670f49c2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8778445441243984983, guid: 8890a4b1627b22f4cb504bb5670f49c2, type: 3}
       propertyPath: m_LocalPosition.x
