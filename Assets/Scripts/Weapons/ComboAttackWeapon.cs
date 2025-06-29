@@ -6,8 +6,8 @@ using UnityEngine;
 /// 三段连击武器
 /// 包含：向左攻击、向右攻击、地面砸击（圆形范围攻击）
 /// 只负责连击逻辑控制，伤害由各攻击区域的EnemyDamager处理
-/// 每次攻击都克隆新的攻击物体，确保动画正确播放
-/// 仅支持自动攻击模式
+/// TODO 修改动画 左右挥砍的动画一直修不好 左剑攻击时候动画是左边挥砍 右边挥砍的时候还是左边挥砍 
+/// 并且动画随着攻击范围变化而变化没有实现
 /// 2025-6-25杜宜峰
 /// </summary>
 public class ComboAttackWeapon : MonoBehaviour
@@ -17,11 +17,11 @@ public class ComboAttackWeapon : MonoBehaviour
     [SerializeField] private GameObject _rightSwordPrefab; // 右剑攻击预制体
     [SerializeField] private GameObject _aoeAttackPrefab; // AOE攻击预制体
 
-    [Header("连击设置")]
-    // [Tooltip("连击时间窗口")]
-    // [SerializeField] private float _comboTimeWindow = 2f; // 连击时间窗口
-    [Tooltip("攻击冷却时间")]
+    [Header("攻击设置")]
+
+    [Tooltip("每组攻击之间的冷却时间")]
     [SerializeField] private float _attackCooldown = 0.5f; // 攻击冷却时间
+    [SerializeField] private float _attackRange = 0.5f; // 攻击范围
 
     [Header("攻击持续时间设置")]
     [Tooltip("剑攻击持续时间")]
@@ -31,6 +31,7 @@ public class ComboAttackWeapon : MonoBehaviour
 
     [Header("自动攻击设置")]
     [SerializeField] private bool _autoAttack = true; // 是否自动攻击
+    [Tooltip("一个组攻击每次攻击之间的冷却时间")]
     [SerializeField] private float _autoAttackInterval = 1f; // 自动攻击间隔
 
     [Header("插地大剑表现")]
@@ -46,8 +47,11 @@ public class ComboAttackWeapon : MonoBehaviour
     [Header("音效")]
     [Tooltip("挥剑音效的索引值（SFXManager中数组对应的音效的索引）")]
     [SerializeField] private int swordSFXIndex = 0;
-    [Tooltip("插地大剑音效的索引值（SFXManager中数组对应的音效的索引）")]
+    [Tooltip("大剑插地进行AOE攻击音效的索引值（SFXManager中数组对应的音效的索引）")]
     [SerializeField] private int aoeSFXIndex = 0;   
+
+    [Header("武器索引")]
+    [SerializeField] private int weaponIndex = 1; // 当前武器在WeaponManager中的索引
 
     // 私有字段
     private int _currentCombo = 0; // 当前连击数
@@ -97,70 +101,35 @@ public class ComboAttackWeapon : MonoBehaviour
             Debug.LogError("ComboAttackWeapon: AOE攻击预制体未设置！");
     }
 
-    /// <summary>
-    /// 每帧更新
-    /// </summary>
-    void Update()
-    {
-        // UpdateComboTimer();
-        
-        // 如果不是自动攻击，处理手动输入
-        // if (!_autoAttack)
-        // {
-        //     HandleAttackInput();
-        // }
-    }
+
 
     /// <summary>
-    /// 自动攻击协程
+    /// 自动攻击协程（每组三连击，组间冷却）
     /// </summary>
     private IEnumerator _CoAutoAttack()
     {
         while (true)
         {
-            // 等待攻击间隔
+            // 第一段：左剑
+            StartCoroutine(_CoLeftAttack());
+            yield return new WaitUntil(() => !_isAttacking);
+            yield return new WaitForSeconds(_attackCooldown);
+
+            // 第二段：右剑
+            StartCoroutine(_CoRightAttack());
+            yield return new WaitUntil(() => !_isAttacking);
+            yield return new WaitForSeconds(_attackCooldown);
+
+            // 第三段：AOE
+            StartCoroutine(_CoAoeAttack());
+            yield return new WaitUntil(() => !_isAttacking);
+
+            // 组冷却
             yield return new WaitForSeconds(_autoAttackInterval);
-            
-            // 如果可以攻击且不在攻击中，执行攻击
-            if (_canAttack && !_isAttacking && Time.time >= _lastAttackTime + _attackCooldown)
-            {
-                PerformAttack();
-            }
         }
     }
 
-    /// <summary>
-    /// 更新连击计时器
-    /// </summary>
-    // private void UpdateComboTimer()
-    // {
-    //     if (_currentCombo > 0)
-    //     {
-    //         _comboTimer += Time.deltaTime;
-    //         
-    //         // 如果超过连击时间窗口，重置连击
-    //         if (_comboTimer >= _comboTimeWindow)
-    //         {
-    //             ResetCombo();
-    //         }
-    //     }
-    // }
 
-    /// <summary>
-    /// 处理攻击输入
-    /// </summary>
-    // private void HandleAttackInput()
-    // {
-    //     // 检测攻击输入（空格键或鼠标左键）
-    //     if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-    //     {
-    //         if (_canAttack && !_isAttacking && Time.time >= _lastAttackTime + _attackCooldown)
-    //         {
-    //                 PerformAttack();
-    //             }
-    //         }
-    //     }
-    // }
 
     /// <summary>
     /// 执行攻击
@@ -187,6 +156,7 @@ public class ComboAttackWeapon : MonoBehaviour
         Debug.Log($"执行第 {_currentCombo} 段攻击");
     }
 
+
     /// <summary>
     /// 左攻击协程
     /// </summary>
@@ -210,6 +180,7 @@ public class ComboAttackWeapon : MonoBehaviour
         // 实例化左剑攻击物体
         GameObject leftSwordInstance = Instantiate(_leftSwordPrefab, transform.position, transform.rotation, transform);
         leftSwordInstance.SetActive(true);
+        ApplyLeftSwordParams(leftSwordInstance);
 
         // 启用Animator并设置参数
         if (_animator != null)
@@ -221,21 +192,8 @@ public class ComboAttackWeapon : MonoBehaviour
             _animator.SetTrigger("IsLeft"); // 触发左攻击
         }
 
-        // 左剑：从-45°（斜下）挥到+45°（斜上）
-        float elapsed = 0f;
-        float duration = _swordAttackDuration;
-        Quaternion startRot = Quaternion.Euler(0, 0, -45f);
-        Quaternion endRot = Quaternion.Euler(0, 0, 45f);
-        leftSwordInstance.transform.localRotation = startRot;
-        
-        while (elapsed < duration)
-        {
-            float t = elapsed / duration;
-            leftSwordInstance.transform.localRotation = Quaternion.Lerp(startRot, endRot, t);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        leftSwordInstance.transform.localRotation = endRot;
+        // 只需等待持续时间
+        yield return new WaitForSeconds(_swordAttackDuration);
 
         // 等待一帧确保动画播放完成
         yield return null;
@@ -279,6 +237,7 @@ public class ComboAttackWeapon : MonoBehaviour
         // 实例化右剑攻击物体
         GameObject rightSwordInstance = Instantiate(_rightSwordPrefab, transform.position, transform.rotation, transform);
         rightSwordInstance.SetActive(true);
+        ApplyRightSwordParams(rightSwordInstance);
 
         // 启用Animator并设置参数
         if (_animator != null)
@@ -291,21 +250,8 @@ public class ComboAttackWeapon : MonoBehaviour
             _animator.SetTrigger("IsIdle");
         }
 
-        // 右剑：从+45°（斜上）挥到-45°（斜下）
-        float elapsed = 0f;
-        float duration = _swordAttackDuration;
-        Quaternion startRot = Quaternion.Euler(0, 0, 45f);
-        Quaternion endRot = Quaternion.Euler(0, 0, -45f);
-        rightSwordInstance.transform.localRotation = startRot;
-        
-        while (elapsed < duration)
-        {
-            float t = elapsed / duration;
-            rightSwordInstance.transform.localRotation = Quaternion.Lerp(startRot, endRot, t);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        rightSwordInstance.transform.localRotation = endRot;
+        // 只需等待持续时间
+        yield return new WaitForSeconds(_swordAttackDuration);
 
         // 等待一帧确保动画播放完成
         yield return null;
@@ -360,6 +306,7 @@ public class ComboAttackWeapon : MonoBehaviour
         }
         GameObject aoeAttackInstance = Instantiate(_aoeAttackPrefab, transform.position, transform.rotation, transform);
         aoeAttackInstance.SetActive(true);
+        ApplyAoeParams(aoeAttackInstance);
 
         // 4. 等待AOE持续时间
         yield return new WaitForSeconds(_aoeAttackDuration);
@@ -424,21 +371,142 @@ public class ComboAttackWeapon : MonoBehaviour
         if (_leftSwordPrefab != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(transform.position, _leftSwordPrefab.transform.localScale);
+            Gizmos.DrawWireCube(transform.position + new Vector3(-_attackRange / 2f, 0, 0), new Vector3(_attackRange / 1f, 1f, 1f));
         }
 
         // 绘制右剑攻击区域
         if (_rightSwordPrefab != null)
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(transform.position, _rightSwordPrefab.transform.localScale);
+            Gizmos.DrawWireCube(transform.position + new Vector3(_attackRange / 2f, 0, 0), new Vector3(_attackRange / 1f, 1f, 1f));
         }
 
         // 绘制AOE攻击区域
         if (_aoeAttackPrefab != null)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(transform.position, _aoeAttackPrefab.transform.localScale);
+            Gizmos.DrawWireSphere(transform.position, _attackRange * 0.5f);
         }
     }
+
+
+
+    /// <summary>
+    /// 左剑参数传递
+    /// </summary>
+    private void ApplyLeftSwordParams(GameObject instance)
+    {
+        if (instance == null) return;
+        if (WeaponManager.instance == null || PlayerAttributeManager.instance == null) return;
+        if (weaponIndex < 0 || weaponIndex >= WeaponManager.instance.CurrentWeapons.Count) return;
+        //获取武器数据并且计算最终数据同时准备传参
+        WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
+
+        float damage = weaponData.Damage;
+        float finalDamage = damage * PlayerAttributeManager.instance.PlayerComponent.PowerFactor;
+
+        float knockBackForce = weaponData.Knockback;
+        float finalKnockBackForce = knockBackForce;
+        
+        //传参给EnemyDamager
+        _attackCooldown = weaponData.CooldownTime * (1 - PlayerAttributeManager.instance.PlayerComponent.CooldownReductionFactor);
+        _autoAttackInterval = weaponData.BulletInterval;
+
+        _attackRange = weaponData.AttackRange * (1 + PlayerAttributeManager.instance.PlayerComponent.AttackAreaFactor);
+        // _attackRange = weaponData.AttackRange;//测试用
+
+        // 设置碰撞箱参数
+        BoxCollider2D box = instance.GetComponent<BoxCollider2D>();
+        if (box != null)
+        {
+            box.size = new Vector2(_attackRange, 1f);
+        }
+        // 设置左剑位置偏移（与Gizmos一致）
+        instance.transform.localPosition = new Vector3(-_attackRange / 2f + 1f, 0, 0);
+
+        EnemyDamager damager = instance.GetComponent<EnemyDamager>();
+        if (damager != null)
+        {
+            damager.damage = finalDamage;
+            damager.knockBackForce = finalKnockBackForce;
+        }
+    }
+
+    /// <summary>
+    /// 右剑参数传递
+    /// </summary>
+    private void ApplyRightSwordParams(GameObject instance)
+    {
+        if (instance == null) return;
+        if (WeaponManager.instance == null || PlayerAttributeManager.instance == null) return;
+        if (weaponIndex < 0 || weaponIndex >= WeaponManager.instance.CurrentWeapons.Count) return;
+        //获取武器数据并且计算最终数据同时准备传参
+        WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
+
+        float damage = weaponData.Damage;
+        float finalDamage = damage * PlayerAttributeManager.instance.PlayerComponent.PowerFactor;
+        
+        float knockBackForce = weaponData.Knockback;
+        float finalKnockBackForce = knockBackForce;
+        //传参给EnemyDamager
+        _attackCooldown = weaponData.CooldownTime * (1 - PlayerAttributeManager.instance.PlayerComponent.CooldownReductionFactor);
+        _autoAttackInterval = weaponData.BulletInterval;
+
+        _attackRange = weaponData.AttackRange * (1 + PlayerAttributeManager.instance.PlayerComponent.AttackAreaFactor);
+        // _attackRange = weaponData.AttackRange;//测试用
+
+        // 设置碰撞箱参数
+        BoxCollider2D box = instance.GetComponent<BoxCollider2D>();
+        if (box != null)
+        {
+            box.size = new Vector2(_attackRange, 1f);
+        }
+        // 设置右剑位置偏移（与Gizmos一致）
+        instance.transform.localPosition = new Vector3(_attackRange / 2f - 1f, 0, 0);
+
+        EnemyDamager damager = instance.GetComponent<EnemyDamager>();
+        if (damager != null)
+        {
+            damager.damage = finalDamage;
+            damager.knockBackForce = finalKnockBackForce;
+        }
+    }
+
+    /// <summary>
+    /// AOE参数传递
+    /// </summary>
+    private void ApplyAoeParams(GameObject instance)
+    {
+        if (instance == null) return;
+        if (WeaponManager.instance == null || PlayerAttributeManager.instance == null) return;
+        if (weaponIndex < 0 || weaponIndex >= WeaponManager.instance.CurrentWeapons.Count) return;
+        //获取武器数据并且计算最终数据同时准备传参
+        WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
+        float damage = weaponData.Damage;
+        float finalDamage = damage * PlayerAttributeManager.instance.PlayerComponent.PowerFactor
+                            * weaponData.SpecialAttackMultiplier;
+        
+        float knockBackForce = weaponData.Knockback;
+        float finalKnockBackForce = knockBackForce;
+
+        //传参给EnemyDamager
+        _attackCooldown = weaponData.CooldownTime * (1 - PlayerAttributeManager.instance.PlayerComponent.CooldownReductionFactor);
+        _autoAttackInterval = weaponData.BulletInterval;
+        _attackRange = weaponData.AttackRange * (1 + PlayerAttributeManager.instance.PlayerComponent.AttackAreaFactor);
+
+        // 设置AOE碰撞体半径
+        CircleCollider2D circle = instance.GetComponent<CircleCollider2D>();
+        if (circle != null)
+        {
+            circle.radius = _attackRange * 0.5f;
+        }
+
+        EnemyDamager damager = instance.GetComponent<EnemyDamager>();
+        if (damager != null)
+        {
+            damager.damage = finalDamage;
+            damager.knockBackForce = finalKnockBackForce;
+        }
+    }
+
 }
