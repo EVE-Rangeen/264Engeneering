@@ -130,6 +130,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2292095963952858298, guid: 4d10c115927005a43ad118717fa208f4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4441998658179836919, guid: 4d10c115927005a43ad118717fa208f4, type: 3}
       propertyPath: m_Name
       value: DYFTestEnemy 2
@@ -11598,6 +11602,32 @@ Transform:
   - {fileID: 1080008204}
   m_Father: {fileID: 1155191908}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2080807103 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3869263854098101268, guid: 8890a4b1627b22f4cb504bb5670f49c2, type: 3}
+  m_PrefabInstance: {fileID: 2193836316099420044}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2080807108
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080807103}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d19a735a5eb0d4e4faaba83efa314695, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2139989609
 GameObject:
   m_ObjectHideFlags: 0
@@ -11718,7 +11748,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5561275168283406322, guid: 8890a4b1627b22f4cb504bb5670f49c2, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821618765790656028, guid: 8890a4b1627b22f4cb504bb5670f49c2, type: 3}
+      propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8181136235014324419, guid: 8890a4b1627b22f4cb504bb5670f49c2, type: 3}
+      propertyPath: m_SpriteSortPoint
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8778445441243984983, guid: 8890a4b1627b22f4cb504bb5670f49c2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11763,7 +11801,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3869263854098101268, guid: 8890a4b1627b22f4cb504bb5670f49c2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2080807108}
   m_SourcePrefab: {fileID: 100100000, guid: 8890a4b1627b22f4cb504bb5670f49c2, type: 3}
 --- !u!1001 &4894978429513374347
 PrefabInstance:
@@ -11878,6 +11919,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpinningWeapon
       objectReference: {fileID: 0}
+    - target: {fileID: 7256513391693699931, guid: a0d7805d43d63244688801bc402e50ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11891,6 +11936,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2292095963952858298, guid: 4d10c115927005a43ad118717fa208f4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4441998658179836919, guid: 4d10c115927005a43ad118717fa208f4, type: 3}
       propertyPath: m_Name
       value: DYFTestEnemy 1
