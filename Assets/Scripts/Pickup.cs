@@ -26,10 +26,16 @@ public class Pickup : MonoBehaviour
         }
     }
 
+    protected virtual void DataUpdate()
+    {
+        // 子类重写此方法，实现数据更新逻辑
+        Debug.LogError("子类未重写DataUpdate方法！");
+    }
+
     /// <summary>
     /// 拾取方法，子类应该重写此方法执行具体逻辑，然后调用base.PickedUp()
     /// </summary>
-    public virtual void PickedUp()
+    public void PickedUp()
     {
         if (_isPickedUp) return;
         _isPickedUp = true;
@@ -110,16 +116,16 @@ public class Pickup : MonoBehaviour
             transform.position = newPosition;
 
             // 检查是否足够接近玩家
-            if (Vector3.Distance(transform.position, _player.transform.position) <= 0.3f)
-            {
-                break;
-            }
+            // if (Vector3.Distance(transform.position, _player.transform.position) <= 0.3f)
+            // {
+            //     break;
+            // }
 
             yield return null;
         }
 
         // 销毁物体
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 
     /// <summary>
@@ -145,6 +151,7 @@ public class Pickup : MonoBehaviour
     {
         if (_isPickedUp && other.CompareTag("Player"))
         {
+            DataUpdate();
             // 如果正在执行拾取动画且碰到玩家，立即销毁
             Destroy(gameObject);
         }
