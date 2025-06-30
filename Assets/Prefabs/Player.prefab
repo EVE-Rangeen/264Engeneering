@@ -85,7 +85,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.79999995
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -281,7 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce04ba774418c4d4998d1e9afd7eed4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dashSpeed: 5
+  _dashSpeedMultiplier: 1.5
   _dashDuration: 0.2
   _dashCooldown: 1
   _defaultFacingDirection: 1
@@ -325,6 +325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d76704baef7440ddbfc33be80313e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _magnetRange: 1
+  _deathAnimationDuration: 0.75
   _healthSlider: {fileID: 7243018864547563214}
 --- !u!70 &4315515863515087535
 CapsuleCollider2D:

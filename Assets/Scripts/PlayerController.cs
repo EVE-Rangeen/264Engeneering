@@ -18,7 +18,7 @@ public enum DefaultFacingDirection
 public class PlayerController : MonoBehaviour
 {
     [Header("移动设置")]
-    [SerializeField] private float _dashSpeed = 15f;
+    [SerializeField] private float _dashSpeedMultiplier = 1.5f;
     [SerializeField] private float _dashDuration = 0.2f;
     [SerializeField] private float _dashCooldown = 1f;
 
@@ -33,6 +33,33 @@ public class PlayerController : MonoBehaviour
     private Vector2 _lastMoveDirection;
     private bool _canDash = true;
     private bool _isDashing = false;
+    private bool _isLocked = false; // 锁定状态，死亡后锁定所有操作
+
+    /// <summary>
+    /// 锁定玩家操作（死亡时调用）
+    /// </summary>
+    public void LockPlayer()
+    {
+        _isLocked = true;
+        _moveInput = Vector2.zero;
+        _rb.velocity = Vector2.zero; // 立即停止移动
+        _rb.simulated = false; // 停止物理模拟
+        Debug.Log("玩家操作已锁定");
+    }
+
+    /// <summary>
+    /// 解锁玩家操作
+    /// </summary>
+    public void UnlockPlayer()
+    {
+        _isLocked = false;
+        Debug.Log("玩家操作已解锁");
+    }
+
+    /// <summary>
+    /// 检查玩家是否被锁定
+    /// </summary>
+    public bool IsLocked => _isLocked;
 
     /// <summary>
     /// 初始化组件引用
@@ -88,6 +115,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (_isLocked) return; // 如果被锁定，不处理任何输入
+
         if (!_isDashing)
         {
             HandleMovementInput();
@@ -101,6 +130,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+        if (_isLocked) return; // 如果被锁定，不处理移动
+
         if (!_isDashing)
         {
             Move();
@@ -214,8 +245,8 @@ public class PlayerController : MonoBehaviour
         _canDash = false;
         _isDashing = true;
 
-        // 应用冲刺速度
-        _rb.velocity = _lastMoveDirection * _dashSpeed;
+        // 应用冲刺速度（当前移速的倍数）
+        _rb.velocity = _lastMoveDirection * (_moveSpeed * _dashSpeedMultiplier);
 
         // 等待冲刺持续时间
         yield return new WaitForSeconds(_dashDuration);
