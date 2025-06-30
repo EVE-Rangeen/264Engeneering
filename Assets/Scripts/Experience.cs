@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -23,11 +21,8 @@ public class Experience : Pickup
         }
     }
 
-    public override void PickedUp()
+    protected override void DataUpdate()
     {
-        // 防止重复拾取
-        if (_isPickedUp) return;
-
         if (_experienceConfig != null)
         {
             int amount = _experienceConfig.GetExperienceAmount(_expType);
@@ -37,8 +32,5 @@ public class Experience : Pickup
         {
             Debug.LogError("ExperienceConfig 未加载！请确保 Resources/ScriptableObjects/Exp Config 文件存在。");
         }
-
-        // 调用基类的拾取动画
-        base.PickedUp();
     }
 }
