@@ -23,11 +23,8 @@ public class Money : Pickup
         }
     }
 
-    public override void PickedUp()
+    protected override void DataUpdate()
     {
-        // 防止重复拾取
-        if (_isPickedUp) return;
-
         if (_moneyConfig != null)
         {
             int amount = _moneyConfig.GetMoneyAmount(_moneyType);
@@ -37,8 +34,5 @@ public class Money : Pickup
         {
             Debug.LogError("MoneyConfig 未加载！请确保 Resources/ScriptableObjects/Money Config 文件存在。");
         }
-
-        // 调用基类的拾取动画
-        base.PickedUp();
     }
 }
