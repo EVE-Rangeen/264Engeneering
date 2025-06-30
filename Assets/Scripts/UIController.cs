@@ -38,6 +38,8 @@ public class UIController : MonoBehaviour
     //是否开启神力模式
     public Toggle powerModeToggle;
     [Header("结算界面")]
+    //结算界面
+    public GameObject gameResultPanel;
     //游戏模式文本
     public TMP_Text gameModeText;
     //生存时间文本
@@ -151,6 +153,8 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateGameResultDisplay()
     {
+        // 显示结算界面
+        gameResultPanel.SetActive(true);
         // 更新生存时间
         UpdateSurvivalTimeDisplay();
         
