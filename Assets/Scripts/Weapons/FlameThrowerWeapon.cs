@@ -4,6 +4,7 @@ using UnityEngine;
 /// <summary>
 /// FlameThrowerWeapon 持续伤害武器，自动攻击，扇形范围跟随玩家移动方向，45度角度范围。
 /// 使用EnemyDamager实现伤害，保持与其他武器相同的架构。
+/// 支持实时方向跟随，攻击期间方向会跟随玩家移动方向变化。
 /// 杜宜峰2025-06-26
 /// </summary>
 public class FlameThrowerWeapon : MonoBehaviour
@@ -26,13 +27,18 @@ public class FlameThrowerWeapon : MonoBehaviour
 
     // 私有字段
     private bool _isAttacking = false;
-    [SerializeField] private float _attackCooldown = 1.0f;
+    [SerializeField] private float _attackCooldown = 1.0f; // 攻击冷却时间（每次攻击之间的间隔）
+    [SerializeField] private float _attackDuration = 2.0f; // 攻击持续时间（每次攻击持续的时间）
     [SerializeField] private float _attackRange = 3.0f;
     [SerializeField] private float _attackAngle = 45f; // 45度扇形
     [SerializeField] private float _damageInterval = 0.5f; // 持续伤害间隔
     private PlayerController _playerController;
     private EnemyDamager _enemyDamager;
     private PolygonCollider2D _polygonCollider;
+    
+    // 方向跟随相关
+    private Vector2 _lastAttackDirection = Vector2.right; // 记录上次的攻击方向
+    private bool _directionChanged = false; // 标记方向是否发生变化
 
     void Start()
     {
@@ -66,9 +72,41 @@ public class FlameThrowerWeapon : MonoBehaviour
             // 初始化可视化效果
             InitializeVisualEffect();
         }
+    }
 
-        // 启动自动攻击循环
-        StartCoroutine(AutoAttackLoop());
+    void Update()
+    {
+        // 在攻击期间实时检测方向变化
+        if (_isAttacking)
+        {
+            CheckDirectionChange();
+        }
+    }
+
+    /// <summary>
+    /// 检测玩家移动方向是否发生变化
+    /// </summary>
+    private void CheckDirectionChange()
+    {
+        if (_playerController == null) return;
+
+        Vector2 currentDirection = _playerController.GetMoveDirection();
+        
+        // 如果玩家没有移动，使用默认方向
+        if (currentDirection == Vector2.zero)
+        {
+            currentDirection = Vector2.right;
+        }
+
+        // 检查方向是否发生变化（由于是8个固定方向，直接比较即可）
+        if (currentDirection != _lastAttackDirection)
+        {
+            _directionChanged = true;
+            _lastAttackDirection = currentDirection;
+            
+            // 立即更新攻击区域
+            UpdateAttackZoneTransform();
+        }
     }
 
     /// <summary>
@@ -119,6 +157,9 @@ public class FlameThrowerWeapon : MonoBehaviour
         {
             Debug.LogError($"FlameThrowerWeapon: weaponIndex({weaponIndex})超出范围");
         }
+
+        // 启动自动攻击循环
+        StartCoroutine(AutoAttackLoop());
     }
 
     /// <summary>
@@ -132,10 +173,13 @@ public class FlameThrowerWeapon : MonoBehaviour
         WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
 
         // 调试信息：检查WeaponData
-        Debug.Log($"FlameThrowerWeapon: 武器名称={weaponData.WeaponName}, 伤害={weaponData.Damage}, 范围={weaponData.AttackRange}, 冷却={weaponData.CooldownTime}");
+        Debug.Log($"FlameThrowerWeapon: 武器名称={weaponData.WeaponName}, 伤害={weaponData.Damage}, 范围={weaponData.AttackRange}, 冷却={weaponData.CooldownTime}, 持续时间={weaponData.Duration}");
 
-        // 计算最终冷却时间
+        // 计算最终冷却时间（每次攻击之间的间隔）
         _attackCooldown = weaponData.CooldownTime * (1 - PlayerAttributeManager.instance.PlayerComponent.CooldownReductionFactor);
+
+        // 获取攻击持续时间
+        _attackDuration = weaponData.Duration;
 
         // 计算最终攻击范围（扇形半径）
         _attackRange = weaponData.AttackRange * (1 + PlayerAttributeManager.instance.PlayerComponent.AttackAreaFactor);
@@ -154,6 +198,9 @@ public class FlameThrowerWeapon : MonoBehaviour
     {
         while (true)
         {
+            // 攻击前初始化方向（获取当前玩家移动方向）
+            InitializeAttackDirection();
+            
             // 攻击前同步判定区朝向和范围，并设置参数
             UpdateAttackZoneTransform();
             SetAttackParameters();
@@ -174,7 +221,11 @@ public class FlameThrowerWeapon : MonoBehaviour
                 SFXManager.instance.PlaySFXPitched(fireSFXIndex);
             }
 
-            yield return new WaitForSeconds(_attackCooldown);
+            // 输出攻击开始日志
+            Debug.Log($"FlameThrowerWeapon: 进入攻击，攻击持续时间={_attackDuration}秒");
+
+            // 等待攻击持续时间
+            yield return new WaitForSeconds(_attackDuration);
 
             if (attackZone != null)
                 attackZone.SetActive(false);
@@ -185,6 +236,12 @@ public class FlameThrowerWeapon : MonoBehaviour
             {
                 _attackAreaVisual.enabled = false;
             }
+
+            // 输出冷却开始日志
+            Debug.Log($"FlameThrowerWeapon: 进入CD，CD持续时间={_attackCooldown}秒");
+
+            // 等待冷却时间
+            yield return new WaitForSeconds(_attackCooldown);
         }
     }
 
@@ -194,6 +251,15 @@ public class FlameThrowerWeapon : MonoBehaviour
     private void SetAttackParameters()
     {
         if (_enemyDamager == null) return;
+
+        // 添加安全检查
+        if (WeaponManager.instance == null || 
+            weaponIndex < 0 || 
+            weaponIndex >= WeaponManager.instance.CurrentWeapons.Count)
+        {
+            Debug.LogError($"FlameThrowerWeapon: 无法获取武器数据 - WeaponManager={WeaponManager.instance != null}, weaponIndex={weaponIndex}");
+            return;
+        }
 
         WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
         
@@ -214,7 +280,7 @@ public class FlameThrowerWeapon : MonoBehaviour
         _enemyDamager.shouldKnockBack = true; // 启用击退
 
         // 调试信息：检查EnemyDamager设置
-        Debug.Log($"FlameThrowerWeapon: 设置参数 - 伤害={_enemyDamager.damage}, 击退={_enemyDamager.knockBackForce}, 间隔={_enemyDamager.timeBetweenDamage}");
+        Debug.Log($"FlameThrowerWeapon: 设置参数 - 伤害={_enemyDamager.damage}, 击退={_enemyDamager.knockBackForce}, 间隔={_enemyDamager.timeBetweenDamage}, 生命周期={_enemyDamager.lifeTime}");
     }
 
     /// <summary>
@@ -227,17 +293,8 @@ public class FlameThrowerWeapon : MonoBehaviour
         // 让attackZone的位置和武器一致
         attackZone.transform.position = transform.position;
 
-        // 获取玩家移动方向
-        Vector2 playerDirection = Vector2.right; // 默认朝右
-        if (_playerController != null)
-        {
-            playerDirection = _playerController.GetMoveDirection();
-            // 如果玩家没有移动，使用默认方向
-            if (playerDirection == Vector2.zero)
-            {
-                playerDirection = Vector2.right;
-            }
-        }
+        // 使用记录的攻击方向（支持实时更新）
+        Vector2 playerDirection = _lastAttackDirection;
 
         // 计算朝向角度
         float angle = Mathf.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg;
@@ -392,4 +449,24 @@ public class FlameThrowerWeapon : MonoBehaviour
         Gizmos.DrawLine(center, center + leftEdge);
         Gizmos.DrawLine(center, center + rightEdge);
     }
-}
+
+    /// <summary>
+    /// 初始化攻击方向（在每次攻击开始时调用）
+    /// </summary>
+    private void InitializeAttackDirection()
+    {
+        if (_playerController == null) return;
+
+        Vector2 currentDirection = _playerController.GetMoveDirection();
+        
+        // 如果玩家没有移动，使用默认方向
+        if (currentDirection == Vector2.zero)
+        {
+            currentDirection = Vector2.right;
+        }
+
+        // 更新记录的攻击方向
+        _lastAttackDirection = currentDirection;
+        _directionChanged = false; // 重置方向变化标记
+    }
+} 

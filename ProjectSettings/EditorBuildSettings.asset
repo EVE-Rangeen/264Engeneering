@@ -17,4 +17,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AttributeInterface.unity
     guid: a30709962214c374a8283f3f87d5257e
+  - enabled: 1
+    path: Assets/Scenes/GamePlayTest.unity
+    guid: 56224e725833ca44680898f52dcab830
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/testscene_sjh.unity
+    guid: f025fa26805cc16488d72836a2efb922
+  - enabled: 1
+    path: Assets/Scenes/testscene_xqq.unity
+    guid: 06fe05b71f9900344a9bfb0c797600b9
+  - enabled: 1
+    path: Assets/Scenes/WlsTest.unity
+    guid: 906b8c35919abd14dbec7caa3d9cc849
+  - enabled: 1
+    path: Assets/Scenes/XMQTest.unity
+    guid: 58f2f678e688a4daca6e2ce0f7254c71
   m_configObjects: {}
