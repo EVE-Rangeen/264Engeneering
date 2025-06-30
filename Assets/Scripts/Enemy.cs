@@ -37,6 +37,7 @@ public class Enemy : MonoBehaviour
     private EnemyController _enemyController;
     private Rigidbody2D _rb;
     private Animator _animator;
+    private bool _isDead = false; // 敌人是否已死亡的标志
 
     private void Awake()
     {
@@ -87,6 +88,7 @@ public class Enemy : MonoBehaviour
     /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
+        if (_isDead) return; // 如果已经死亡，避免重复执行
         _health -= damage;
         if (_health <= 0)
         {
@@ -100,6 +102,11 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Die()
     {
+        if (_isDead) return; // 如果已经死亡，避免重复执行
+
+        _isDead = true;
+        _health = 0;
+
         // 设置死亡动画参数
         if (_animator != null)
         {

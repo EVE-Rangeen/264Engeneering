@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 {
 
     [SerializeField] private float _magnetRange = 1.0f; // 吸取范围半径
+    [SerializeField] private float _deathAnimationDuration = 2.0f; // 死亡动画播放时间
 
     #region 玩家属性（局外成长的）
     private float _maxHealth = 100f; // 最大生命值
@@ -20,7 +21,7 @@ public class Player : MonoBehaviour
     private float _powerFactor = 1.0f; // 力量因子,按比例修改攻击力
     private float _moveSpeed = 5f; // 移动速度，作用于PlayerController
     private float _cooldownReductionFactor = 0.0f; // 冷却因子，按比例减少技能冷却时间
-    private float _attackAreaFactor = 1.0f; // 攻击范围因子，按比例修改攻击范围
+    private float _attackAreaFactor = 0.0f; // 攻击范围因子，按比例修改攻击范围
     private int _projectileAmountIncrement = 0; //作用于所有武器，增加所有武器的射弹数
     private float _weaponDurationFactor = 1.0f; // 武器持续时间因子，按比例修改武器持续时间
     private float _magnetAreaFactor = 1.0f; // 吸取范围因子，按比例修改吸取范围
@@ -140,22 +141,28 @@ public class Player : MonoBehaviour
     [SerializeField] private Slider _healthSlider; // 血量显示滑条
 
     private PlayerController _playerController;
+    private Animator _animator;
     private Coroutine _healthRecoveryCoroutine;
-
-    void Awake()
-    {
-        //初始化血量为满血
-        _health = _maxHealth;
-    }
+    private bool _isDead = false; // 玩家是否已死亡的标志
 
     private void Start()
     {
+        //初始化血量为满血
+        _health = _maxHealth;
+
         _playerController = GetComponent<PlayerController>();
         if (_playerController == null)
         {
             Debug.LogError("PlayerController组件未找到！");
         }
         _playerController.SetMoveSpeed(_moveSpeed);
+
+        // 获取Animator组件
+        _animator = GetComponentInChildren<Animator>();
+        if (_animator == null)
+        {
+            Debug.LogError("Animator组件未找到！请确保玩家GameObject上有Animator组件。");
+        }
 
         // 初始化血量UI
         InitializeHealthUI();
@@ -215,6 +222,9 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
 
+            // 如果玩家已死亡，停止回血
+            if (_isDead) break;
+
             // 只有在未满血且回血值大于0时才进行回血
             if (_health < _maxHealth && _recovery > 0)
             {
@@ -242,20 +252,87 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
+    /// 处理玩家死亡逻辑
+    /// </summary>
+    private void Die()
+    {
+        if (_isDead) return; // 如果已经死亡，避免重复执行
+
+        _isDead = true;
+        _health = 0;
+
+        // 锁定玩家操作
+        if (_playerController != null)
+        {
+            _playerController.LockPlayer();
+        }
+
+        // 停止所有武器的攻击
+        // Weapons节点在Player的子节点中，索引为1
+        transform.GetChild(1).gameObject.SetActive(false);
+
+        // 停止回血协程
+        if (_healthRecoveryCoroutine != null)
+        {
+            StopCoroutine(_healthRecoveryCoroutine);
+            _healthRecoveryCoroutine = null;
+        }
+
+        // 播放死亡动画
+        if (_animator != null)
+        {
+            _animator.SetBool("IsDead", true);
+            Debug.Log("开始播放死亡动画");
+        }
+
+        // 启动死亡处理协程
+        StartCoroutine(_CoHandleDeath());
+    }
+
+    /// <summary>
+    /// 死亡处理协程：播放死亡动画，等待动画播放完毕后显示游戏结束界面
+    /// </summary>
+    private IEnumerator _CoHandleDeath()
+    {
+        // 更新血量UI
+        UpdateHealthUI();
+
+        // 等待死亡动画播放完毕
+        yield return new WaitForSeconds(_deathAnimationDuration + 1.0f);
+
+        // 显示游戏结果界面
+        if (UIController.instance != null)
+        {
+            UIController.instance.UpdateGameResultDisplay();
+            Debug.Log("死亡动画播放完毕，显示游戏结果界面");
+        }
+        else
+        {
+            Debug.LogError("UIController实例未找到！");
+        }
+
+        Debug.Log("玩家死亡处理完成");
+    }
+
+    /// <summary>
     /// 从怪物本体受到伤害
     /// </summary>
     public void TakeEnemyDamage(float damage)
     {
+        if (_isDead) return; // 如果已经死亡，不再受伤
+
         float actualDamage = CalculateActualDamage(damage);
         _health -= actualDamage;
 
         if (_health <= 0)
         {
-            _health = 0;
-            Debug.Log("玩家死亡");
+            Die();
         }
-        // 更新血量UI
-        UpdateHealthUI();
+        else
+        {
+            // 更新血量UI
+            UpdateHealthUI();
+        }
     }
 
     /// <summary>
@@ -263,6 +340,8 @@ public class Player : MonoBehaviour
     /// </summary>
     public void TakeEnemyProjectileDamage(float damage)
     {
+        if (_isDead) return; // 如果已经死亡，不再受伤
+
         float actualDamage = CalculateActualDamage(damage);
         _health -= actualDamage;
 
@@ -274,12 +353,13 @@ public class Player : MonoBehaviour
 
         if (_health <= 0)
         {
-            _health = 0;
-            //TODO: 完成游戏结算逻辑
-            Debug.Log("玩家死亡");
+            Die();
         }
-        // 更新血量UI
-        UpdateHealthUI();
+        else
+        {
+            // 更新血量UI
+            UpdateHealthUI();
+        }
     }
 
     /// <summary>
@@ -287,6 +367,8 @@ public class Player : MonoBehaviour
     /// </summary>
     public void HealFromHealthBottle(float amount)
     {
+        if (_isDead) return; // 如果已经死亡，不能治疗
+
         _health += amount;
         if (_health > _maxHealth)
         {
@@ -302,6 +384,8 @@ public class Player : MonoBehaviour
     /// <param name="amount">增加的数值</param>
     public void IncreaseMaxHealthAndCurrentHealth(float amount)
     {
+        if (_isDead) return; // 如果已经死亡，不能增加生命值
+
         _maxHealth += amount;
         _health += amount;
 
@@ -320,6 +404,7 @@ public class Player : MonoBehaviour
     /// </summary>
     private void DetectAndPickupItems()
     {
+        if (_isDead) return; // 如果已经死亡，不再拾取物品
         // 计算实际的吸取范围（基础范围 * 范围因子）
         float actualMagnetRange = _magnetRange * _magnetAreaFactor;
 
