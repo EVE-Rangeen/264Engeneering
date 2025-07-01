@@ -182,6 +182,7 @@ public class LightingStrikerWeapon : MonoBehaviour
             }
         }
 
+        Debug.Log("播放闪电音效");
         // 播放闪电音效
         SFXManager.instance.PlaySFXPitched(_lightningSFXIndex);
 
