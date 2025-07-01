@@ -38,6 +38,12 @@ public class Enemy : MonoBehaviour
     private Animator _animator;
     private bool _isDead = false; // 敌人是否已死亡的标志
 
+    // 受击闪烁效果相关
+    private SpriteRenderer[] _spriteRenderers; // 所有的 SpriteRenderer 组件
+    private Material[] _originalMaterials; // 存储原始材质
+    private Material _flashMaterial; // 白色闪烁材质
+    private bool _isFlashing = false; // 是否正在闪烁
+
     private void Awake()
     {
         //初始化血量为满血
@@ -66,6 +72,9 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("Enemy需要Animator组件来播放死亡动画！");
         }
+
+        //初始化受击闪烁效果
+        InitializeFlashEffect();
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -82,13 +91,59 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
+    /// 初始化受击闪烁效果
+    /// </summary>
+    private void InitializeFlashEffect()
+    {
+        // 获取敌人及其子对象的所有SpriteRenderer组件
+        _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        if (_spriteRenderers.Length > 0)
+        {
+            // 保存所有SpriteRenderer的原始材质
+            _originalMaterials = new Material[_spriteRenderers.Length];
+            for (int i = 0; i < _spriteRenderers.Length; i++)
+            {
+                _originalMaterials[i] = _spriteRenderers[i].material;
+            }
+
+            // 创建白色闪烁材质
+            CreateFlashMaterial();
+        }
+        else
+        {
+            Debug.LogWarning($"敌人 {gameObject.name} 没有找到SpriteRenderer组件，无法显示受击闪烁效果！");
+        }
+    }
+
+    /// <summary>
+    /// 创建白色闪烁材质
+    /// </summary>
+    private void CreateFlashMaterial()
+    {
+        // 创建一个新的材质实例，使用Unity内置的白色着色器
+        _flashMaterial = new Material(Shader.Find("GUI/Text Shader"));
+        _flashMaterial.color = Color.white;
+
+        // 设置材质名称便于调试
+        _flashMaterial.name = "Enemy Flash Material";
+    }
+
+    /// <summary>
     /// 受到来自玩家武器的伤害
     /// </summary>
     /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
         if (_isDead) return; // 如果已经死亡，避免重复执行
+
         _health -= damage;
+
+        // 触发受击闪烁效果
+        if (!_isFlashing && _spriteRenderers != null && _spriteRenderers.Length > 0)
+        {
+            StartCoroutine(_CoFlashWhite());
+        }
+
         if (_health <= 0)
         {
             _health = 0;
@@ -206,6 +261,57 @@ public class Enemy : MonoBehaviour
         else
         {
             Debug.LogError($"无法加载金币Prefab：{moneyPrefabPath}");
+        }
+    }
+
+    /// <summary>
+    /// 受击时的白色闪烁效果协程（使用材质替换）
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator _CoFlashWhite()
+    {
+        _isFlashing = true;
+
+        // 将所有SpriteRenderer切换到白色材质
+        for (int i = 0; i < _spriteRenderers.Length; i++)
+        {
+            if (_spriteRenderers[i] != null && _flashMaterial != null)
+            {
+                _spriteRenderers[i].material = _flashMaterial;
+            }
+        }
+
+        // 等待0.1秒
+        yield return new WaitForSeconds(0.1f);
+
+        // 恢复原始材质
+        for (int i = 0; i < _spriteRenderers.Length; i++)
+        {
+            if (_spriteRenderers[i] != null && _originalMaterials != null && i < _originalMaterials.Length)
+            {
+                _spriteRenderers[i].material = _originalMaterials[i];
+            }
+        }
+
+        _isFlashing = false;
+    }
+
+    /// <summary>
+    /// 清理材质资源
+    /// </summary>
+    private void OnDestroy()
+    {
+        // 销毁创建的材质实例，避免内存泄漏
+        if (_flashMaterial != null)
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(_flashMaterial);
+            }
+            else
+            {
+                DestroyImmediate(_flashMaterial);
+            }
         }
     }
 }

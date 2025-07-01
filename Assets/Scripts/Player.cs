@@ -153,6 +153,14 @@ public class Player : MonoBehaviour
     private Coroutine _healthRecoveryCoroutine;
     private bool _isDead = false; // 玩家是否已死亡的标志
 
+    // 受击闪烁效果相关
+    private SpriteRenderer[] _spriteRenderers; // 所有的 SpriteRenderer 组件
+    private Material[] _originalMaterials; // 存储原始材质
+    private Material _redFlashMaterial; // 红色闪烁材质
+    private bool _isFlashing = false; // 是否正在闪烁
+    private bool _isShowingRedConstantly = false; // 是否持续显示红色
+    private Coroutine _redDisplayCoroutine; // 持续红色显示协程
+
     private void Start()
     {
         //初始化血量为满血
@@ -177,6 +185,9 @@ public class Player : MonoBehaviour
 
         // 启动回血协程
         _healthRecoveryCoroutine = StartCoroutine(_CoHealthRecovery());
+
+        // 初始化受击闪烁效果
+        InitializeFlashEffect();
     }
 
     private void Update()
@@ -185,14 +196,7 @@ public class Player : MonoBehaviour
         DetectAndPickupItems();
     }
 
-    private void OnDestroy()
-    {
-        // 停止回血协程
-        if (_healthRecoveryCoroutine != null)
-        {
-            StopCoroutine(_healthRecoveryCoroutine);
-        }
-    }
+
 
     /// <summary>
     /// 初始化血量UI
@@ -323,6 +327,44 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
+    /// 初始化受击闪烁效果
+    /// </summary>
+    private void InitializeFlashEffect()
+    {
+        // 获取玩家及其子对象的所有SpriteRenderer组件
+        _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        if (_spriteRenderers.Length > 0)
+        {
+            // 保存所有SpriteRenderer的原始材质
+            _originalMaterials = new Material[_spriteRenderers.Length];
+            for (int i = 0; i < _spriteRenderers.Length; i++)
+            {
+                _originalMaterials[i] = _spriteRenderers[i].material;
+            }
+
+            // 创建红色闪烁材质
+            CreateRedFlashMaterial();
+        }
+        else
+        {
+            Debug.LogWarning($"玩家 {gameObject.name} 没有找到SpriteRenderer组件，无法显示受击闪烁效果！");
+        }
+    }
+
+    /// <summary>
+    /// 创建红色闪烁材质
+    /// </summary>
+    private void CreateRedFlashMaterial()
+    {
+        // 创建一个新的材质实例，使用Unity内置的着色器
+        _redFlashMaterial = new Material(Shader.Find("GUI/Text Shader"));
+        _redFlashMaterial.color = Color.red;
+
+        // 设置材质名称便于调试
+        _redFlashMaterial.name = "Player Red Flash Material";
+    }
+
+    /// <summary>
     /// 从怪物本体受到伤害
     /// </summary>
     public void TakeEnemyDamage(float damage)
@@ -331,6 +373,12 @@ public class Player : MonoBehaviour
 
         float actualDamage = CalculateActualDamage(damage);
         _health -= actualDamage;
+
+        // 触发持续红色显示效果
+        if (!_isShowingRedConstantly && _spriteRenderers != null && _spriteRenderers.Length > 0)
+        {
+            StartShowingRedConstantly();
+        }
 
         if (_health <= 0)
         {
@@ -353,6 +401,12 @@ public class Player : MonoBehaviour
         float actualDamage = CalculateActualDamage(damage);
         _health -= actualDamage;
 
+        // 触发红色闪烁效果（0.1秒）
+        if (!_isFlashing && _spriteRenderers != null && _spriteRenderers.Length > 0)
+        {
+            StartCoroutine(_CoFlashRed());
+        }
+
         // 输出伤害信息用于调试
         if (actualDamage < damage)
         {
@@ -373,11 +427,11 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 治疗
     /// </summary>
-    public void HealFromHealthBottle(float amount)
+    public void HealFromHealthBottle()
     {
         if (_isDead) return; // 如果已经死亡，不能治疗
 
-        _health += amount;
+        _health += 10 /* 等待实现的接口，返回治疗量值 GetHealAmount() */;
         if (_health > _maxHealth)
         {
             _health = _maxHealth;
@@ -459,4 +513,151 @@ public class Player : MonoBehaviour
         );
     }
 #endif
+
+    /// <summary>
+    /// 开始持续显示红色（怪物本体伤害）
+    /// </summary>
+    private void StartShowingRedConstantly()
+    {
+        // 如果已经在持续显示红色，重新开始计时
+        if (_redDisplayCoroutine != null)
+        {
+            StopCoroutine(_redDisplayCoroutine);
+        }
+
+        _redDisplayCoroutine = StartCoroutine(_CoShowRedConstantly());
+    }
+
+    /// <summary>
+    /// 持续显示红色协程（怪物本体接触伤害）
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator _CoShowRedConstantly()
+    {
+        _isShowingRedConstantly = true;
+
+        // 切换到红色材质
+        for (int i = 0; i < _spriteRenderers.Length; i++)
+        {
+            if (_spriteRenderers[i] != null && _redFlashMaterial != null)
+            {
+                _spriteRenderers[i].material = _redFlashMaterial;
+            }
+        }
+
+        // 等待一段时间后自动恢复（防止一直红色）
+        // 这里设置为2秒，如果2秒内没有新的本体伤害就恢复原色
+        yield return new WaitForSeconds(0.334f);
+
+        // 恢复原始材质
+        RestoreOriginalMaterials();
+        _isShowingRedConstantly = false;
+        _redDisplayCoroutine = null;
+    }
+
+    /// <summary>
+    /// 红色闪烁效果协程（怪物子弹伤害）
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator _CoFlashRed()
+    {
+        _isFlashing = true;
+
+        // 如果正在持续显示红色，暂时停止
+        bool wasShowingRedConstantly = _isShowingRedConstantly;
+        if (_isShowingRedConstantly)
+        {
+            _isShowingRedConstantly = false;
+            if (_redDisplayCoroutine != null)
+            {
+                StopCoroutine(_redDisplayCoroutine);
+                _redDisplayCoroutine = null;
+            }
+        }
+
+        // 切换到红色材质
+        for (int i = 0; i < _spriteRenderers.Length; i++)
+        {
+            if (_spriteRenderers[i] != null && _redFlashMaterial != null)
+            {
+                _spriteRenderers[i].material = _redFlashMaterial;
+            }
+        }
+
+        // 等待0.1秒
+        yield return new WaitForSeconds(0.1f);
+
+        // 恢复原始材质
+        RestoreOriginalMaterials();
+
+        // 如果之前在持续显示红色，恢复该状态
+        if (wasShowingRedConstantly)
+        {
+            StartShowingRedConstantly();
+        }
+
+        _isFlashing = false;
+    }
+
+    /// <summary>
+    /// 恢复原始材质
+    /// </summary>
+    private void RestoreOriginalMaterials()
+    {
+        for (int i = 0; i < _spriteRenderers.Length; i++)
+        {
+            if (_spriteRenderers[i] != null && _originalMaterials != null && i < _originalMaterials.Length)
+            {
+                _spriteRenderers[i].material = _originalMaterials[i];
+            }
+        }
+    }
+
+    /// <summary>
+    /// 停止所有受击效果
+    /// </summary>
+    private void StopAllHitEffects()
+    {
+        // 停止所有相关协程
+        if (_redDisplayCoroutine != null)
+        {
+            StopCoroutine(_redDisplayCoroutine);
+            _redDisplayCoroutine = null;
+        }
+
+        // 恢复原始材质
+        RestoreOriginalMaterials();
+
+        // 重置状态
+        _isFlashing = false;
+        _isShowingRedConstantly = false;
+    }
+
+    /// <summary>
+    /// 清理材质资源
+    /// </summary>
+    private void OnDestroy()
+    {
+        // 停止回血协程
+        if (_healthRecoveryCoroutine != null)
+        {
+            StopCoroutine(_healthRecoveryCoroutine);
+        }
+
+        // 停止所有受击效果
+        StopAllHitEffects();
+
+        // 销毁创建的材质实例，避免内存泄漏
+        if (_redFlashMaterial != null)
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(_redFlashMaterial);
+            }
+            else
+            {
+                DestroyImmediate(_redFlashMaterial);
+            }
+        }
+    }
 }

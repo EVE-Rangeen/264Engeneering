@@ -8,7 +8,7 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     [Header("拾取动画设置")]
-    [SerializeField] private float _flyOutDistance = 0.5f; // 飞出距离
+    [SerializeField] private float _flyOutDistance = 0.1f; // 飞出距离
     [SerializeField] private float _initialAcceleration = 5f; // 初始加速度
     [SerializeField] private float _attractionAcceleration = 10f; // 向玩家的吸引加速度
     [SerializeField] private float _velocityDamping = 3f; // 速度阻尼加速度，防止绕圈
