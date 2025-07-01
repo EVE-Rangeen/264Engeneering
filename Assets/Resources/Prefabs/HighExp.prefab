@@ -161,7 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911d92a0f94f44824b0b0cc855ceb98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flyOutDistance: 0.3
+  _initialAcceleration: 3
+  _attractionAcceleration: 10
+  _velocityDamping: 3
   _expType: 1
-  _normalExpAmount: 10
-  _highExpAmount: 20
-  _veryHighExpAmount: 30

@@ -8,8 +8,8 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     [Header("拾取动画设置")]
-    [SerializeField] private float _flyOutDistance = 0.1f; // 飞出距离
-    [SerializeField] private float _initialAcceleration = 5f; // 初始加速度
+    [SerializeField] private float _flyOutDistance = 0.3f; // 飞出距离
+    [SerializeField] private float _initialAcceleration = 3f; // 初始加速度
     [SerializeField] private float _attractionAcceleration = 10f; // 向玩家的吸引加速度
     [SerializeField] private float _velocityDamping = 3f; // 速度阻尼加速度，防止绕圈
 
@@ -60,15 +60,8 @@ public class Pickup : MonoBehaviour
         float distanceTraveled = 0f; // 已飞行距离
         bool isInAttractPhase = false; // 是否进入吸引阶段
 
-        // 获取玩家移动方向（如果玩家有PlayerController组件）
-        Vector2 playerDirection = GetPlayerMovementDirection();
-
-        // 如果玩家没有移动方向，则使用随机方向
-        if (playerDirection == Vector2.zero)
-        {
-            float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-            playerDirection = new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle));
-        }
+        // 计算从玩家到拾取物的方向（远离玩家的方向）
+        Vector3 flyOutDirection = (transform.position - _player.transform.position).normalized;
 
         while (_player != null)
         {
@@ -76,8 +69,8 @@ public class Pickup : MonoBehaviour
 
             if (!isInAttractPhase && distanceTraveled < _flyOutDistance)
             {
-                // 第一阶段：向玩家移动方向加速
-                acceleration = (Vector3)playerDirection * _initialAcceleration;
+                // 第一阶段：向远离玩家的方向加速
+                acceleration = flyOutDirection * _initialAcceleration;
             }
             else
             {
@@ -119,21 +112,7 @@ public class Pickup : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 获取玩家移动方向
-    /// </summary>
-    private Vector2 GetPlayerMovementDirection()
-    {
-        PlayerController playerController = _player.GetComponent<PlayerController>();
-        if (playerController != null)
-        {
-            // 尝试获取玩家当前输入方向
-            return playerController.GetMoveDirection();
-        }
 
-        // 如果没有输入，返回零向量
-        return Vector2.zero;
-    }
 
     /// <summary>
     /// 检测与玩家的碰撞

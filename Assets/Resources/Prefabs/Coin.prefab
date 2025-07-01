@@ -161,6 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c07a8f0a64844a10b119b1f39a1f59c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flyOutDistance: 0.3
+  _initialAcceleration: 3
+  _attractionAcceleration: 10
+  _velocityDamping: 3
   _moneyType: 0
-  _coinAmount: 10
-  _purseAmount: 100

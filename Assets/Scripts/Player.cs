@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     private float _recovery = 0.1f; // 恢复速度，每秒恢复生命值的数量
     private float _armor = 0f;  //护甲，减免和护甲数值相等的伤害
     private float _powerFactor = 1.0f; // 力量因子,按比例修改攻击力
-    private float _moveSpeed = 5f; // 移动速度，作用于PlayerController
+    private float _moveSpeed = 1f; // 移动速度，作用于PlayerController
     private float _magnetAreaFactor = 1.0f; // 吸取范围因子，按比例修改吸取范围
     private float _luckIncrement = 0f; //幸运值加成，按比例修改掉落率
 

@@ -307,7 +307,7 @@ public class Enemy : MonoBehaviour
         }
 
         // 等待0.1秒
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
 
         // 恢复原始材质
         for (int i = 0; i < _spriteRenderers.Length; i++)
