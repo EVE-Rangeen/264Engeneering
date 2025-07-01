@@ -26,13 +26,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _damage = 1f; // 攻击力,接触玩家时造成的伤害
     [SerializeField] private float _moveSpeed = 1f; // 移动速度，作用于EnemyController
     [SerializeField] private float _mass = 1f; // 质量，影响敌人被击退的距离
+    #endregion
+
+    #region 掉落物相关
     [SerializeField] private ExpType _expType = ExpType.Normal; // 经验类型
     [SerializeField] private MoneyType _moneyType = MoneyType.Coin; // 金钱类型
     [SerializeField] private float _dropPossibility = 0.8f; // 总掉落概率
     [SerializeField][Range(0f, 1f)] private float _expWeight = 0.7f; // 经验权重，0表示只掉落金币，1表示只掉落经验
     [SerializeField] private float _deathAnimationDuration = 1f; // 死亡动画持续时间
+    [SerializeField] private float _healthPotionDropPossibility = 0.01f; // 血瓶掉落概率，0表示不掉落，1表示必定掉落
     #endregion
-
     private EnemyController _enemyController;
     private Rigidbody2D _rb;
     private Animator _animator;
@@ -200,6 +203,11 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        if (Random.Range(0f, 1f) < _healthPotionDropPossibility)
+        {
+            SpawnHealthPotion();
+        }
+
         // 更新UI击败敌人计数
         UIController.defeatedEnemyCount++;
 
@@ -261,6 +269,23 @@ public class Enemy : MonoBehaviour
         else
         {
             Debug.LogError($"无法加载金币Prefab：{moneyPrefabPath}");
+        }
+    }
+
+    ///<summary>
+    /// 生成血瓶Prefab
+    /// </summary>
+    private void SpawnHealthPotion()
+    {
+        string healthPotionPrefabPath = "Prefabs/HealthPotion";
+        GameObject healthPotionPrefab = Resources.Load<GameObject>(healthPotionPrefabPath);
+        if (healthPotionPrefab != null)
+        {
+            Instantiate(healthPotionPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogError($"无法加载血瓶Prefab：{healthPotionPrefabPath}");
         }
     }
 

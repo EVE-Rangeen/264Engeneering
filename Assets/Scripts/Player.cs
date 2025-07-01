@@ -427,11 +427,14 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 治疗
     /// </summary>
-    public void HealFromHealthBottle()
+    public void HealFromHealthPotion()
     {
         if (_isDead) return; // 如果已经死亡，不能治疗
+        if (PlayerResourceManager.instance.CurrentHealthPotions <= 0) return; // 如果血瓶数量为0，不能治疗
 
-        _health += 10 /* 等待实现的接口，返回治疗量值 GetHealAmount() */;
+        _health += PlayerResourceManager.instance.GetHealthPotionHealPercent() * MaxHealth;
+        PlayerResourceManager.instance.UseHealthPotion();
+
         if (_health > _maxHealth)
         {
             _health = _maxHealth;

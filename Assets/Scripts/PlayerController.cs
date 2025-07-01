@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Resources;
 using UnityEngine;
 
 /// <summary>
@@ -152,7 +153,7 @@ public class PlayerController : MonoBehaviour
                 Debug.LogError("PlayerController需要Player组件！");
                 return;
             }
-            player.HealFromHealthBottle();
+            player.HealFromHealthPotion();
         }
     }
 
@@ -180,7 +181,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleDashInput()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && _canDash /*&& IsDashAvailable() 接口等待实现*/)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _canDash && PlayerResourceManager.instance.CanUseDash())
         {
             StartCoroutine(_CoDash());
         }
