@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6642a24009f419a41b6570c9c52143a0
+guid: edc20027baa74ed489c51c9755d1b2f5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -65,7 +65,7 @@ TextureImporter:
   ignorePngGamma: 0
   applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
