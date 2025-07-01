@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour
             HandleMovementInput();
         }
         HandleDashInput();
+        HandleHealInput();
         UpdateAnimationState();
     }
 
@@ -135,6 +136,23 @@ public class PlayerController : MonoBehaviour
         if (!_isDashing)
         {
             Move();
+        }
+    }
+
+    /// <summary>
+    /// 处理治疗输入
+    /// </summary>
+    private void HandleHealInput()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Player player = GetComponent<Player>();
+            if (player == null)
+            {
+                Debug.LogError("PlayerController需要Player组件！");
+                return;
+            }
+            player.HealFromHealthBottle();
         }
     }
 
