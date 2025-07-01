@@ -194,10 +194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f19fd35a3e449059f9d7ec8b68c4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 5
+  _maxHealth: 20
   _health: 5
   _damage: 3
-  _moveSpeed: 1
+  _moveSpeed: 0.85
   _mass: 1
   _expType: 0
   _moneyType: 0
