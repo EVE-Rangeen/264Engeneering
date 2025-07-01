@@ -27,6 +27,8 @@ public class UIController : MonoBehaviour
     [Header("升级界面")]
     //升级界面
     public GameObject levelUpPanel;
+    //升级界面标题
+    public TMP_Text levelUpTitleText;
     [Header("暂停界面")]
     //武器信息文本
     public TMP_Text weaponInfoText;

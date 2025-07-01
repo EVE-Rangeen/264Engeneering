@@ -47,8 +47,9 @@ public class ExperienceLevelController : MonoBehaviour
         }
 
         UIController.instance.levelUpPanel.SetActive(true);
+        UIController.instance.levelUpTitleText.text = "选择一项升级！";
         UIController.instance.pauseButton.interactable = false;
-        UpgradeManager.instance.SelectRandomWeapons();
+        UpgradeManager.instance.SelectRandomUpgradeItems();
         Timer.instance.PauseTimer();
 
     }
