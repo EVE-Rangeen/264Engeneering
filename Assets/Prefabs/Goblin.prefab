@@ -164,6 +164,7 @@ MonoBehaviour:
   _dropPossibility: 0.8
   _expWeight: 0.7
   _deathAnimationDuration: 0.333
+  _healthPotionDropPossibility: 1
 --- !u!114 &7757943476636949408
 MonoBehaviour:
   m_ObjectHideFlags: 0
