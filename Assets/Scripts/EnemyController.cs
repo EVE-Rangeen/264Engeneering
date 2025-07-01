@@ -15,7 +15,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform _rendererTransform;
 
     private Transform _playerTransform;
-    private Rigidbody2D _rb;
     private Vector2 _moveDirection;
 
     /// <summary>
@@ -23,17 +22,6 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        if (_rb == null)
-        {
-            Debug.LogError("EnemyController需要Rigidbody2D组件！");
-        }
-        else
-        {
-            // 设置插值模式使得显示更加平滑
-            _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
-        }
-
         // 如果没有指定朝向Transform，则使用自身Transform
         if (_rendererTransform == null)
         {
@@ -86,18 +74,19 @@ public class EnemyController : MonoBehaviour
         {
             CalculateMoveDirection();
         }
+        MoveTowardsPlayer();
     }
 
     /// <summary>
     /// 固定时间步长的物理更新
     /// </summary>
-    void FixedUpdate()
-    {
-        if (_playerTransform != null)
-        {
-            MoveTowardsPlayer();
-        }
-    }
+    // void FixedUpdate()
+    // {
+    //     if (_playerTransform != null)
+    //     {
+    //         MoveTowardsPlayer();
+    //     }
+    // }
 
     /// <summary>
     /// 计算朝向玩家的移动方向
@@ -116,8 +105,9 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     private void MoveTowardsPlayer()
     {
-        Vector2 velocity = _moveDirection * _moveSpeed;
-        _rb.velocity = velocity;
+        // 直接更新物体位置而不是设置刚体速度
+        Vector3 movement = _moveDirection * _moveSpeed * Time.deltaTime;
+        transform.position += movement;
     }
 
     /// <summary>

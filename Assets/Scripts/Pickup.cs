@@ -115,17 +115,8 @@ public class Pickup : MonoBehaviour
 
             transform.position = newPosition;
 
-            // 检查是否足够接近玩家
-            // if (Vector3.Distance(transform.position, _player.transform.position) <= 0.3f)
-            // {
-            //     break;
-            // }
-
             yield return null;
         }
-
-        // 销毁物体
-        // Destroy(gameObject);
     }
 
     /// <summary>
