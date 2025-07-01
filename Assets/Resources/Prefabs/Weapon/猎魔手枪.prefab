@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4452007909897839967
 Transform:
   m_ObjectHideFlags: 0
@@ -46,10 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 6124956816333470311}
+  weaponIndex: 0
   clipSize: 6
   range: 3
   cooldown: 2
   fireInterval: 0.1
+  currentClipSize: 0
   fireSFXIndex: 0
 --- !u!1 &1079553581127852394
 GameObject:
@@ -195,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04dfcc94a9d492645b3e5cf0bdf90bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 5
+  damage: 5
   destroyOnImpact: 1
   lifeTime: 2
   shouldKnockBack: 0

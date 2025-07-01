@@ -15,6 +15,10 @@ public class FlameThrowerWeapon : MonoBehaviour
     [Header("攻击区域（需挂载EnemyDamager）")]
     [SerializeField] private GameObject attackZone;
 
+    [Header("火焰粒子特效")]
+    [SerializeField] private GameObject flameVFXPrefab;
+    [SerializeField] private bool _showFlameVFX = true; // 是否显示火焰特效
+
     [Header("可视化效果")]
     [SerializeField] private LineRenderer _attackAreaVisual;
     [SerializeField] private Color _lineColor = Color.red;
@@ -35,7 +39,11 @@ public class FlameThrowerWeapon : MonoBehaviour
     private PlayerController _playerController;
     private EnemyDamager _enemyDamager;
     private PolygonCollider2D _polygonCollider;
-    
+
+    // 火焰特效相关
+    private GameObject _flameVFXInstance;
+    private ParticleSystem _flameParticleSystem;
+
     // 方向跟随相关
     private Vector2 _lastAttackDirection = Vector2.right; // 记录上次的攻击方向
     private bool _directionChanged = false; // 标记方向是否发生变化
@@ -44,7 +52,7 @@ public class FlameThrowerWeapon : MonoBehaviour
     {
         // 延迟初始化，确保WeaponManager已准备好
         StartCoroutine(InitializeWeaponData());
-        
+
         // 获取玩家控制器引用
         _playerController = FindObjectOfType<PlayerController>();
         if (_playerController == null)
@@ -71,6 +79,9 @@ public class FlameThrowerWeapon : MonoBehaviour
 
             // 初始化可视化效果
             InitializeVisualEffect();
+
+            // 初始化火焰特效
+            InitializeFlameVFX();
         }
     }
 
@@ -91,7 +102,7 @@ public class FlameThrowerWeapon : MonoBehaviour
         if (_playerController == null) return;
 
         Vector2 currentDirection = _playerController.GetMoveDirection();
-        
+
         // 如果玩家没有移动，使用默认方向
         if (currentDirection == Vector2.zero)
         {
@@ -103,7 +114,7 @@ public class FlameThrowerWeapon : MonoBehaviour
         {
             _directionChanged = true;
             _lastAttackDirection = currentDirection;
-            
+
             // 立即更新攻击区域
             UpdateAttackZoneTransform();
         }
@@ -121,7 +132,7 @@ public class FlameThrowerWeapon : MonoBehaviour
             visualObj.transform.SetParent(attackZone.transform);
             visualObj.transform.localPosition = Vector3.zero;
             visualObj.transform.localRotation = Quaternion.identity;
-            
+
             _attackAreaVisual = visualObj.AddComponent<LineRenderer>();
         }
 
@@ -139,10 +150,34 @@ public class FlameThrowerWeapon : MonoBehaviour
         _attackAreaVisual.enabled = false;
     }
 
+    /// <summary>
+    /// 初始化火焰特效
+    /// </summary>
+    private void InitializeFlameVFX()
+    {
+        if (flameVFXPrefab != null && _showFlameVFX)
+        {
+            // 实例化火焰特效
+            _flameVFXInstance = Instantiate(flameVFXPrefab, attackZone.transform);
+            _flameVFXInstance.transform.localPosition = Vector3.zero;
+            _flameVFXInstance.transform.localRotation = Quaternion.identity;
+
+            // 获取粒子系统组件
+            _flameParticleSystem = _flameVFXInstance.GetComponent<ParticleSystem>();
+            if (_flameParticleSystem == null)
+            {
+                Debug.LogWarning("FlameThrowerWeapon: 火焰特效Prefab上未找到ParticleSystem组件！");
+            }
+
+            // 初始时禁用
+            _flameVFXInstance.SetActive(false);
+        }
+    }
+
     private IEnumerator InitializeWeaponData()
     {
         // 等待WeaponManager初始化完成
-        while (WeaponManager.instance == null || 
+        while (WeaponManager.instance == null ||
                WeaponManager.instance.CurrentWeapons.Count == 0)
         {
             yield return null;
@@ -189,9 +224,35 @@ public class FlameThrowerWeapon : MonoBehaviour
 
         // 更新扇形碰撞器
         UpdateConeCollider();
-        
+
         // 更新可视化效果
         UpdateVisualEffect();
+
+        // 更新火焰特效
+        UpdateFlameVFX();
+    }
+
+    /// <summary>
+    /// 更新火焰特效
+    /// </summary>
+    private void UpdateFlameVFX()
+    {
+        if (!_showFlameVFX || _flameVFXInstance == null || _flameParticleSystem == null) return;
+
+        // 更新粒子系统的Shape角度以匹配攻击角度
+        var shape = _flameParticleSystem.shape;
+        shape.angle = _attackAngle / 2f; // ParticleSystem的angle是半角
+
+        // 更新粒子速度以匹配攻击范围
+        var main = _flameParticleSystem.main;
+        float particleSpeed = _attackRange / main.startLifetime.constant; // 速度 = 距离 / 时间
+        main.startSpeed = particleSpeed;
+
+        // 更新粒子数量以匹配攻击范围（更大的范围需要更多粒子）
+        var emission = _flameParticleSystem.emission;
+        float baseRate = 100f; // 基础发射率
+        float rangeMultiplier = _attackRange / 3f; // 基于默认3米范围的比例
+        emission.rateOverTime = baseRate * rangeMultiplier;
     }
 
     private IEnumerator AutoAttackLoop()
@@ -200,11 +261,11 @@ public class FlameThrowerWeapon : MonoBehaviour
         {
             // 攻击前初始化方向（获取当前玩家移动方向）
             InitializeAttackDirection();
-            
+
             // 攻击前同步判定区朝向和范围，并设置参数
             UpdateAttackZoneTransform();
             SetAttackParameters();
-            
+
             if (attackZone != null)
                 attackZone.SetActive(true);
             _isAttacking = true;
@@ -215,10 +276,22 @@ public class FlameThrowerWeapon : MonoBehaviour
                 _attackAreaVisual.enabled = true;
             }
 
-            // 播放攻击音效
+            // 启用火焰特效
+            if (_showFlameVFX && _flameVFXInstance != null)
+            {
+                _flameVFXInstance.SetActive(true);
+                if (_flameParticleSystem != null)
+                {
+                    _flameParticleSystem.Play();
+                }
+            }
+
+            // 播放攻击音效（循环）
             if (SFXManager.instance != null)
             {
-                SFXManager.instance.PlaySFXPitched(fireSFXIndex);
+                var audio = SFXManager.instance.soundEffects[fireSFXIndex];
+                audio.loop = true;
+                audio.Play();
             }
 
             // 输出攻击开始日志
@@ -237,6 +310,24 @@ public class FlameThrowerWeapon : MonoBehaviour
                 _attackAreaVisual.enabled = false;
             }
 
+            // 禁用火焰特效
+            if (_showFlameVFX && _flameVFXInstance != null)
+            {
+                _flameVFXInstance.SetActive(false);
+                if (_flameParticleSystem != null)
+                {
+                    _flameParticleSystem.Stop();
+                }
+            }
+
+            // 停止攻击音效
+            if (SFXManager.instance != null)
+            {
+                var audio = SFXManager.instance.soundEffects[fireSFXIndex];
+                audio.Stop();
+                audio.loop = false;
+            }
+
             // 输出冷却开始日志
             Debug.Log($"FlameThrowerWeapon: 进入CD，CD持续时间={_attackCooldown}秒");
 
@@ -253,8 +344,8 @@ public class FlameThrowerWeapon : MonoBehaviour
         if (_enemyDamager == null) return;
 
         // 添加安全检查
-        if (WeaponManager.instance == null || 
-            weaponIndex < 0 || 
+        if (WeaponManager.instance == null ||
+            weaponIndex < 0 ||
             weaponIndex >= WeaponManager.instance.CurrentWeapons.Count)
         {
             Debug.LogError($"FlameThrowerWeapon: 无法获取武器数据 - WeaponManager={WeaponManager.instance != null}, weaponIndex={weaponIndex}");
@@ -262,7 +353,7 @@ public class FlameThrowerWeapon : MonoBehaviour
         }
 
         WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
-        
+
         // 计算最终伤害
         float damage = weaponData.Damage;
         float finalDamage = damage * PlayerAttributeManager.instance.PlayerComponent.PowerFactor;
@@ -302,7 +393,7 @@ public class FlameThrowerWeapon : MonoBehaviour
 
         // 更新扇形攻击区域
         UpdateConeCollider();
-        
+
         // 更新可视化效果
         UpdateVisualEffect();
     }
@@ -342,10 +433,10 @@ public class FlameThrowerWeapon : MonoBehaviour
         {
             float currentAngle = -halfAngle + (angleStep * i);
             float radians = currentAngle * Mathf.Deg2Rad;
-            
+
             float x = Mathf.Cos(radians) * radius;
             float y = Mathf.Sin(radians) * radius;
-            
+
             points[i + 1] = new Vector3(x, y, 0);
         }
 
@@ -385,10 +476,10 @@ public class FlameThrowerWeapon : MonoBehaviour
         {
             float currentAngle = -halfAngle + (angleStep * i);
             float radians = currentAngle * Mathf.Deg2Rad;
-            
+
             float x = Mathf.Cos(radians) * radius;
             float y = Mathf.Sin(radians) * radius;
-            
+
             points[i + 1] = new Vector2(x, y);
         }
 
@@ -405,6 +496,26 @@ public class FlameThrowerWeapon : MonoBehaviour
         UpdateWeaponParameters();
     }
 
+    /// <summary>
+    /// 外部可调用，设置火焰特效的显示状态
+    /// </summary>
+    public void SetFlameVFXEnabled(bool enabled)
+    {
+        _showFlameVFX = enabled;
+        if (_flameVFXInstance != null)
+        {
+            _flameVFXInstance.SetActive(enabled && _isAttacking);
+        }
+    }
+
+    /// <summary>
+    /// 外部可调用，获取火焰特效的显示状态
+    /// </summary>
+    public bool IsFlameVFXEnabled()
+    {
+        return _showFlameVFX;
+    }
+
     // 在编辑器中绘制攻击范围，方便调试
     void OnDrawGizmosSelected()
     {
@@ -413,7 +524,7 @@ public class FlameThrowerWeapon : MonoBehaviour
         Gizmos.color = Color.red;
         Vector3 center = attackZone.transform.position;
         Vector2 playerDirection = Vector2.right;
-        
+
         if (_playerController != null)
         {
             playerDirection = _playerController.GetMoveDirection();
@@ -436,7 +547,7 @@ public class FlameThrowerWeapon : MonoBehaviour
             float currentAngle = -halfAngle + (angleStep * i);
             Quaternion rotation = Quaternion.Euler(0, 0, currentAngle);
             Vector3 rayDirection = rotation * direction * _attackRange;
-            
+
             Gizmos.DrawRay(center, rayDirection);
         }
 
@@ -445,7 +556,7 @@ public class FlameThrowerWeapon : MonoBehaviour
         Quaternion rightRotation = Quaternion.Euler(0, 0, halfAngle);
         Vector3 leftEdge = leftRotation * direction * _attackRange;
         Vector3 rightEdge = rightRotation * direction * _attackRange;
-        
+
         Gizmos.DrawLine(center, center + leftEdge);
         Gizmos.DrawLine(center, center + rightEdge);
     }
@@ -458,7 +569,7 @@ public class FlameThrowerWeapon : MonoBehaviour
         if (_playerController == null) return;
 
         Vector2 currentDirection = _playerController.GetMoveDirection();
-        
+
         // 如果玩家没有移动，使用默认方向
         if (currentDirection == Vector2.zero)
         {
@@ -469,4 +580,4 @@ public class FlameThrowerWeapon : MonoBehaviour
         _lastAttackDirection = currentDirection;
         _directionChanged = false; // 重置方向变化标记
     }
-} 
+}

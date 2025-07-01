@@ -7,7 +7,7 @@ using System.Linq;
 /// 闪电打击武器
 /// 在武器射程范围内对最近的X个敌人劈下闪电，每个敌人造成单体伤害
 /// 闪电攻击有动画效果，伤害由EnemyDamager脚本实现
-/// TODO 闪电动画有问题 现在闪电顶部对齐敌人位置 然后向下劈 现在sprite的pivot是顶部中心
+/// TODO 闪电动画有问题 现在闪电顶部对齐敌人位置 然后向下劈 现在sprite的pivot是顶部中心 已解决
 /// 2025-06-29 杜宜峰创建
 /// </summary>
 public class LightingStrikerWeapon : MonoBehaviour
@@ -32,11 +32,14 @@ public class LightingStrikerWeapon : MonoBehaviour
     [Tooltip("闪电间隔时间")]
     [SerializeField] private float _lightningInterval = 0.1f; // 闪电间隔时间
     [Tooltip("闪电碰撞体半径")]
-    [SerializeField] private float _lightningColliderRadius = 0.5f; // 闪电碰撞体半径
+    [SerializeField] private float _lightningColliderRadius = 0.1f; // 闪电碰撞体半径
     [Tooltip("闪电宽度缩放")]
     [SerializeField] private float _lightningWidthScale = 1f; // 闪电宽度缩放
     [Tooltip("闪电高度缩放")]
     [SerializeField] private float _lightningHeightScale = 5f; // 闪电高度缩放
+
+    [Header("闪电位置偏移")]
+    [SerializeField] private float _lightningOffsetY = 4f; // 闪电位置偏移
 
 
     [Header("音效")]
@@ -63,7 +66,7 @@ public class LightingStrikerWeapon : MonoBehaviour
     private IEnumerator InitializeWeaponData()
     {
         // 等待WeaponManager初始化完成
-        while (WeaponManager.instance == null || 
+        while (WeaponManager.instance == null ||
                WeaponManager.instance.CurrentWeapons.Count == 0)
         {
             yield return null;
@@ -74,6 +77,8 @@ public class LightingStrikerWeapon : MonoBehaviour
         {
             WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
             _targetCount = weaponData.AttackCount;
+            // 修正：从WeaponData读取攻击范围，并叠加玩家攻击范围加成
+            _attackRange = weaponData.AttackRange * (1 + PlayerAttributeManager.instance.PlayerComponent.AttackAreaFactor);
         }
         else
         {
@@ -130,7 +135,7 @@ public class LightingStrikerWeapon : MonoBehaviour
 
             // 启动单个闪电攻击
             StartCoroutine(StrikeSingleLightning(target));
-            
+
             // 闪电之间的间隔时间
             yield return new WaitForSeconds(_lightningInterval);
         }
@@ -154,104 +159,65 @@ public class LightingStrikerWeapon : MonoBehaviour
             yield break;
         }
 
-        // 计算闪电位置 - 从敌人位置向上延伸
-        Vector3 lightningPosition = target.transform.position;
-        
-        // 实例化闪电
+        // 计算闪电动画位置
+        Vector3 lightningPosition = target.transform.position + Vector3.up * _lightningOffsetY;
         GameObject lightning = Instantiate(_lightningPrefab, lightningPosition, Quaternion.identity, null);
         lightning.SetActive(true);
-
-        // 应用闪电参数
-        ApplyLightningParams(lightning, target);
 
         // 如果设置了动画子物体，也实例化它并附加到闪电上
         if (_lightningAnimatorPrefab != null)
         {
             GameObject animatorObj = Instantiate(_lightningAnimatorPrefab, lightningPosition, lightning.transform.rotation, lightning.transform);
             animatorObj.SetActive(true);
-            
-            // 应用缩放
             animatorObj.transform.localScale = new Vector3(_lightningWidthScale, _lightningHeightScale, 1f);
-            
-            // 获取Animator组件并播放动画
             Animator animator = animatorObj.GetComponent<Animator>();
             if (animator != null)
             {
-                // 播放闪电动画
                 animator.Play(0, 0, 0f);
             }
         }
 
-        Debug.Log("播放闪电音效");
         // 播放闪电音效
         SFXManager.instance.PlaySFXPitched(_lightningSFXIndex);
+
+        // 生成伤害判定体（InvisibleDamageTrigger）
+        GameObject damageTrigger = new GameObject("LightningDamageTrigger");
+        damageTrigger.transform.position = target.transform.position;
+        var collider = damageTrigger.AddComponent<CircleCollider2D>();
+        collider.radius = _lightningColliderRadius; // 建议0.1f
+        collider.isTrigger = true;
+        var damager = damageTrigger.AddComponent<EnemyDamager>();
+        // 传递伤害参数
+        if (WeaponManager.instance != null && PlayerAttributeManager.instance != null && weaponIndex >= 0 && weaponIndex < WeaponManager.instance.CurrentWeapons.Count)
+        {
+            WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
+            float damage = weaponData.Damage;
+            float finalDamage = damage * PlayerAttributeManager.instance.PlayerComponent.PowerFactor;
+            float knockBackForce = weaponData.Knockback;
+            damager.damage = finalDamage;
+            damager.knockBackForce = knockBackForce;
+            damager.timeBetweenDamage = weaponData.BulletInterval;
+            damager.destroyOnImpact = true; // 命中即销毁
+            damager.lifeTime = _lightningDuration; // 持续时间
+        }
+        else
+        {
+            damager.damage = 5f;
+            damager.knockBackForce = 5f;
+            damager.timeBetweenDamage = 0.1f;
+            damager.destroyOnImpact = true;
+            damager.lifeTime = _lightningDuration;
+        }
 
         // 等待闪电持续时间
         yield return new WaitForSeconds(_lightningDuration);
 
-        // 销毁闪电
+        // 销毁闪电动画
         if (lightning != null)
         {
             Destroy(lightning);
         }
-    }
-
-    /// <summary>
-    /// 应用闪电参数
-    /// </summary>
-    /// <param name="lightning">闪电实例</param>
-    /// <param name="target">目标敌人</param>
-    private void ApplyLightningParams(GameObject lightning, GameObject target)
-    {
-        if (lightning == null) return;
-        if (WeaponManager.instance == null || PlayerAttributeManager.instance == null) return;
-        if (weaponIndex < 0 || weaponIndex >= WeaponManager.instance.CurrentWeapons.Count) return;
-
-        // 获取武器数据并计算最终参数
-        WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
-
-        // 计算最终伤害
-        float damage = weaponData.Damage;
-        float finalDamage = damage * PlayerAttributeManager.instance.PlayerComponent.PowerFactor;
-
-        // 计算最终击退力度
-        float knockBackForce = weaponData.Knockback;
-        float finalKnockBackForce = knockBackForce;
-
-        // 计算最终闪电间隔时间
-        _lightningInterval = weaponData.BulletInterval;
-
-        // 计算最终攻击范围
-        _attackRange = weaponData.AttackRange * (1 + PlayerAttributeManager.instance.PlayerComponent.AttackAreaFactor);
-
-        // 计算最终冷却时间
-        _cooldown = weaponData.CooldownTime * (1 - PlayerAttributeManager.instance.PlayerComponent.CooldownReductionFactor);
-
-        // 获取EnemyDamager组件并传参
-        EnemyDamager damager = lightning.GetComponent<EnemyDamager>();
-        if (damager != null)
-        {
-            damager.damage = finalDamage;
-            damager.knockBackForce = finalKnockBackForce;
-            damager.timeBetweenDamage = weaponData.BulletInterval;
-        }
-        else
-        {
-            Debug.LogError("LightingStrikerWeapon: 闪电预制体上没有找到EnemyDamager组件！");
-        }
-
-        // 设置闪电的碰撞体范围
-        CircleCollider2D circle = lightning.GetComponent<CircleCollider2D>();
-        if (circle != null)
-        {
-            circle.radius = _lightningColliderRadius;
-            circle.isTrigger = true;
-            circle.enabled = true;
-        }
-        else
-        {
-            Debug.LogError("LightingStrikerWeapon: 闪电预制体上没有找到CircleCollider2D组件！");
-        }
+        // 伤害判定体会自动销毁（EnemyDamager生命周期）
     }
 
     /// <summary>
@@ -273,7 +239,7 @@ public class LightingStrikerWeapon : MonoBehaviour
         }
 
         // 按距离排序并返回最近的count个
-        enemies = enemies.OrderBy(enemy => 
+        enemies = enemies.OrderBy(enemy =>
             Vector3.Distance(transform.position, enemy.transform.position)).ToList();
 
         return enemies.Take(count).ToList();
@@ -287,7 +253,7 @@ public class LightingStrikerWeapon : MonoBehaviour
         // 绘制攻击范围
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
-        
+
         // 绘制闪电尺寸预览
         Gizmos.color = Color.red;
         Vector3 lightningSize = new Vector3(_lightningWidthScale, _lightningHeightScale, 1f);

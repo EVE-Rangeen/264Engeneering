@@ -4,6 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// 旋转武器脚本，控制环绕实体的旋转攻击行为。环绕实体需要挂载EnemyDamager组件并且默认inactive，作为SpinningWeapon的子物体。
+/// TODO 升级后的武器环绕半径并没有生效，需要检查
+/// TODO 精灵之火应该平均分布在玩家周围
 /// 2025-06-30杜宜峰
 /// </summary>
 public class SpinningWeapon : MonoBehaviour
@@ -58,7 +60,7 @@ public class SpinningWeapon : MonoBehaviour
     private IEnumerator InitializeWeaponData()
     {
         // 等待WeaponManager初始化完成
-        while (WeaponManager.instance == null || 
+        while (WeaponManager.instance == null ||
                WeaponManager.instance.CurrentWeapons.Count == 0)
         {
             yield return null;
@@ -69,10 +71,13 @@ public class SpinningWeapon : MonoBehaviour
         {
             WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
             _spinObjectCount = weaponData.AttackCount;
+            // 初始化finalOrbitRadius，避免在Update中出错
+            finalOrbitRadius = weaponData.AttackRange * (1 + PlayerAttributeManager.instance.PlayerComponent.AttackAreaFactor);
         }
         else
         {
             _spinObjectCount = 3; // 默认值
+            finalOrbitRadius = _orbitRadius; // 使用Inspector中的默认值
             Debug.LogError($"SpinningWeapon: weaponIndex({weaponIndex})超出范围");
         }
     }
@@ -87,7 +92,7 @@ public class SpinningWeapon : MonoBehaviour
         if (nearestEnemy == null) return;
 
         float dist = Vector3.Distance(transform.position, nearestEnemy.transform.position);
-        if (dist > _orbitRadius * 2f) return; // 检查敌人是否在攻击范围内
+        if (dist > finalOrbitRadius * 2f) return; // 使用finalOrbitRadius而不是_orbitRadius
 
         // 启动生成协程
         StartCoroutine(SpawnSpinObjects());
@@ -105,7 +110,7 @@ public class SpinningWeapon : MonoBehaviour
 
         // 计算当前武器数据
         WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
-        
+
         // 计算最终参数
         finalDamage = weaponData.Damage * PlayerAttributeManager.instance.PlayerComponent.PowerFactor;
         finalKnockBackForce = weaponData.Knockback;
@@ -116,20 +121,27 @@ public class SpinningWeapon : MonoBehaviour
         finalCooldownTime = weaponData.CooldownTime * (1 - PlayerAttributeManager.instance.PlayerComponent.CooldownReductionFactor);
         finalDuration = weaponData.Duration;
 
+        // Debug输出关键参数
+        Debug.Log($"[SpinningWeapon] 攻击前参数: finalOrbitRadius={finalOrbitRadius}, colliderRadius={finalOrbitRadius * 0.2f}, finalSpinObjectCount={finalSpinObjectCount}, finalDamage={finalDamage}, finalDuration={finalDuration}");
+
         // 生成环绕实体
         for (int i = 0; i < finalSpinObjectCount; i++)
         {
-            SpawnSpinObject(i, finalSpinObjectCount, finalOrbitRadius, finalOrbitSpeed, 
+            SpawnSpinObject(i, finalSpinObjectCount, finalOrbitRadius, finalOrbitSpeed,
                            finalDamage, finalKnockBackForce, finalTimeBetweenDamage, finalDuration);
-            
+
             // 播放音效
             SFXManager.instance.PlaySFX(_spawnSFXIndex);
-            
+
             // 间隔生成
             if (i < finalSpinObjectCount - 1)
                 yield return new WaitForSeconds(_spawnInterval);
         }
 
+        // 等待duration时间，让环绕实体存在并攻击
+        yield return new WaitForSeconds(finalDuration);
+
+        // duration结束后，开始cooldown计时
         _cooldownTimer = finalCooldownTime;
         _isSpawning = false;
     }
@@ -137,7 +149,7 @@ public class SpinningWeapon : MonoBehaviour
     /// <summary>
     /// 生成单个环绕实体
     /// </summary>
-    void SpawnSpinObject(int index, int totalCount, float radius, float speed, 
+    void SpawnSpinObject(int index, int totalCount, float radius, float speed,
                         float damage, float knockback, float damageInterval, float duration)
     {
         // 计算初始角度，让环绕实体均匀分布
@@ -154,8 +166,8 @@ public class SpinningWeapon : MonoBehaviour
         {
             damager.damage = damage;
             damager.knockBackForce = knockback;
-            damager.timeBetweenDamage = _damageInterval;
-            damager.lifeTime = _duration;
+            damager.timeBetweenDamage = damageInterval; // 使用传入的damageInterval参数
+            damager.lifeTime = duration; // 使用传入的duration参数
         }
 
         // 设置碰撞体半径
@@ -180,7 +192,7 @@ public class SpinningWeapon : MonoBehaviour
         {
             spinController = spinObject.AddComponent<SpinObjectController>();
         }
-        spinController.Initialize(transform, radius, speed, angle, _duration);
+        spinController.Initialize(transform, radius, speed, angle, duration); // 使用传入的duration参数
 
         activeSpinObjects.Add(spinObject);
     }
@@ -205,11 +217,11 @@ public class SpinningWeapon : MonoBehaviour
     /// </summary>
     GameObject FindNearestEnemy()
     {
-        float searchRadius = _orbitRadius * 2f; // 搜索半径设为环绕半径的2倍
+        float searchRadius = finalOrbitRadius * 2f; // 使用finalOrbitRadius作为搜索半径
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, searchRadius);
         GameObject nearest = null;
         float minDist = float.MaxValue;
-        
+
         foreach (var hit in hits)
         {
             if (hit.CompareTag("Enemy"))
@@ -252,10 +264,10 @@ public class SpinObjectController : MonoBehaviour
         startAngle = initialAngle;
         duration = lifeTime;
         timer = 0f;
-        
+
         // 获取Animator组件
         animator = GetComponent<Animator>();
-        
+
         // 如果有Animator组件，确保动画开始播放
         if (animator != null)
         {
@@ -283,11 +295,11 @@ public class SpinObjectController : MonoBehaviour
 
         // 计算当前角度
         float currentAngle = startAngle + (speed * timer);
-        
+
         // 更新位置
         Vector3 newPosition = center.position + Quaternion.Euler(0, 0, currentAngle) * Vector3.right * radius;
         transform.position = newPosition;
-        
+
         // 可选：根据移动方向调整动画朝向
         // 如果你想让动画朝向移动方向，可以在这里调整transform.rotation
         // Vector3 direction = (newPosition - transform.position).normalized;

@@ -275,7 +275,7 @@ MonoBehaviour:
   _duration: 5
   _cooldownTime: 3
   _spawnInterval: 0.2
-  _spawnSFXIndex: 0
+  _spawnSFXIndex: 5
   finalDamage: 0
   finalKnockBackForce: 0
   finalTimeBetweenDamage: 0
