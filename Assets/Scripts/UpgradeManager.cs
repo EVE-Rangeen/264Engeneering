@@ -304,7 +304,7 @@ public class UpgradeManager : MonoBehaviour
     /// 升级武器
     /// </summary>
     /// <param name="upgradeItem">武器升级项目</param>
-    private void UpgradeWeapon(UpgradeItem upgradeItem)
+    public void UpgradeWeapon(UpgradeItem upgradeItem)
     {
         var currentWeapons = WeaponManager.instance.CurrentWeapons;
         if (upgradeItem.Index >= 0 && upgradeItem.Index < currentWeapons.Count)
@@ -344,7 +344,7 @@ public class UpgradeManager : MonoBehaviour
     /// 升级饰品
     /// </summary>
     /// <param name="upgradeItem">饰品升级项目</param>
-    private void UpgradeAccessory(UpgradeItem upgradeItem)
+    public void UpgradeAccessory(UpgradeItem upgradeItem)
     {
         var currentAccessories = AccessoryManager.instance.CurrentAccessories;
         if (upgradeItem.Index >= 0 && upgradeItem.Index < currentAccessories.Count)
