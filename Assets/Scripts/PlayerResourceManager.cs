@@ -9,9 +9,9 @@ using UnityEngine;
 /// 资源管理器
 /// 负责管理血瓶、疾走等游戏中的消耗性资源
 /// </summary>
-public class ResourceManager : MonoBehaviour
+public class PlayerResourceManager : MonoBehaviour
 {
-    public static ResourceManager instance;
+    public static PlayerResourceManager instance;
 
     [Header("血瓶资源")]
     [SerializeField] private int _currentHealthPotions = 0;     // 当前血瓶数量
