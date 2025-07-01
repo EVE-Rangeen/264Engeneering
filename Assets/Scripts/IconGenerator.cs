@@ -44,7 +44,7 @@ public class IconGenerator : MonoBehaviour
 
         // 设置RectTransform属性
         RectTransform rectTransform = iconObject.GetComponent<RectTransform>();
-        rectTransform.localScale = Vector3.one;
+        rectTransform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         rectTransform.localPosition = Vector3.zero;
 
         Debug.Log($"成功添加武器图标: {weaponData.WeaponName}");
@@ -84,7 +84,7 @@ public class IconGenerator : MonoBehaviour
 
         // 设置RectTransform属性
         RectTransform rectTransform = iconObject.GetComponent<RectTransform>();
-        rectTransform.localScale = Vector3.one;
+        rectTransform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         rectTransform.localPosition = Vector3.zero;
 
         Debug.Log($"成功添加饰品图标: {accessoryData.AccessoryName}");

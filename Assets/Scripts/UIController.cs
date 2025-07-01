@@ -185,7 +185,7 @@ public class UIController : MonoBehaviour
 
     public void UpdateTime()
     {
-        timeText.text = "时间: " + Timer.instance.GetTime();
+        timeText.text = Timer.instance.GetTime();
     }
 
     public void UpdateWeaponLevelDisplay()
