@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Images/tilemap/1.meta
+guid: e2ee7a54a5721a64299afcb562d181f7
+folderAsset: yes
+DefaultImporter:
+========
 guid: cf633d180b20c7c418a1ecf70acfbc2b
 NativeFormatImporter:
+>>>>>>>> e02940ba70f15bd79f7113e3b8acd18603b8c48c:Assets/Images/character/MedievalWarrior/Death.anim.meta
   externalObjects: {}
   mainObjectFileID: 7400000
   userData: 
