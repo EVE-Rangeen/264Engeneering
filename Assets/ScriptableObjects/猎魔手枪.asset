@@ -26,11 +26,12 @@ MonoBehaviour:
   _currentLevel: 0
   _maxLevel: 7
   _damage: 5
-  _attackRange: 1
+  _specialAttackMultiplier: 0
+  _attackRange: 3
   _attackCount: 6
   _piercing: 1
-  _cooldownTime: 2.5
+  _cooldownTime: 1.5
   _knockback: 0.1
-  _projectileSpeed: 1
+  _projectileSpeed: 3
   _duration: 5
-  _bulletInterval: 0.2
+  _bulletInterval: 0.1

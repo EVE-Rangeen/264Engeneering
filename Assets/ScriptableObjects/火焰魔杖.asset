@@ -27,7 +27,7 @@ MonoBehaviour:
   _maxLevel: 7
   _damage: 3
   _specialAttackMultiplier: 0
-  _attackRange: 1.5
+  _attackRange: 2
   _attackCount: 1
   _piercing: 0
   _cooldownTime: 5
