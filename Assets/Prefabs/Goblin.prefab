@@ -157,7 +157,7 @@ MonoBehaviour:
   _maxHealth: 10
   _health: 10
   _damage: 3
-  _moveSpeed: 1
+  _moveSpeed: 0.87
   _mass: 1
   _expType: 0
   _moneyType: 0
