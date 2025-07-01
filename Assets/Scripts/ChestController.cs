@@ -26,6 +26,33 @@ public class ChestController : MonoBehaviour
     }
 
     /// <summary>
+    /// 开启宝箱（总调用方法）
+    /// 根据概率决定升级1项还是3项
+    /// </summary>
+    public void OpenChestWithProbability()
+    {
+        // 根据概率决定升级数量
+        float randomValue = Random.Range(0f, 1f);
+        int upgradeCount;
+        
+        if (randomValue <= _tripleUpgradeChance)
+        {
+            // 幸运！升级多个项目
+            upgradeCount = _bonusUpgradeCount;
+            Debug.Log($"宝箱开启！随机值: {randomValue:F3} ≤ 概率阈值: {_tripleUpgradeChance:F3} → 幸运奖励，将升级 {upgradeCount} 个项目");
+        }
+        else
+        {
+            // 普通奖励
+            upgradeCount = _normalUpgradeCount;
+            Debug.Log($"宝箱开启！随机值: {randomValue:F3} > 概率阈值: {_tripleUpgradeChance:F3} → 普通奖励，将升级 {upgradeCount} 个项目");
+        }
+        
+        // 调用具体的开箱方法
+        OpenChest(upgradeCount);
+    }
+
+    /// <summary>
     /// 开启宝箱
     /// </summary>
     /// <param name="upgradeCount">要升级的项目数量</param>
