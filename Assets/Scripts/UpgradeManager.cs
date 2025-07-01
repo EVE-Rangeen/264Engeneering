@@ -83,7 +83,7 @@ public class UpgradeManager : MonoBehaviour
     /// <summary>
     /// 从当前武器和饰品中随机选择3个项目并更新升级选项显示
     /// </summary>
-    public void SelectRandomWeapons()
+    public void SelectRandomUpgradeItems()
     {
         if (WeaponManager.instance == null || AccessoryManager.instance == null)
         {
@@ -143,6 +143,61 @@ public class UpgradeManager : MonoBehaviour
         _currentSelectedItem1 = allUpgradeItems.Count > 0 ? allUpgradeItems[0] : null;
         _currentSelectedItem2 = allUpgradeItems.Count > 1 ? allUpgradeItems[1] : null;
         _currentSelectedItem3 = allUpgradeItems.Count > 2 ? allUpgradeItems[2] : null;
+
+        // 更新按钮显示
+        UpdateButtonDisplay(_upgradeOption1, _currentSelectedItem1);
+        UpdateButtonDisplay(_upgradeOption2, _currentSelectedItem2);
+        UpdateButtonDisplay(_upgradeOption3, _currentSelectedItem3);
+    }
+
+    /// <summary>
+    /// 只从当前武器中随机选择3个武器并更新升级选项显示
+    /// </summary>
+    public void SelectRandomWeapons()
+    {
+        if (WeaponManager.instance == null)
+        {
+            Debug.LogError("WeaponManager 实例不存在！");
+            return;
+        }
+
+        // 收集所有可升级的武器（排除满级武器）
+        List<UpgradeItem> weaponUpgradeItems = new List<UpgradeItem>();
+        
+        // 添加未满级的武器
+        var currentWeapons = WeaponManager.instance.CurrentWeapons;
+        for (int i = 0; i < currentWeapons.Count; i++)
+        {
+            if (!currentWeapons[i].IsMaxLevel)
+            {
+                weaponUpgradeItems.Add(new UpgradeItem(currentWeapons[i], i));
+            }
+        }
+        
+        if (weaponUpgradeItems.Count < 3)
+        {
+            Debug.LogWarning($"可升级武器数量不足3个，只有 {weaponUpgradeItems.Count} 个武器（已排除满级武器）");
+            
+            if (weaponUpgradeItems.Count == 0)
+            {
+                Debug.Log("所有武器都已满级！");
+                return;
+            }
+        }
+
+        // 随机打乱武器列表
+        for (int i = 0; i < weaponUpgradeItems.Count; i++)
+        {
+            int randomIndex = Random.Range(i, weaponUpgradeItems.Count);
+            UpgradeItem temp = weaponUpgradeItems[i];
+            weaponUpgradeItems[i] = weaponUpgradeItems[randomIndex];
+            weaponUpgradeItems[randomIndex] = temp;
+        }
+
+        // 选择前3个武器并分配给升级选项（如果不足3个，就选择所有可用的）
+        _currentSelectedItem1 = weaponUpgradeItems.Count > 0 ? weaponUpgradeItems[0] : null;
+        _currentSelectedItem2 = weaponUpgradeItems.Count > 1 ? weaponUpgradeItems[1] : null;
+        _currentSelectedItem3 = weaponUpgradeItems.Count > 2 ? weaponUpgradeItems[2] : null;
 
         // 更新按钮显示
         UpdateButtonDisplay(_upgradeOption1, _currentSelectedItem1);

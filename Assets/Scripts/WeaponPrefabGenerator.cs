@@ -13,6 +13,15 @@ public class WeaponPrefabGenerator : MonoBehaviour
         instance = this;
     }
 
+    void Start()
+    {
+        UIController.instance.levelUpPanel.SetActive(true);
+        UIController.instance.levelUpTitleText.text = "选择你的初始武器！";
+        UIController.instance.pauseButton.interactable = false;
+        UpgradeManager.instance.SelectRandomWeapons();
+        Timer.instance.PauseTimer();
+    }
+
     /// <summary>
     /// 根据武器名称生成武器预制体
     /// </summary>
