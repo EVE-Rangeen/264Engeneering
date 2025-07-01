@@ -2154,9 +2154,9 @@ MonoBehaviour:
     _maxLevel: 2
     _upgradeCosts: 2c01000058020000
     _upgradeValues:
-    - 0.9
-    - 0.95
     - 1
+    - 1.05
+    - 1.1
   - _attributeName: "\u5438\u53D6\u8303\u56F4"
     _attributeDescription: "\u5438\u53D6\u8303\u56F4\u4ECE1\u5347\u52302"
     _currentLevel: 0
