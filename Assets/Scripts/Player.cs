@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _magnetRange = 1.0f; // 吸取范围半径
     [SerializeField] private float _deathAnimationDuration = 2.0f; // 死亡动画播放时间
+    [SerializeField] private Slider _healthSlider; // 血量显示滑条
+
 
     #region 玩家属性（局外成长的）
     private float _maxHealth = 100f; // 最大生命值
@@ -20,13 +22,20 @@ public class Player : MonoBehaviour
     private float _armor = 0f;  //护甲，减免和护甲数值相等的伤害
     private float _powerFactor = 1.0f; // 力量因子,按比例修改攻击力
     private float _moveSpeed = 5f; // 移动速度，作用于PlayerController
-    private float _cooldownReductionFactor = 0.0f; // 冷却因子，按比例减少技能冷却时间
-    private float _attackAreaFactor = 0.0f; // 攻击范围因子，按比例修改攻击范围
-    private int _projectileAmountIncrement = 0; //作用于所有武器，增加所有武器的射弹数
-    private float _weaponDurationFactor = 1.0f; // 武器持续时间因子，按比例修改武器持续时间
     private float _magnetAreaFactor = 1.0f; // 吸取范围因子，按比例修改吸取范围
     private float _luckIncrement = 0f; //幸运值加成，按比例修改掉落率
-    #endregion
+
+
+    #endregion 玩家属性（基础数值）
+
+    [Header("技能冷却因子")]
+    [SerializeField] private float _cooldownReductionFactor = 0.0f; // 冷却因子，按比例减少技能冷却时间
+    [Header("攻击范围因子")]
+    [SerializeField] private float _attackAreaFactor = 0.0f; // 攻击范围因子，按比例修改攻击范围
+    [Header("射弹数量增量")]
+    [SerializeField] private int _projectileAmountIncrement = 0; //作用于所有武器，增加所有武器的射弹数
+    [Header("武器持续时间因子")]
+    [SerializeField] private float _weaponDurationFactor = 1.0f; // 武器持续时间因子，按比例修改武器持续时间
 
     #region 玩家属性访问器
     /// <summary>
@@ -138,7 +147,6 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private Slider _healthSlider; // 血量显示滑条
 
     private PlayerController _playerController;
     private Animator _animator;
