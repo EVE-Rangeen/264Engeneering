@@ -211,6 +211,8 @@ public class EnemyManager : MonoBehaviour
         WaveData currentWave = GetCurrentWave();
         if (currentWave == null || currentWave.enemySpawnDataList.Count == 0) return;
 
+
+
         // 按间隔正常刷新
         if (Time.time - _lastWaveSpawnTime >= currentWave.spawnInterval)
         {
@@ -225,6 +227,17 @@ public class EnemyManager : MonoBehaviour
     private void SpawnWaveEnemies(WaveData waveData)
     {
         if (waveData.enemySpawnDataList.Count == 0) return;
+
+        // 检查当前敌人数量是否已达到上限
+        int currentEnemyCount = GetCurrentEnemyCount();
+        if (currentEnemyCount >= waveData.maxEnemyCount)
+        {
+            if (_enableDebugLogs)
+            {
+                Debug.Log($"当前敌人数量({currentEnemyCount})已达到波次上限({waveData.maxEnemyCount})，停止刷新");
+            }
+            return;
+        }
 
         // 计算总权重
         float totalWeight = 0f;
@@ -582,7 +595,7 @@ public class WaveData
     [Header("波次基础信息")]
     public float duration = 30f; // 波次持续时间
     public float spawnInterval = 2f; // 波次内刷新间隔
-    public int minEnemyCount = 5; // 同屏最少敌人数量
+    public int maxEnemyCount = 10; // 同屏最大敌人数量
 
     [Header("波次敌人配置")]
     public List<WaveEnemyData> enemySpawnDataList = new List<WaveEnemyData>();
