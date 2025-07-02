@@ -76,13 +76,13 @@ public class LightingStrikerWeapon : MonoBehaviour
         if (weaponIndex >= 0 && weaponIndex < WeaponManager.instance.CurrentWeapons.Count)
         {
             WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
-            _targetCount = weaponData.AttackCount;
+            _targetCount = weaponData.AttackCount + PlayerAttributeManager.instance.PlayerComponent.ProjectileAmountIncrement;
             // 修正：从WeaponData读取攻击范围，并叠加玩家攻击范围加成
             _attackRange = weaponData.AttackRange * (1 + PlayerAttributeManager.instance.PlayerComponent.AttackAreaFactor);
         }
         else
         {
-            _targetCount = 3; // 默认值
+            _targetCount = 0; // 默认值
             Debug.LogError($"LightingStrikerWeapon: weaponIndex({weaponIndex})超出范围");
         }
     }

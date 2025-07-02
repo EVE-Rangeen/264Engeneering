@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd402c320b9e74428630ae530a81ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponIndex: 4
+  weaponIndex: 3
   spinObjectPrefab: {fileID: 5563919378121920571}
   _orbitRadius: 2
   _orbitSpeed: 100

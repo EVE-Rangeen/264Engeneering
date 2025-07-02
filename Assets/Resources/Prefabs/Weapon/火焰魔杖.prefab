@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ecf9cffc3817a499a692d0bda8546c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponIndex: 3
+  weaponIndex: 4
   attackZone: {fileID: 7298679963033984545}
   flameVFXPrefab: {fileID: 9094615115225062877}
   _showFlameVFX: 1

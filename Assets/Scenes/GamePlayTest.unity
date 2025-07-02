@@ -913,8 +913,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c70388f6416d84c49a5267009fbb649e, type: 2}
   - {fileID: 11400000, guid: 7634526920294ae4ea34a8544eb3bc6b, type: 2}
   - {fileID: 11400000, guid: 673f1764d467d29409993ef034deb945, type: 2}
-  - {fileID: 11400000, guid: c78527319926e3f488a502c5592e6cdd, type: 2}
   - {fileID: 11400000, guid: 1a5412139d614b64c93bf69001c79e07, type: 2}
+  - {fileID: 11400000, guid: c78527319926e3f488a502c5592e6cdd, type: 2}
   - {fileID: 11400000, guid: 5a2ce5cd59e115042ab17a7f98ba6094, type: 2}
   _currentWeapons: []
 --- !u!1 &889854936
@@ -11549,6 +11549,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6124956816333470311, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11672,6 +11676,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlameThrower
       objectReference: {fileID: 0}
+    - target: {fileID: 9205910692468454657, guid: b5035f66f857f3b42bf327a953bae3fc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11728,10 +11736,6 @@ PrefabInstance:
     - target: {fileID: 2857367023480739844, guid: 35701e92d822c01459eb9328b9e4818b, type: 3}
       propertyPath: m_Name
       value: FireballMagic
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857367023480739844, guid: 35701e92d822c01459eb9328b9e4818b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
