@@ -103,7 +103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4824699106529251537
 Transform:
   m_ObjectHideFlags: 0
@@ -135,6 +135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIndex: 3
   attackZone: {fileID: 7298679963033984545}
+  flameVFXPrefab: {fileID: 0}
+  _showFlameVFX: 1
   _attackAreaVisual: {fileID: 0}
   _lineColor: {r: 1, g: 0, b: 0, a: 1}
   _lineWidth: 0.1

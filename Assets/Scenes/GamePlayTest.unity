@@ -875,6 +875,111 @@ MonoBehaviour:
     offsetFromPlayer: {x: 0, y: 0, z: 0}
   _enableDebugGizmos: 1
   _enableDebugLogs: 0
+--- !u!1001 &692686401
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1922829282}
+    m_Modifications:
+    - target: {fileID: 198863293511084567, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 280829436963011244, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: destroyOnImpact
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 715173744183300782, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_Name
+      value: FireballMagic
+      objectReference: {fileID: 0}
+    - target: {fileID: 715173744183300782, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1037602022518044525, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.89296
+      objectReference: {fileID: 0}
+    - target: {fileID: 1037602022518044525, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.89296
+      objectReference: {fileID: 0}
+    - target: {fileID: 1037602022518044525, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.89296
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601981345802624457, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.3676
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601981345802624457, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.3676
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601981345802624457, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.3676
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452007909897839967, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452007909897839967, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452007909897839967, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452007909897839967, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452007909897839967, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452007909897839967, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452007909897839967, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452007909897839967, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452007909897839967, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452007909897839967, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124956816333470311, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_Name
+      value: FireBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124956816333470311, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6468906448651565968, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+      propertyPath: weaponIndex
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
 --- !u!1 &699533059
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,6 +1031,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c78527319926e3f488a502c5592e6cdd, type: 2}
   - {fileID: 11400000, guid: 1a5412139d614b64c93bf69001c79e07, type: 2}
   _currentWeapons: []
+--- !u!4 &794664180 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4452007909897839967, guid: 7d9add0684fd1444ea1c89c604426126, type: 3}
+  m_PrefabInstance: {fileID: 692686401}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &889854936
 GameObject:
   m_ObjectHideFlags: 0
@@ -11454,6 +11564,7 @@ Transform:
   - {fileID: 1857922723}
   - {fileID: 1599019739}
   - {fileID: 1080008204}
+  - {fileID: 794664180}
   m_Father: {fileID: 1155191908}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2139989609
@@ -11734,6 +11845,10 @@ PrefabInstance:
     - target: {fileID: 7256513391693699931, guid: a0d7805d43d63244688801bc402e50ce, type: 3}
       propertyPath: m_Name
       value: SpinningWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 7256513391693699931, guid: a0d7805d43d63244688801bc402e50ce, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
