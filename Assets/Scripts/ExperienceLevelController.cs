@@ -62,7 +62,7 @@ public class ExperienceLevelController : MonoBehaviour
         UIController.instance.UpdateExperience(currentExperience, expLevels[currentLevel], currentLevel);
     }
 
-    void LevelUp()
+    public void LevelUp()
     {
         currentExperience -= expLevels[currentLevel];
         currentLevel++;
