@@ -197,13 +197,14 @@ MonoBehaviour:
   _maxHealth: 20
   _health: 5
   _damage: 3
-  _moveSpeed: 0.85
+  _moveSpeed: 0.4
   _mass: 1
   _expType: 0
   _moneyType: 0
   _dropPossibility: 0.8
   _expWeight: 0.7
   _deathAnimationDuration: 1
+  _healthPotionDropPossibility: 0.01
 --- !u!114 &2292095963952858298
 MonoBehaviour:
   m_ObjectHideFlags: 0
