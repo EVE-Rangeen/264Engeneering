@@ -72,11 +72,16 @@ public class ExperienceLevelController : MonoBehaviour
             currentLevel = expLevels.Count - 1;
         }
 
+        // 更新UI显示
         UIController.instance.levelUpPanel.SetActive(true);
         UIController.instance.levelUpTitleText.text = "选择一项升级！";
         UIController.instance.pauseButton.interactable = false;
         UpgradeManager.instance.SelectRandomUpgradeItems();
+        // 暂停计时器
         Timer.instance.PauseTimer();
+        // 增加最大血量与当前血量
+        PlayerAttributeManager.instance.PlayerComponent.MaxHealth += 3f;
+        PlayerAttributeManager.instance.PlayerComponent.Health += 3f;
 
     }
 }

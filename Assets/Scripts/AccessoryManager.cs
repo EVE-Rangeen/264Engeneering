@@ -84,6 +84,15 @@ public class AccessoryManager : MonoBehaviour
             case "安卡十字":
                 HandleAnkhCrossEffect(newLevel);
                 break;
+            case "沙漏":
+                HandleHourglassEffect(newLevel);
+                break;
+            case "血袋":
+                HandleBloodBagEffect(newLevel);
+                break;
+            case "小石头":
+                HandleSmallStoneEffect(newLevel);
+                break;
             default:
                 Debug.LogWarning($"未找到饰品 '{accessoryData.AccessoryName}' 的特殊效果处理方法");
                 break;
@@ -118,7 +127,7 @@ public class AccessoryManager : MonoBehaviour
 
     /// <summary>
     /// 处理重靴特殊效果
-    /// 每级：护甲+1，移动速度+5%（最大等级5）
+    /// 每级：护甲+1，移动速度+0.05（最大等级5）
     /// </summary>
     /// <param name="newLevel">新等级</param>
     private void HandleHeavyBootsEffect(int newLevel)
@@ -128,29 +137,29 @@ public class AccessoryManager : MonoBehaviour
         switch (newLevel)
         {
             case 1:
-                // LV1: 护甲+1，移动速度+5%
+                // LV1: 护甲+1，移动速度+0.05
                 player.Armor += 1;
-                player.MoveSpeed *= 1.05f;
+                player.MoveSpeed += 0.05f;
                 break;
             case 2:
-                // LV2: 护甲+1，移动速度+5%
+                // LV2: 护甲+1，移动速度+0.05
                 player.Armor += 1;
-                player.MoveSpeed *= 1.05f;
+                player.MoveSpeed += 0.05f;
                 break;
             case 3:
-                // LV3: 护甲+1，移动速度+5%
+                // LV3: 护甲+1，移动速度+0.05
                 player.Armor += 1;
-                player.MoveSpeed *= 1.05f;
+                player.MoveSpeed += 0.05f;
                 break;
             case 4:
-                // LV4: 护甲+1，移动速度+5%
+                // LV4: 护甲+1，移动速度+0.05
                 player.Armor += 1;
-                player.MoveSpeed *= 1.05f;
+                player.MoveSpeed += 0.05f;
                 break;
             case 5:
-                // LV5: 护甲+1，移动速度+5%（最大等级）
+                // LV5: 护甲+1，移动速度+0.05（最大等级）
                 player.Armor += 1;
-                player.MoveSpeed *= 1.05f;
+                player.MoveSpeed += 0.05f;
                 break;
             default:
                 Debug.Log($"重靴等级 {newLevel}：已达到最大等级或无效等级");
@@ -191,6 +200,117 @@ public class AccessoryManager : MonoBehaviour
                 break;
             default:
                 Debug.Log($"安卡十字等级 {newLevel}：已达到最大等级或无效等级");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 处理沙漏特殊效果
+    /// 每级：增加8%冷却时间（最大等级5）
+    /// </summary>
+    /// <param name="newLevel">新等级</param>
+    private void HandleHourglassEffect(int newLevel)
+    {
+        var player = PlayerAttributeManager.instance.PlayerComponent;
+        
+        switch (newLevel)
+        {
+            case 1:
+                // LV1: 增加8%冷却时间
+                player.CooldownReductionFactor += 8f;
+                break;
+            case 2:
+                // LV2: 增加8%冷却时间
+                player.CooldownReductionFactor += 8f;
+                break;
+            case 3:
+                // LV3: 增加8%冷却时间
+                player.CooldownReductionFactor += 8f;
+                break;
+            case 4:
+                // LV4: 增加8%冷却时间
+                player.CooldownReductionFactor += 8f;
+                break;
+            case 5:
+                // LV5: 增加8%冷却时间（最大等级）
+                player.CooldownReductionFactor += 8f;
+                break;
+            default:
+                Debug.Log($"沙漏等级 {newLevel}：已达到最大等级或无效等级");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 处理血袋特殊效果
+    /// 每级：增加10%持续时间（最大等级5）
+    /// </summary>
+    /// <param name="newLevel">新等级</param>
+    private void HandleBloodBagEffect(int newLevel)
+    {
+        var player = PlayerAttributeManager.instance.PlayerComponent;
+        
+        switch (newLevel)
+        {
+            case 1:
+                // LV1: 增加10%持续时间
+                player.WeaponDurationFactor += 10f;
+                break;
+            case 2:
+                // LV2: 增加10%持续时间
+                player.WeaponDurationFactor += 10f;
+                break;
+            case 3:
+                // LV3: 增加10%持续时间
+                player.WeaponDurationFactor += 10f;
+                break;
+            case 4:
+                // LV4: 增加10%持续时间
+                player.WeaponDurationFactor += 10f;
+                break;
+            case 5:
+                // LV5: 增加10%持续时间（最大等级）
+                player.WeaponDurationFactor += 10f;
+                break;
+            default:
+                Debug.Log($"血袋等级 {newLevel}：已达到最大等级或无效等级");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 处理小石头特殊效果
+    /// 每级：增加10%攻击力（最大等级5）
+    /// </summary>
+    /// <param name="newLevel">新等级</param>
+    private void HandleSmallStoneEffect(int newLevel)
+    {
+        var player = PlayerAttributeManager.instance.PlayerComponent;
+        
+        switch (newLevel)
+        {
+            case 1:
+                // LV1: 增加10%攻击力
+                player.PowerFactor += 10f;
+                break;
+            case 2:
+                // LV2: 增加10%攻击力
+                player.PowerFactor += 10f;
+                break;
+            case 3:
+                // LV3: 增加10%攻击力
+                player.PowerFactor += 10f;
+                break;
+            case 4:
+                // LV4: 增加10%攻击力
+                player.PowerFactor += 10f;
+                break;
+            case 5:
+                // LV5: 增加10%攻击力（最大等级）
+                player.PowerFactor += 10f;
+                break;
+            default:
+                Debug.Log($"小石头等级 {newLevel}：已达到最大等级或无效等级");
                 break;
         }
     }
