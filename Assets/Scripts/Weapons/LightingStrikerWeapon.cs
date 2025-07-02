@@ -32,7 +32,7 @@ public class LightingStrikerWeapon : MonoBehaviour
     [Tooltip("闪电间隔时间")]
     [SerializeField] private float _lightningInterval = 0.1f; // 闪电间隔时间
     [Tooltip("闪电碰撞体半径")]
-    [SerializeField] private float _lightningColliderRadius = 0.1f; // 闪电碰撞体半径
+    [SerializeField] private float _lightningColliderRadius = 0.2f; // 闪电碰撞体半径
     [Tooltip("闪电宽度缩放")]
     [SerializeField] private float _lightningWidthScale = 1f; // 闪电宽度缩放
     [Tooltip("闪电高度缩放")]

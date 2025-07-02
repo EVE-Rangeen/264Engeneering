@@ -199,7 +199,7 @@ MonoBehaviour:
   _cooldown: 3
   _lightningDuration: 0.5
   _lightningInterval: 0.1
-  _lightningColliderRadius: 0.1
+  _lightningColliderRadius: 0.2
   _lightningWidthScale: 2
   _lightningHeightScale: 20
   _lightningOffsetY: 4

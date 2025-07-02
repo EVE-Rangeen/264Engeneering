@@ -386,6 +386,68 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1179104328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1179104330}
+  - component: {fileID: 1179104329}
+  m_Layer: 0
+  m_Name: EnemyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1179104329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179104328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6bf7628a1ac4424a717d6c68159e64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+  _mainCamera: {fileID: 0}
+  _spawnDistanceMin: 15
+  _spawnDistanceMax: 20
+  _despawnDistance: 25
+  _waveList:
+  - duration: 30
+    spawnInterval: 1
+    maxEnemyCount: 100
+    enemySpawnDataList:
+    - enemyPrefab: {fileID: 7421856201611476280, guid: fe7b72d96c4cc264e926f4f1c4221162, type: 3}
+      spawnWeight: 1
+      minSpawnCount: 1
+      maxSpawnCount: 3
+  _timedSpawnList: []
+  _specialEnemyList: []
+  _enableDebugGizmos: 1
+  _enableDebugLogs: 0
+--- !u!4 &1179104330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179104328}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.015958834, y: 0.051386166, z: -0.008817346}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1223279356
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,3 +762,4 @@ SceneRoots:
   - {fileID: 1223279359}
   - {fileID: 1880782731}
   - {fileID: 1818953668}
+  - {fileID: 1179104330}
