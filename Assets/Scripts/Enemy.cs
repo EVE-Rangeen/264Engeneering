@@ -64,7 +64,10 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("EnemyController组件未找到！");
         }
-        _enemyController.SetMoveSpeed(_moveSpeed);
+        else
+        {
+            _enemyController.SetMoveSpeed(_moveSpeed);
+        }
 
         //初始化敌人的质量
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -118,25 +121,12 @@ public class Enemy : MonoBehaviour
             }
 
             // 创建白色闪烁材质
-            CreateFlashMaterial();
+            _flashMaterial = FlashEffectUtils.CreateFlashMaterial(Color.white);
         }
         else
         {
             Debug.LogWarning($"敌人 {gameObject.name} 没有找到SpriteRenderer组件，无法显示受击闪烁效果！");
         }
-    }
-
-    /// <summary>
-    /// 创建白色闪烁材质
-    /// </summary>
-    private void CreateFlashMaterial()
-    {
-        // 创建一个新的材质实例，使用Unity内置的白色着色器
-        _flashMaterial = new Material(Shader.Find("GUI/Text Shader"));
-        _flashMaterial.color = Color.white;
-
-        // 设置材质名称便于调试
-        _flashMaterial.name = "Enemy Flash Material";
     }
 
     /// <summary>
