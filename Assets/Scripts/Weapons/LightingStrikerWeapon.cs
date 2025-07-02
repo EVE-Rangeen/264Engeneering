@@ -7,7 +7,6 @@ using System.Linq;
 /// 闪电打击武器
 /// 在武器射程范围内对最近的X个敌人劈下闪电，每个敌人造成单体伤害
 /// 闪电攻击有动画效果，伤害由EnemyDamager脚本实现
-/// TODO 闪电动画有问题 现在闪电顶部对齐敌人位置 然后向下劈 现在sprite的pivot是顶部中心 已解决
 /// 2025-06-29 杜宜峰创建
 /// </summary>
 public class LightingStrikerWeapon : MonoBehaviour
@@ -32,7 +31,7 @@ public class LightingStrikerWeapon : MonoBehaviour
     [Tooltip("闪电间隔时间")]
     [SerializeField] private float _lightningInterval = 0.1f; // 闪电间隔时间
     [Tooltip("闪电碰撞体半径")]
-    [SerializeField] private float _lightningColliderRadius = 0.2f; // 闪电碰撞体半径
+    [SerializeField] private float _lightningColliderRadius = 0.4f; // 闪电碰撞体半径
     [Tooltip("闪电宽度缩放")]
     [SerializeField] private float _lightningWidthScale = 1f; // 闪电宽度缩放
     [Tooltip("闪电高度缩放")]
@@ -238,10 +237,10 @@ public class LightingStrikerWeapon : MonoBehaviour
             }
         }
 
-        // 按距离排序并返回最近的count个
-        enemies = enemies.OrderBy(enemy =>
-            Vector3.Distance(transform.position, enemy.transform.position)).ToList();
+        // 随机打乱顺序 改变攻击目标逻辑为随机攻击
+        enemies = enemies.OrderBy(e => Random.value).ToList();
 
+        // 取前count个
         return enemies.Take(count).ToList();
     }
 
