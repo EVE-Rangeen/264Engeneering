@@ -32,10 +32,10 @@ public class ProjectileWeapon : MonoBehaviour
     private float cooldownTimer = 0f;
     private bool isFiring = false;
     //private int currentClipSize; // 当前实际弹夹大小（基础值+增量）
-    
 
 
-  
+
+
     void Start()
     {
         // 延迟初始化，确保WeaponManager已准备好
@@ -45,7 +45,7 @@ public class ProjectileWeapon : MonoBehaviour
     private IEnumerator InitializeWeaponData()
     {
         // 等待WeaponManager初始化完成
-        while (WeaponManager.instance == null || 
+        while (WeaponManager.instance == null ||
                WeaponManager.instance.CurrentWeapons.Count == 0)
         {
             yield return null;
@@ -97,12 +97,12 @@ public class ProjectileWeapon : MonoBehaviour
     /// 开火函数 并且计算各种数值传参给EnemyDamager和Projectile
     /// </summary>
     void FireBullet(Vector3 targetPos)
-    {   
-      
+    {
+
 
         //每次开火的时候计算各种数值传参给EnemyDamager
         WeaponData weaponData = WeaponManager.instance.CurrentWeapons[weaponIndex];
-        
+
         //计算最终伤害
         float damage = weaponData.Damage;
         float finalDamage = damage * PlayerAttributeManager.instance.PlayerComponent.PowerFactor;
@@ -142,7 +142,7 @@ public class ProjectileWeapon : MonoBehaviour
         Vector3 dir = (targetPos - transform.position).normalized;
         bulletObj.transform.up = dir; // 让子弹朝向目标
         bulletObj.SetActive(true);
-        
+
         // 获取Projectile组件
         Projectile proj = bulletObj.GetComponent<Projectile>();
 
@@ -153,6 +153,7 @@ public class ProjectileWeapon : MonoBehaviour
         enemyDamager.damage = finalDamage;
         enemyDamager.knockBackForce = finalKnockBackForce;
         enemyDamager.timeBetweenDamage = finalTimeBetweenDamage;
+        enemyDamager.lifeTime = weaponData.Duration;
 
         //传参给Projectile
         proj.MoveSpeed = finalProjectileSpeed;
@@ -168,7 +169,7 @@ public class ProjectileWeapon : MonoBehaviour
     /// </summary>
     GameObject FindNearestEnemy()
     {
-        
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);
         GameObject nearest = null;
         float minDist = float.MaxValue;
