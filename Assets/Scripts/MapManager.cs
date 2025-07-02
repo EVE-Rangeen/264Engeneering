@@ -144,13 +144,18 @@ public class MapManager : MonoBehaviour
             Debug.LogError("MapManager: BaseTilemap的TilemapRenderer组件未找到！");
         }
 
+        // 初始化种子：如果seed为0，使用时间戳确保每次都不同
+        if (_seed == 0)
+        {
+            _seed = System.DateTime.Now.Millisecond + System.DateTime.Now.Second * 1000 + System.DateTime.Now.Minute * 60000;
+            Debug.Log($"MapManager: 使用时间戳生成种子: {_seed}");
+        }
+
         // 初始化随机数生成器
         _random = new System.Random(_seed);
 
         // 初始化噪声偏移数组
         InitializeNoiseOffsets();
-
-
     }
 
     /// <summary>
@@ -339,6 +344,11 @@ public class MapManager : MonoBehaviour
             return;
         }
 
+        // 为每个chunk创建独立的随机数生成器
+        // 使用chunk坐标和全局seed计算chunk专用的种子
+        int chunkSeed = _seed + chunkCoord.x * 1000 + chunkCoord.y * 10000;
+        System.Random chunkRandom = new System.Random(chunkSeed);
+
         List<SpawnedObjectInfo> spawnedObjects = new List<SpawnedObjectInfo>();
         List<Vector3> occupiedPositions = new List<Vector3>();
 
@@ -357,11 +367,11 @@ public class MapManager : MonoBehaviour
                 }
             }
 
-            // 检查生成概率
-            if (_random.NextDouble() > config.spawnChance) continue;
+            // 检查生成概率（使用chunk专用随机数）
+            if (chunkRandom.NextDouble() > config.spawnChance) continue;
 
-            // 确定要生成的数量
-            int spawnCount = _random.Next(config.minCount, config.maxCount + 1);
+            // 确定要生成的数量（使用chunk专用随机数）
+            int spawnCount = chunkRandom.Next(config.minCount, config.maxCount + 1);
 
             for (int i = 0; i < spawnCount; i++)
             {
@@ -374,7 +384,7 @@ public class MapManager : MonoBehaviour
                     }
                 }
 
-                Vector3 spawnPosition = FindValidSpawnPosition(chunkStartPos, config, occupiedPositions);
+                Vector3 spawnPosition = FindValidSpawnPosition(chunkStartPos, config, occupiedPositions, chunkRandom);
 
                 if (spawnPosition != Vector3.zero)
                 {
@@ -442,14 +452,15 @@ public class MapManager : MonoBehaviour
     /// <param name="chunkStartPos">chunk起始位置</param>
     /// <param name="config">生成配置</param>
     /// <param name="occupiedPositions">已占用的位置</param>
+    /// <param name="chunkRandom">chunk专用随机数生成器</param>
     /// <returns>有效位置，如果找不到返回Vector3.zero</returns>
-    private Vector3 FindValidSpawnPosition(Vector3Int chunkStartPos, ObjectSpawnConfig config, List<Vector3> occupiedPositions)
+    private Vector3 FindValidSpawnPosition(Vector3Int chunkStartPos, ObjectSpawnConfig config, List<Vector3> occupiedPositions, System.Random chunkRandom)
     {
         for (int attempt = 0; attempt < _maxSpawnAttempts; attempt++)
         {
             // 在chunk内随机选择一个位置
-            int randomX = _random.Next(0, _chunkSize);
-            int randomY = _random.Next(0, _chunkSize);
+            int randomX = chunkRandom.Next(0, _chunkSize);
+            int randomY = chunkRandom.Next(0, _chunkSize);
             Vector3Int tilePos = new Vector3Int(chunkStartPos.x + randomX, chunkStartPos.y + randomY, 0);
             Vector3 worldPos = _grid.CellToWorld(tilePos) + _grid.cellSize * 0.5f; // 居中到tile
 
@@ -582,6 +593,13 @@ public class MapManager : MonoBehaviour
     /// <param name="newSeed">新的种子值</param>
     public void SetSeed(int newSeed)
     {
+        // 如果新种子为0，使用时间戳确保随机性
+        if (newSeed == 0)
+        {
+            newSeed = System.DateTime.Now.Millisecond + System.DateTime.Now.Second * 1000 + System.DateTime.Now.Minute * 60000;
+            Debug.Log($"MapManager: SetSeed使用时间戳生成种子: {newSeed}");
+        }
+
         _seed = newSeed;
         _random = new System.Random(_seed);
 
