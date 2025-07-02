@@ -16,6 +16,7 @@ MonoBehaviour:
   _weaponIcon: {fileID: 21300000, guid: 5d862b2108172744fa23d24180cf4655, type: 3}
   _weaponType: 0
   _weaponDescriptions:
+  - "\u83B7\u5F97\u65B0\u6B66\u5668"
   - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB35\u70B9\uFF0C\u589E\u5927\u653B\u51FB\u8303\u56F410%"
   - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB35\u70B9"
   - "\u51CF\u5C0F\u51B7\u5374\u65F6\u95F40.2"

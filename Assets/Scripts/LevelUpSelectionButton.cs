@@ -19,7 +19,7 @@ public class LevelUpSelectionButton : MonoBehaviour
     public void UpdateButtonDisplay(WeaponData weapon)
     {
         // 获取当前等级对应的描述索引
-        int descIndex = Mathf.Max(0, weapon.CurrentLevel + 1);
+        int descIndex = Mathf.Max(0, weapon.CurrentLevel);
         string description = weapon.WeaponDescriptions.Count > descIndex ? weapon.WeaponDescriptions[descIndex] : "暂无描述";
         
         upgradeDescText.text = weapon.WeaponName + " " + description;
@@ -34,7 +34,7 @@ public class LevelUpSelectionButton : MonoBehaviour
     public void UpdateButtonDisplay(AccessoryData accessory)
     {
         // 获取当前等级对应的描述索引
-        int descIndex = Mathf.Max(0, accessory.CurrentLevel + 1);
+        int descIndex = Mathf.Max(0, accessory.CurrentLevel);
         string description = accessory.AccessoryDescriptions.Count > descIndex ? accessory.AccessoryDescriptions[descIndex] : "暂无描述";
         
         upgradeDescText.text = accessory.AccessoryName + " " + description;
