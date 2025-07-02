@@ -17,6 +17,9 @@ public class PlayerResourceManager : MonoBehaviour
     [SerializeField] private int _currentHealthPotions = 0;     // 当前血瓶数量
     [SerializeField] private int _maxHealthPotions = 5;         // 最大血瓶数量
     [SerializeField] private int _healthPotionHealPercent = 30; // 每个血瓶回复的血量百分比
+    
+    [Header("血瓶图标")]
+    [SerializeField] private Sprite[] _healthPotionIcons;       // 血瓶图标列表，索引对应血瓶数量
 
     [Header("疾走资源")]
     [SerializeField] private int _currentDashCharges = 0;       // 当前疾走次数
@@ -41,6 +44,9 @@ public class PlayerResourceManager : MonoBehaviour
     {
         UIController.instance.healthPotionText.text = $"血瓶: {_currentHealthPotions}/{_maxHealthPotions}";
         UIController.instance.dashText.text = $"疾走: {_currentDashCharges}/{_maxDashCharges}";
+        
+        // 初始化血瓶图标
+        UpdateHealthPotionIcon();
     }
 
     /// <summary>
@@ -67,6 +73,9 @@ public class PlayerResourceManager : MonoBehaviour
         {
             _currentHealthPotions++;
             UIController.instance.healthPotionText.text = $"血瓶: {_currentHealthPotions}/{_maxHealthPotions}";
+            
+            // 更新血瓶图标
+            UpdateHealthPotionIcon();
         }
     }
 
@@ -80,7 +89,21 @@ public class PlayerResourceManager : MonoBehaviour
         {
             _currentHealthPotions--;
             UIController.instance.healthPotionText.text = $"血瓶: {_currentHealthPotions}/{_maxHealthPotions}";
+            
+            // 更新血瓶图标
+            UpdateHealthPotionIcon();
         }
+    }
+
+    /// <summary>
+    /// 更新血瓶图标
+    /// </summary>
+    private void UpdateHealthPotionIcon()
+    {
+        int iconIndex = _currentHealthPotions;
+        
+        // 更新UI图标
+        UIController.instance.healthPotionIcon.sprite = _healthPotionIcons[iconIndex];
     }
 
     /// <summary>
