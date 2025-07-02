@@ -50,6 +50,7 @@ public class SpinningWeapon : MonoBehaviour
     private List<GameObject> activeSpinObjects = new List<GameObject>();
     private float _cooldownTimer = 0f;
     private bool _isSpawning = false;
+    //private float _angle = 0f;  // 环绕实体的初始角度
 
     void Start()
     {
@@ -152,8 +153,28 @@ public class SpinningWeapon : MonoBehaviour
     void SpawnSpinObject(int index, int totalCount, float radius, float speed,
                         float damage, float knockback, float damageInterval, float duration)
     {
+        //神奇的计算公式 但是能解决分布不均匀的问题
+        //问题在于比如三个环绕体的时候视觉效果是四边形的三个顶点 五个环绕体的时候是六边形的五个顶点 都缺一块
+        float angle = (360f / totalCount + 30) * index;
         // 计算初始角度，让环绕实体均匀分布
-        float angle = (360f / totalCount) * index;
+        // if (totalCount == 5)
+        // {
+        //     angle = 102 * index;
+        // }
+        // else if (totalCount == 4)
+        // {
+        //     angle = 120 * index;
+        // }
+        // else if (totalCount == 3)
+        // {
+        //     angle = 150 * index;
+        // }
+        // else if (totalCount == 2)
+        // {
+        //     angle = 210 * index;
+        // }
+
+
         Vector3 spawnPosition = transform.position + Quaternion.Euler(0, 0, angle) * Vector3.right * radius;
 
         // 实例化环绕实体
