@@ -35,4 +35,4 @@ MonoBehaviour:
   _knockback: 0.1
   _projectileSpeed: 2
   _duration: 3
-  _bulletInterval: 0.2
+  _bulletInterval: 0.5

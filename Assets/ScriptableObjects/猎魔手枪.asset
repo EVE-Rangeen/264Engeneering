@@ -17,22 +17,22 @@ MonoBehaviour:
   _weaponType: 1
   _weaponDescriptions:
   - "\u83B7\u5F97\u65B0\u6B66\u5668"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB33"
-  - "\u7A7F\u900F\u589E\u52A02"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB33"
-  - "\u7A7F\u900F\u589E\u52A02"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB33\uFF0C\u589E\u52A0\u98DE\u884C\u901F\u5EA650%"
-  - "\u7A7F\u900F\u589E\u52A02"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB33,\u589E\u52A0\u98DE\u884C\u901F\u5EA650%"
+  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB34"
+  - "\u51CF\u5C11\u51B7\u5374\u95F4\u9694-0.3"
+  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB34"
+  - "\u51CF\u5C11\u51B7\u5374\u95F4\u9694-0.3"
+  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB34"
+  - "\u51CF\u5C11\u51B7\u5374\u95F4\u9694-0.3"
+  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB34"
   _currentLevel: 0
   _maxLevel: 7
   _damage: 5
   _specialAttackMultiplier: 0
-  _attackRange: 3
+  _attackRange: 6
   _attackCount: 6
   _piercing: 1
   _cooldownTime: 1.5
   _knockback: 0.1
   _projectileSpeed: 3
-  _duration: 0
+  _duration: 3
   _bulletInterval: 0.1

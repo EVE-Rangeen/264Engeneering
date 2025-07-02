@@ -25,6 +25,8 @@ public class UIController : MonoBehaviour
     public Button pauseButton;
     //血瓶数量文本
     public TMP_Text healthPotionText;
+    //血瓶数量图标
+    public Image healthPotionIcon;
     //疾走次数文本
     public TMP_Text dashText;
 
