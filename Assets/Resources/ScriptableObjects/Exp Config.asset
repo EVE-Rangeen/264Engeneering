@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d18b9e1b75955b4eb229c2f79b2f60e, type: 3}
   m_Name: Exp Config
   m_EditorClassIdentifier: 
-  _normalExpAmount: 3
-  _highExpAmount: 6
-  _veryHighExpAmount: 12
+  _normalExpAmount: 6
+  _highExpAmount: 12
+  _veryHighExpAmount: 30
