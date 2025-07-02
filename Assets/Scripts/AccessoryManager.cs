@@ -217,23 +217,23 @@ public class AccessoryManager : MonoBehaviour
         {
             case 1:
                 // LV1: 增加8%冷却时间
-                player.CooldownReductionFactor += 8f;
+                player.CooldownReductionFactor += 0.08f;
                 break;
             case 2:
                 // LV2: 增加8%冷却时间
-                player.CooldownReductionFactor += 8f;
+                player.CooldownReductionFactor += 0.08f;
                 break;
             case 3:
                 // LV3: 增加8%冷却时间
-                player.CooldownReductionFactor += 8f;
+                player.CooldownReductionFactor += 0.08f;
                 break;
             case 4:
                 // LV4: 增加8%冷却时间
-                player.CooldownReductionFactor += 8f;
+                player.CooldownReductionFactor += 0.08f;
                 break;
             case 5:
                 // LV5: 增加8%冷却时间（最大等级）
-                player.CooldownReductionFactor += 8f;
+                player.CooldownReductionFactor += 0.08f;
                 break;
             default:
                 Debug.Log($"沙漏等级 {newLevel}：已达到最大等级或无效等级");
@@ -254,23 +254,23 @@ public class AccessoryManager : MonoBehaviour
         {
             case 1:
                 // LV1: 增加10%持续时间
-                player.WeaponDurationFactor += 10f;
+                player.WeaponDurationFactor += 0.1f;
                 break;
             case 2:
                 // LV2: 增加10%持续时间
-                player.WeaponDurationFactor += 10f;
+                player.WeaponDurationFactor += 0.1f;
                 break;
             case 3:
                 // LV3: 增加10%持续时间
-                player.WeaponDurationFactor += 10f;
+                player.WeaponDurationFactor += 0.1f;
                 break;
             case 4:
                 // LV4: 增加10%持续时间
-                player.WeaponDurationFactor += 10f;
+                player.WeaponDurationFactor += 0.1f;
                 break;
             case 5:
                 // LV5: 增加10%持续时间（最大等级）
-                player.WeaponDurationFactor += 10f;
+                player.WeaponDurationFactor += 0.1f;
                 break;
             default:
                 Debug.Log($"血袋等级 {newLevel}：已达到最大等级或无效等级");
@@ -291,23 +291,23 @@ public class AccessoryManager : MonoBehaviour
         {
             case 1:
                 // LV1: 增加10%攻击力
-                player.PowerFactor += 10f;
+                player.PowerFactor += 0.1f;
                 break;
             case 2:
                 // LV2: 增加10%攻击力
-                player.PowerFactor += 10f;
+                player.PowerFactor += 0.1f;
                 break;
             case 3:
                 // LV3: 增加10%攻击力
-                player.PowerFactor += 10f;
+                player.PowerFactor += 0.1f;
                 break;
             case 4:
                 // LV4: 增加10%攻击力
-                player.PowerFactor += 10f;
+                player.PowerFactor += 0.1f;
                 break;
             case 5:
                 // LV5: 增加10%攻击力（最大等级）
-                player.PowerFactor += 10f;
+                player.PowerFactor += 0.1f;
                 break;
             default:
                 Debug.Log($"小石头等级 {newLevel}：已达到最大等级或无效等级");
