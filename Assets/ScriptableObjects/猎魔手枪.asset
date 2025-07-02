@@ -34,5 +34,5 @@ MonoBehaviour:
   _cooldownTime: 1.5
   _knockback: 0.1
   _projectileSpeed: 3
-  _duration: 5
+  _duration: 0
   _bulletInterval: 0.1

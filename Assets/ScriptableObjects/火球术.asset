@@ -10,29 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: baaaa64eedbeb1147aa1c69ca06cacac, type: 3}
-  m_Name: "\u706B\u7130\u9B54\u6756"
+  m_Name: "\u706B\u7403\u672F"
   m_EditorClassIdentifier: 
-  _weaponName: "\u706B\u7130\u9B54\u6756"
-  _weaponIcon: {fileID: 21300000, guid: 9ce5026b13de3a54e974fca8ad0dd8b6, type: 3}
+  _weaponName: "\u706B\u7403\u672F"
+  _weaponIcon: {fileID: 21300000, guid: 9726b3cd00de73949bbf5984ac42a96b, type: 3}
   _weaponType: 0
   _weaponDescriptions:
   - "\u83B7\u5F97\u65B0\u6B66\u5668"
   - "\u6301\u7EED\u65F6\u95F4\u589E\u52A01s"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB33\uFF0C\u589E\u5927\u8303\u56F4100%"
+  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB35\uFF0C\u589E\u5927\u8303\u56F4+1"
+  - "\u51CF\u5C11\u51B7\u53740.5s"
   - "\u6301\u7EED\u65F6\u95F4\u589E\u52A01s"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB37"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB33\uFF0C\u589E\u5927\u8303\u56F4100%"
-  - "\u6301\u7EED\u65F6\u95F4\u589E\u52A01s"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB37"
+  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB35\uFF0C\u589E\u5927\u8303\u56F4+1"
+  - "\u51CF\u5C11\u51B7\u53740.5s"
+  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB37\uFF0C\u51CF\u5C11\u51B7\u53741s"
   _currentLevel: 0
   _maxLevel: 7
-  _damage: 3
+  _damage: 10
   _specialAttackMultiplier: 0
-  _attackRange: 2
+  _attackRange: 3
   _attackCount: 1
   _piercing: 0
-  _cooldownTime: 5
-  _knockback: 0.2
-  _projectileSpeed: 0.1
-  _duration: 5
+  _cooldownTime: 6
+  _knockback: 0.1
+  _projectileSpeed: 2
+  _duration: 3
   _bulletInterval: 0.2

@@ -241,9 +241,9 @@ public class WeaponData : ScriptableObject
         _knockback = Mathf.Max(0f, _knockback);
 
         // 验证弹道属性
-        _projectileSpeed = Mathf.Max(0.1f, _projectileSpeed);
-        _duration = Mathf.Max(0.1f, _duration);
-        _bulletInterval = Mathf.Max(0.01f, _bulletInterval);
+        _projectileSpeed = Mathf.Max(0f, _projectileSpeed);
+        _duration = Mathf.Max(0f, _duration);
+        _bulletInterval = Mathf.Max(0f, _bulletInterval);
 
         // 确保武器等级至少为0
         _currentLevel = Mathf.Max(0, _currentLevel);
