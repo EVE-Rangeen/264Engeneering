@@ -4,6 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// 拾取物基类，实现拾取动画效果
+/// 2025-07-02 肖沐奇 创建
 /// </summary>
 public class Pickup : MonoBehaviour
 {

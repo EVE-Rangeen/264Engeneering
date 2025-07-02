@@ -35,7 +35,9 @@ public class Enemy : MonoBehaviour
     [SerializeField][Range(0f, 1f)] private float _expWeight = 0.7f; // 经验权重，0表示只掉落金币，1表示只掉落经验
     [SerializeField] private float _deathAnimationDuration = 1f; // 死亡动画持续时间
     [SerializeField] private float _healthPotionDropPossibility = 0.01f; // 血瓶掉落概率，0表示不掉落，1表示必定掉落
+    [SerializeField] private float _dashPotionDropPossibility = 0.01f; // 冲刺瓶掉落概率，0表示不掉落，1表示必定掉落
     #endregion
+
     private EnemyController _enemyController;
     private Rigidbody2D _rb;
     private Animator _animator;
@@ -208,6 +210,11 @@ public class Enemy : MonoBehaviour
             SpawnHealthPotion();
         }
 
+        if (Random.Range(0f, 1f) < _dashPotionDropPossibility)
+        {
+            SpawnDashPotion();
+        }
+
         // 更新UI击败敌人计数
         UIController.defeatedEnemyCount++;
 
@@ -287,6 +294,15 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError($"无法加载血瓶Prefab：{healthPotionPrefabPath}");
         }
+    }
+
+    /// <summary>
+    /// 生成冲刺瓶Prefab
+    /// </summary>
+    private void SpawnDashPotion()
+    {
+        string dashPotionPrefabPath = "Prefabs/DashPotion";
+        GameObject dashPotionPrefab = Resources.Load<GameObject>(dashPotionPrefabPath);
     }
 
     /// <summary>
