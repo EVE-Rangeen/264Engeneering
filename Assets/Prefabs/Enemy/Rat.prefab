@@ -136,7 +136,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5499136574619465458}
@@ -154,17 +154,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f19fd35a3e449059f9d7ec8b68c4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 10
-  _health: 10
+  _maxHealth: 5
   _damage: 3
-  _moveSpeed: 0.87
+  _moveSpeed: 0.6
   _mass: 1
   _expType: 0
   _moneyType: 0
-  _dropPossibility: 0.8
+  _expMoneyDropPossibility: 0.8
   _expWeight: 0.7
+  _healthDashDropPossibility: 0.2
+  _healthPotionWeight: 0.5
   _deathAnimationDuration: 0.333
-  _healthPotionDropPossibility: 0.01
 --- !u!114 &7757943476636949408
 MonoBehaviour:
   m_ObjectHideFlags: 0

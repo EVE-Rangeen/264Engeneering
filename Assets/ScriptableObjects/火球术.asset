@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\u706B\u7403\u672F"
   m_EditorClassIdentifier: 
   _weaponName: "\u706B\u7403\u672F"
-  _weaponIcon: {fileID: 21300000, guid: 9726b3cd00de73949bbf5984ac42a96b, type: 3}
+  _weaponIcon: {fileID: 21300000, guid: 37a5d0e5e6ad0744fa3443c4aba4fcfc, type: 3}
   _weaponType: 0
   _weaponDescriptions:
   - "\u83B7\u5F97\u65B0\u6B66\u5668"
@@ -25,7 +25,7 @@ MonoBehaviour:
   - "\u51CF\u5C11\u51B7\u53740.5s"
   - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB37\uFF0C\u51CF\u5C11\u51B7\u53741s"
   _currentLevel: 0
-  _maxLevel: 7
+  _maxLevel: 8
   _damage: 10
   _specialAttackMultiplier: 0
   _attackRange: 3
