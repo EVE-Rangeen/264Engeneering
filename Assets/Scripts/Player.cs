@@ -58,7 +58,24 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 当前生命值
     /// </summary>
-    public float Health => _health;
+    public float Health
+    {
+        get => _health;
+        set
+        {
+            _health = value;
+            // 更新血量UI的值
+            if (_healthSlider != null)
+            {
+                _healthSlider.value = _health;
+            }
+            // 如果血量小于0，则死亡
+            if (_health <= 0)
+            {
+                Die();
+            }
+        }
+    }
 
     /// <summary>
     /// 恢复速度
@@ -107,7 +124,11 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 冷却因子
     /// </summary>
-    public float CooldownReductionFactor => _cooldownReductionFactor;
+    public float CooldownReductionFactor
+    {
+        get => _cooldownReductionFactor;
+        set => _cooldownReductionFactor = value;
+    }
 
     /// <summary>
     /// 攻击范围因子
@@ -126,7 +147,11 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 武器持续时间因子
     /// </summary>
-    public float WeaponDurationFactor => _weaponDurationFactor;
+    public float WeaponDurationFactor
+    {
+        get => _weaponDurationFactor;
+        set => _weaponDurationFactor = value;
+    }
 
     /// <summary>
     /// 吸取范围因子

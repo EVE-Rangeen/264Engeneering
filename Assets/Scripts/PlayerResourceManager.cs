@@ -80,6 +80,18 @@ public class PlayerResourceManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 添加疾走次数
+    /// </summary>
+    public void AddDashCharges()
+    {
+        if (_currentDashCharges < _maxDashCharges)
+        {
+            _currentDashCharges++;
+            UIController.instance.dashText.text = $"疾走: {_currentDashCharges}/{_maxDashCharges}";
+        }
+    }
+
+    /// <summary>
     /// 使用血瓶
     /// </summary>
     /// <returns>使用血瓶</returns>

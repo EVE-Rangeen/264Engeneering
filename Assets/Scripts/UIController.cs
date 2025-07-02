@@ -107,15 +107,17 @@ public class UIController : MonoBehaviour
         {
             // Toggle刚被打开：开启神力模式
             player.MaxHealth *= 2f;
+            player.Health *= 2f; // 当前血量也翻倍
             player.Armor += 3f;
-            Debug.Log($"神力模式已开启：最大血量翻倍至{player.MaxHealth}，护甲+3至{player.Armor}");
+            Debug.Log($"神力模式已开启：最大血量翻倍至{player.MaxHealth}，当前血量翻倍至{player.Health}，护甲+3至{player.Armor}");
         }
         else
         {
             // Toggle刚被关闭：关闭神力模式
             player.MaxHealth /= 2f;
+            player.Health /= 2f; // 当前血量也减半
             player.Armor -= 3f;
-            Debug.Log($"神力模式已关闭：最大血量恢复至{player.MaxHealth}，护甲-3至{player.Armor}");
+            Debug.Log($"神力模式已关闭：最大血量恢复至{player.MaxHealth}，当前血量恢复至{player.Health}，护甲-3至{player.Armor}");
         }
     }
 
