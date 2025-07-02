@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 1211786905154188894}
   - component: {fileID: 6772745761686076191}
   - component: {fileID: 1248628336126233427}
+  - component: {fileID: 5158922762847559167}
   m_Layer: 0
   m_Name: Grave
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +102,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -158,3 +159,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
+--- !u!114 &5158922762847559167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591354746834766232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f19fd35a3e449059f9d7ec8b68c4a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  _damage: 0
+  _moveSpeed: 0
+  _mass: 1
+  _expType: 0
+  _moneyType: 0
+  _expMoneyDropPossibility: 1
+  _expWeight: 0
+  _healthDashDropPossibility: 0
+  _healthPotionWeight: 0.49
+  _deathAnimationDuration: 1

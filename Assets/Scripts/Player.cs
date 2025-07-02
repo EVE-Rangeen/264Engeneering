@@ -368,25 +368,12 @@ public class Player : MonoBehaviour
             }
 
             // 创建红色闪烁材质
-            CreateRedFlashMaterial();
+            _redFlashMaterial = FlashEffectUtils.CreateFlashMaterial(Color.red);
         }
         else
         {
             Debug.LogWarning($"玩家 {gameObject.name} 没有找到SpriteRenderer组件，无法显示受击闪烁效果！");
         }
-    }
-
-    /// <summary>
-    /// 创建红色闪烁材质
-    /// </summary>
-    private void CreateRedFlashMaterial()
-    {
-        // 创建一个新的材质实例，使用Unity内置的着色器
-        _redFlashMaterial = new Material(Shader.Find("GUI/Text Shader"));
-        _redFlashMaterial.color = Color.red;
-
-        // 设置材质名称便于调试
-        _redFlashMaterial.name = "Player Red Flash Material";
     }
 
     /// <summary>
