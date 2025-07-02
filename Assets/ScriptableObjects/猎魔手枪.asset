@@ -25,7 +25,7 @@ MonoBehaviour:
   - "\u51CF\u5C11\u51B7\u5374\u95F4\u9694-0.3"
   - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB34"
   _currentLevel: 0
-  _maxLevel: 7
+  _maxLevel: 8
   _damage: 5
   _specialAttackMultiplier: 0
   _attackRange: 6
