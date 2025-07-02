@@ -154,17 +154,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f19fd35a3e449059f9d7ec8b68c4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 10
-  _health: 10
-  _damage: 3
-  _moveSpeed: 0.87
+  _maxHealth: 50
+  _health: 50
+  _damage: 5
+  _moveSpeed: 0.4
   _mass: 1
-  _expType: 0
+  _expType: 1
   _moneyType: 0
   _dropPossibility: 0.8
   _expWeight: 0.7
   _deathAnimationDuration: 0.333
   _healthPotionDropPossibility: 0.01
+  _dashPotionDropPossibility: 0.01
 --- !u!114 &7757943476636949408
 MonoBehaviour:
   m_ObjectHideFlags: 0

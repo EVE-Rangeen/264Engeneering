@@ -21,26 +21,32 @@ public enum MoneyType
 public class Enemy : MonoBehaviour
 {
     #region 敌人属性
+    [Header("敌人属性")]
     [SerializeField] private float _maxHealth = 100f; // 最大生命值
-    [SerializeField] private float _health = 100f; // 当前生命值
     [SerializeField] private float _damage = 1f; // 攻击力,接触玩家时造成的伤害
     [SerializeField] private float _moveSpeed = 1f; // 移动速度，作用于EnemyController
     [SerializeField] private float _mass = 1f; // 质量，影响敌人被击退的距离
     #endregion
 
     #region 掉落物相关
+    [Header("掉落物相关")]
     [SerializeField] private ExpType _expType = ExpType.Normal; // 经验类型
     [SerializeField] private MoneyType _moneyType = MoneyType.Coin; // 金钱类型
-    [SerializeField] private float _dropPossibility = 0.8f; // 总掉落概率
+    [SerializeField][Range(0f, 1f)] private float _expMoneyDropPossibility = 0.8f; // 经验/金币掉落概率
     [SerializeField][Range(0f, 1f)] private float _expWeight = 0.7f; // 经验权重，0表示只掉落金币，1表示只掉落经验
+    [SerializeField][Range(0f, 1f)] private float _healthDashDropPossibility = 0.2f; // 血瓶/冲刺瓶在经验/金币不掉落时的掉落概率
+    [SerializeField][Range(0f, 1f)] private float _healthPotionWeight = 0.5f; // 血瓶权重，0表示不掉落，1表示只掉落血瓶
+    #endregion
+
+    #region 死亡动画相关
+    [Header("死亡动画相关")]
     [SerializeField] private float _deathAnimationDuration = 1f; // 死亡动画持续时间
-    [SerializeField] private float _healthPotionDropPossibility = 0.01f; // 血瓶掉落概率，0表示不掉落，1表示必定掉落
-    [SerializeField] private float _dashPotionDropPossibility = 0.01f; // 冲刺瓶掉落概率，0表示不掉落，1表示必定掉落
     #endregion
 
     private EnemyController _enemyController;
-    private Rigidbody2D _rb;
     private Animator _animator;
+
+    private float _health = 100f; // 当前生命值
     private bool _isDead = false; // 敌人是否已死亡的标志
 
     // 受击闪烁效果相关
@@ -61,14 +67,14 @@ public class Enemy : MonoBehaviour
         _enemyController.SetMoveSpeed(_moveSpeed);
 
         //初始化敌人的质量
-        _rb = GetComponent<Rigidbody2D>();
-        if (_rb == null)
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
         {
             Debug.LogError("Enemy需要Rigidbody2D组件！");
         }
         else
         {
-            _rb.mass = _mass;
+            rb.mass = _mass;
         }
 
         //初始化Animator组件
@@ -192,7 +198,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(_deathAnimationDuration);
 
         // 首先判断是否掉落物品
-        if (Random.Range(0f, 1f) < _dropPossibility)
+        if (Random.Range(0f, 1f) < _expMoneyDropPossibility)
         {
             // 根据权重决定掉落经验还是金币
             if (Random.Range(0f, 1f) < _expWeight)
@@ -204,15 +210,16 @@ public class Enemy : MonoBehaviour
                 SpawnMoney();
             }
         }
-
-        if (Random.Range(0f, 1f) < _healthPotionDropPossibility)
+        else if (Random.Range(0f, 1f) < _healthDashDropPossibility)
         {
-            SpawnHealthPotion();
-        }
-
-        if (Random.Range(0f, 1f) < _dashPotionDropPossibility)
-        {
-            SpawnDashPotion();
+            if (Random.Range(0f, 1f) < _healthPotionWeight)
+            {
+                SpawnHealthPotion();
+            }
+            else
+            {
+                SpawnDashPotion();
+            }
         }
 
         // 更新UI击败敌人计数
