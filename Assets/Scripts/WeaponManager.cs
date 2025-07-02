@@ -90,8 +90,8 @@ public class WeaponManager : MonoBehaviour
     /// 执行武器特殊效果
     /// </summary>
     /// <param name="weaponData">武器数据</param>
-    /// <param name="newLevel">新等级</param>
-    public void ExecuteWeaponSpecialEffect(WeaponData weaponData, int newLevel)
+    /// <param name="oldLevel">旧等级</param>
+    public void ExecuteWeaponSpecialEffect(WeaponData weaponData, int oldLevel)
     {
         if (weaponData == null)
         {
@@ -102,22 +102,22 @@ public class WeaponManager : MonoBehaviour
         switch (weaponData.WeaponName)
         {
             case "猎魔手枪":
-                HandleDemonHunterPistolEffect(newLevel);
+                HandleDemonHunterPistolEffect(oldLevel);
                 break;
             case "大剑":
-                HandleGreatSwordEffect(newLevel);
+                HandleGreatSwordEffect(oldLevel);
                 break;
             case "神罚小刀":
-                HandleDivineKnifeEffect(newLevel);
+                HandleDivineKnifeEffect(oldLevel);
                 break;
             case "精灵之火":
-                HandleSpiritFireEffect(newLevel);
+                HandleSpiritFireEffect(oldLevel);
                 break;
             case "火焰魔杖":
-                HandleFlameWandEffect(newLevel);
+                HandleFlameWandEffect(oldLevel);
                 break;
             case "火球术":
-                HandleFireballEffect(newLevel);
+                HandleFireballEffect(oldLevel);
                 break;
             default:
                 Debug.LogWarning($"未找到武器 '{weaponData.WeaponName}' 的特殊效果处理方法");
@@ -128,14 +128,17 @@ public class WeaponManager : MonoBehaviour
     /// <summary>
     /// 处理猎魔手枪特殊效果
     /// </summary>
-    /// <param name="newLevel">新等级</param>
-    private void HandleDemonHunterPistolEffect(int newLevel)
+    /// <param name="oldLevel">旧等级</param>
+    private void HandleDemonHunterPistolEffect(int oldLevel)
     {
         // 获取猎魔手枪的当前武器实例（假设是第一个武器）
         WeaponData demonHunterPistol = _currentWeapons[0];
         
-        switch (newLevel)
+        switch (oldLevel)
         {
+            case 0:
+                Debug.Log("猎魔手枪从等级0升级，应用初始效果");
+                break;
             case 1:
                 // LV1: 增加基础伤害4
                 demonHunterPistol.Damage += 4f;
@@ -165,7 +168,7 @@ public class WeaponManager : MonoBehaviour
                 demonHunterPistol.Damage += 4f;
                 break;
             default:
-                Debug.Log($"猎魔手枪等级 {newLevel}：未定义效果");
+                Debug.Log($"猎魔手枪等级 {oldLevel}：未定义效果");
                 break;
         }
     }
@@ -173,14 +176,17 @@ public class WeaponManager : MonoBehaviour
     /// <summary>
     /// 处理大剑特殊效果
     /// </summary>
-    /// <param name="newLevel">新等级</param>
-    private void HandleGreatSwordEffect(int newLevel)
+    /// <param name="oldLevel">旧等级</param>
+    private void HandleGreatSwordEffect(int oldLevel)
     {
         // 获取大剑的当前武器实例（假设是第二个武器）
         WeaponData greatSword = _currentWeapons[1];
         
-        switch (newLevel)
+        switch (oldLevel)
         {
+            case 0:
+                Debug.Log("大剑从等级0升级，应用初始效果");
+                break;
             case 1:
                 // LV1: 增加基础伤害5点，特殊攻击倍率+0.1
                 greatSword.Damage += 5f;
@@ -213,7 +219,7 @@ public class WeaponManager : MonoBehaviour
                 greatSword.SpecialAttackMultiplier += 0.2f;
                 break;
             default:
-                Debug.Log($"大剑等级 {newLevel}：未定义效果");
+                Debug.Log($"大剑等级 {oldLevel}：未定义效果");
                 break;
         }
     }
@@ -221,14 +227,17 @@ public class WeaponManager : MonoBehaviour
     /// <summary>
     /// 处理神罚小刀特殊效果
     /// </summary>
-    /// <param name="newLevel">新等级</param>
-    private void HandleDivineKnifeEffect(int newLevel)
+    /// <param name="oldLevel">旧等级</param>
+    private void HandleDivineKnifeEffect(int oldLevel)
     {
         // 获取神罚小刀的当前武器实例（假设是第三个武器）
         WeaponData divineKnife = _currentWeapons[2];
         
-        switch (newLevel)
+        switch (oldLevel)
         {
+            case 0:
+                Debug.Log("神罚小刀从等级0升级，应用初始效果");
+                break;
             case 1:
                 // LV1: 增加一个数量
                 divineKnife.AttackCount += 1;
@@ -261,7 +270,7 @@ public class WeaponManager : MonoBehaviour
                 divineKnife.AttackCount += 1;
                 break;
             default:
-                Debug.Log($"神罚小刀等级 {newLevel}：未定义效果");
+                Debug.Log($"神罚小刀等级 {oldLevel}：未定义效果");
                 break;
         }
     }
@@ -269,8 +278,8 @@ public class WeaponManager : MonoBehaviour
     /// <summary>
     /// 处理精灵之火特殊效果
     /// </summary>
-    /// <param name="newLevel">新等级</param>
-    private void HandleSpiritFireEffect(int newLevel)
+    /// <param name="oldLevel">旧等级</param>
+    private void HandleSpiritFireEffect(int oldLevel)
     {
         // 查找精灵之火武器实例
         WeaponData spiritFire = _currentWeapons.Find(w => w.WeaponName == "精灵之火");
@@ -280,8 +289,11 @@ public class WeaponManager : MonoBehaviour
             return;
         }
         
-        switch (newLevel)
+        switch (oldLevel)
         {
+            case 0:
+                Debug.Log("精灵之火从等级0升级，应用初始效果");
+                break;
             case 1:
                 // LV1: 增加一个数量
                 spiritFire.AttackCount += 1;
@@ -317,7 +329,7 @@ public class WeaponManager : MonoBehaviour
                 spiritFire.AttackCount += 1;
                 break;
             default:
-                Debug.Log($"精灵之火等级 {newLevel}：未定义效果");
+                Debug.Log($"精灵之火等级 {oldLevel}：未定义效果");
                 break;
         }
     }
@@ -325,8 +337,8 @@ public class WeaponManager : MonoBehaviour
     /// <summary>
     /// 处理火焰魔杖特殊效果
     /// </summary>
-    /// <param name="newLevel">新等级</param>
-    private void HandleFlameWandEffect(int newLevel)
+    /// <param name="oldLevel">旧等级</param>
+    private void HandleFlameWandEffect(int oldLevel)
     {
         // 查找火焰魔杖武器实例
         WeaponData flameWand = _currentWeapons.Find(w => w.WeaponName == "火焰魔杖");
@@ -336,8 +348,11 @@ public class WeaponManager : MonoBehaviour
             return;
         }
         
-        switch (newLevel)
+        switch (oldLevel)
         {
+            case 0:
+                Debug.Log("火焰魔杖从等级0升级，应用初始效果");
+                break;
             case 1:
                 // LV1: 持续时间增加1s
                 flameWand.Duration += 1f;
@@ -369,7 +384,7 @@ public class WeaponManager : MonoBehaviour
                 flameWand.Damage += 7f;
                 break;
             default:
-                Debug.Log($"火焰魔杖等级 {newLevel}：未定义效果");
+                Debug.Log($"火焰魔杖等级 {oldLevel}：未定义效果");
                 break;
         }
     }
@@ -377,8 +392,8 @@ public class WeaponManager : MonoBehaviour
     /// <summary>
     /// 处理火球术特殊效果
     /// </summary>
-    /// <param name="newLevel">新等级</param>
-    private void HandleFireballEffect(int newLevel)
+    /// <param name="oldLevel">旧等级</param>
+    private void HandleFireballEffect(int oldLevel)
     {
         // 查找火球术武器实例
         WeaponData fireball = _currentWeapons.Find(w => w.WeaponName == "火球术");
@@ -388,8 +403,11 @@ public class WeaponManager : MonoBehaviour
             return;
         }
         
-        switch (newLevel)
+        switch (oldLevel)
         {
+            case 0:
+                Debug.Log("火球术从等级0升级，应用初始效果");
+                break;
             case 1:
                 // LV1: 持续时间增加1s
                 fireball.Duration += 1f;
@@ -422,7 +440,7 @@ public class WeaponManager : MonoBehaviour
                 fireball.CooldownTime -= 1f;
                 break;
             default:
-                Debug.Log($"火球术等级 {newLevel}：未定义效果");
+                Debug.Log($"火球术等级 {oldLevel}：未定义效果");
                 break;
         }
     }
