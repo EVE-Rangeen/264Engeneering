@@ -171,14 +171,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f19fd35a3e449059f9d7ec8b68c4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 20
+  _willDealDamage: 0
   _damage: 0
   _moveSpeed: 0
   _mass: 1
   _expType: 0
   _moneyType: 0
-  _expMoneyDropPossibility: 1
+  _expMoneyDropPossibility: 0
   _expWeight: 0
-  _healthDashDropPossibility: 0
-  _healthPotionWeight: 0.49
+  _healthDashDropPossibility: 1
+  _healthPotionWeight: 0.498
   _deathAnimationDuration: 1
