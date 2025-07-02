@@ -142,7 +142,7 @@ public class WeaponManager : MonoBehaviour
                 break;
             case 2:
                 // LV2: 减少冷却间隔-0.3
-                demonHunterPistol.BulletInterval -= 0.3f;
+                demonHunterPistol.CooldownTime -= 0.3f;
                 break;
             case 3:
                 // LV3: 增加基础伤害4
@@ -150,7 +150,7 @@ public class WeaponManager : MonoBehaviour
                 break;
             case 4:
                 // LV4: 减少冷却间隔-0.3
-                demonHunterPistol.BulletInterval -= 0.3f;
+                demonHunterPistol.CooldownTime -= 0.3f;
                 break;
             case 5:
                 // LV5: 增加基础伤害4
@@ -158,7 +158,7 @@ public class WeaponManager : MonoBehaviour
                 break;
             case 6:
                 // LV6: 减少冷却间隔-0.3
-                demonHunterPistol.BulletInterval -= 0.3f;
+                demonHunterPistol.CooldownTime -= 0.3f;
                 break;
             case 7:
                 // LV7: 增加基础伤害4
