@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     #region 敌人属性
     [Header("敌人属性")]
     [SerializeField] private float _maxHealth = 100f; // 最大生命值
+    [SerializeField] private bool _willDealDamage = true; // 是否造成伤害
     [SerializeField] private float _damage = 1f; // 攻击力,接触玩家时造成的伤害
     [SerializeField] private float _moveSpeed = 1f; // 移动速度，作用于EnemyController
     [SerializeField] private float _mass = 1f; // 质量，影响敌人被击退的距离
@@ -97,7 +98,7 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Player playerComponent = collision.gameObject.GetComponent<Player>();
-            if (playerComponent != null)
+            if (playerComponent != null && _willDealDamage)
             {
                 playerComponent.TakeEnemyDamage(_damage);
             }
