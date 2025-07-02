@@ -110,6 +110,15 @@ public class WeaponManager : MonoBehaviour
             case "神罚小刀":
                 HandleDivineKnifeEffect(newLevel);
                 break;
+            case "精灵之火":
+                HandleSpiritFireEffect(newLevel);
+                break;
+            case "火焰魔杖":
+                HandleFlameWandEffect(newLevel);
+                break;
+            case "火球术":
+                HandleFireballEffect(newLevel);
+                break;
             default:
                 Debug.LogWarning($"未找到武器 '{weaponData.WeaponName}' 的特殊效果处理方法");
                 break;
@@ -128,34 +137,32 @@ public class WeaponManager : MonoBehaviour
         switch (newLevel)
         {
             case 1:
-                // LV1: 增加基础伤害3
-                demonHunterPistol.Damage += 3f;
+                // LV1: 增加基础伤害4
+                demonHunterPistol.Damage += 4f;
                 break;
             case 2:
-                // LV2: 穿透增加2
-                demonHunterPistol.Piercing += 2;
+                // LV2: 减少冷却间隔-0.3
+                demonHunterPistol.BulletInterval -= 0.3f;
                 break;
             case 3:
-                // LV3: 增加基础伤害3
-                demonHunterPistol.Damage += 3f;
+                // LV3: 增加基础伤害4
+                demonHunterPistol.Damage += 4f;
                 break;
             case 4:
-                // LV4: 穿透增加2
-                demonHunterPistol.Piercing += 2;
+                // LV4: 减少冷却间隔-0.3
+                demonHunterPistol.BulletInterval -= 0.3f;
                 break;
             case 5:
-                // LV5: 增加基础伤害3，增加飞行速度50%
-                demonHunterPistol.Damage += 3f;
-                demonHunterPistol.ProjectileSpeed *= 1.5f;
+                // LV5: 增加基础伤害4
+                demonHunterPistol.Damage += 4f;
                 break;
             case 6:
-                // LV6: 穿透增加2
-                demonHunterPistol.Piercing += 2;
+                // LV6: 减少冷却间隔-0.3
+                demonHunterPistol.BulletInterval -= 0.3f;
                 break;
             case 7:
-                // LV7: 增加基础伤害3，增加飞行速度50%
-                demonHunterPistol.Damage += 3f;
-                demonHunterPistol.ProjectileSpeed *= 1.5f;
+                // LV7: 增加基础伤害4
+                demonHunterPistol.Damage += 4f;
                 break;
             default:
                 Debug.Log($"猎魔手枪等级 {newLevel}：未定义效果");
@@ -175,35 +182,35 @@ public class WeaponManager : MonoBehaviour
         switch (newLevel)
         {
             case 1:
-                // LV1: 增加基础伤害5点，增大攻击范围10%
+                // LV1: 增加基础伤害5点，特殊攻击倍率+0.1
                 greatSword.Damage += 5f;
-                greatSword.AttackRange *= 1.1f;
+                greatSword.SpecialAttackMultiplier += 0.1f;
                 break;
             case 2:
                 // LV2: 增加基础伤害5点
                 greatSword.Damage += 5f;
                 break;
             case 3:
-                // LV3: 减小冷却时间0.2f
-                greatSword.BulletInterval *= 0.2f;
+                // LV3: 减小冷却时间0.2
+                greatSword.CooldownTime -= 0.2f;
                 break;
             case 4:
-                // LV4: 增加基础伤害5点，增大攻击范围10%
+                // LV4: 增加基础伤害5点，特殊攻击倍率+0.1
                 greatSword.Damage += 5f;
-                greatSword.AttackRange *= 1.1f;
+                greatSword.SpecialAttackMultiplier += 0.1f;
                 break;
             case 5:
                 // LV5: 增加基础伤害5点
                 greatSword.Damage += 5f;
                 break;
             case 6:
-                // LV6: 减小冷却时间0.2f
-                greatSword.BulletInterval *= 0.2f;
+                // LV6: 减小冷却时间0.2
+                greatSword.CooldownTime -= 0.2f;
                 break;
             case 7:
-                // LV7: 增加基础伤害5点，增大攻击范围10%
+                // LV7: 增加基础伤害5点，特殊攻击倍率+0.2
                 greatSword.Damage += 5f;
-                greatSword.AttackRange *= 1.1f;
+                greatSword.SpecialAttackMultiplier += 0.2f;
                 break;
             default:
                 Debug.Log($"大剑等级 {newLevel}：未定义效果");
@@ -227,8 +234,8 @@ public class WeaponManager : MonoBehaviour
                 divineKnife.AttackCount += 1;
                 break;
             case 2:
-                // LV2: 增大范围100%，基础伤害增加10点
-                divineKnife.AttackRange *= 2.0f;
+                // LV2: 增大范围+1，基础伤害增加10点
+                divineKnife.AttackRange += 1f;
                 divineKnife.Damage += 10f;
                 break;
             case 3:
@@ -236,8 +243,8 @@ public class WeaponManager : MonoBehaviour
                 divineKnife.AttackCount += 1;
                 break;
             case 4:
-                // LV4: 增大范围100%，基础伤害增加10点
-                divineKnife.AttackRange *= 2.0f;
+                // LV4: 增大范围+1，基础伤害增加10点
+                divineKnife.AttackRange += 1f;
                 divineKnife.Damage += 10f;
                 break;
             case 5:
@@ -245,8 +252,8 @@ public class WeaponManager : MonoBehaviour
                 divineKnife.AttackCount += 1;
                 break;
             case 6:
-                // LV6: 增大范围100%，基础伤害增加10点
-                divineKnife.AttackRange *= 2.0f;
+                // LV6: 增大范围+1，基础伤害增加10点
+                divineKnife.AttackRange += 1f;
                 divineKnife.Damage += 10f;
                 break;
             case 7:
@@ -255,6 +262,167 @@ public class WeaponManager : MonoBehaviour
                 break;
             default:
                 Debug.Log($"神罚小刀等级 {newLevel}：未定义效果");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 处理精灵之火特殊效果
+    /// </summary>
+    /// <param name="newLevel">新等级</param>
+    private void HandleSpiritFireEffect(int newLevel)
+    {
+        // 查找精灵之火武器实例
+        WeaponData spiritFire = _currentWeapons.Find(w => w.WeaponName == "精灵之火");
+        if (spiritFire == null)
+        {
+            Debug.LogWarning("未找到精灵之火武器实例");
+            return;
+        }
+        
+        switch (newLevel)
+        {
+            case 1:
+                // LV1: 增加一个数量
+                spiritFire.AttackCount += 1;
+                break;
+            case 2:
+                // LV2: 攻击范围增加0.3，飞行速度增加0.5，射弹间隔减少0.2
+                spiritFire.AttackRange += 0.3f;
+                spiritFire.ProjectileSpeed += 0.5f;
+                spiritFire.BulletInterval -= 0.2f;
+                break;
+            case 3:
+                // LV3: 持续时间增加1，基础伤害增加7点
+                spiritFire.Duration += 1f;
+                spiritFire.Damage += 7f;
+                break;
+            case 4:
+                // LV4: 增加一个数量
+                spiritFire.AttackCount += 1;
+                break;
+            case 5:
+                // LV5: 攻击范围增加0.3，飞行速度增加0.5
+                spiritFire.AttackRange += 0.3f;
+                spiritFire.ProjectileSpeed += 0.5f;
+                break;
+            case 6:
+                // LV6: 持续时间增加1，基础伤害增加7点，射弹间隔减少0.2
+                spiritFire.Duration += 1f;
+                spiritFire.Damage += 7f;
+                spiritFire.BulletInterval -= 0.2f;
+                break;
+            case 7:
+                // LV7: 增加一个数量
+                spiritFire.AttackCount += 1;
+                break;
+            default:
+                Debug.Log($"精灵之火等级 {newLevel}：未定义效果");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 处理火焰魔杖特殊效果
+    /// </summary>
+    /// <param name="newLevel">新等级</param>
+    private void HandleFlameWandEffect(int newLevel)
+    {
+        // 查找火焰魔杖武器实例
+        WeaponData flameWand = _currentWeapons.Find(w => w.WeaponName == "火焰魔杖");
+        if (flameWand == null)
+        {
+            Debug.LogWarning("未找到火焰魔杖武器实例");
+            return;
+        }
+        
+        switch (newLevel)
+        {
+            case 1:
+                // LV1: 持续时间增加1s
+                flameWand.Duration += 1f;
+                break;
+            case 2:
+                // LV2: 增加基础伤害3，增大范围+1
+                flameWand.Damage += 3f;
+                flameWand.AttackRange += 1f;
+                break;
+            case 3:
+                // LV3: 持续时间增加1s
+                flameWand.Duration += 1f;
+                break;
+            case 4:
+                // LV4: 增加基础伤害7
+                flameWand.Damage += 7f;
+                break;
+            case 5:
+                // LV5: 增加基础伤害3，增大范围+1
+                flameWand.Damage += 3f;
+                flameWand.AttackRange += 1f;
+                break;
+            case 6:
+                // LV6: 持续时间增加1s
+                flameWand.Duration += 1f;
+                break;
+            case 7:
+                // LV7: 增加基础伤害7
+                flameWand.Damage += 7f;
+                break;
+            default:
+                Debug.Log($"火焰魔杖等级 {newLevel}：未定义效果");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 处理火球术特殊效果
+    /// </summary>
+    /// <param name="newLevel">新等级</param>
+    private void HandleFireballEffect(int newLevel)
+    {
+        // 查找火球术武器实例
+        WeaponData fireball = _currentWeapons.Find(w => w.WeaponName == "火球术");
+        if (fireball == null)
+        {
+            Debug.LogWarning("未找到火球术武器实例");
+            return;
+        }
+        
+        switch (newLevel)
+        {
+            case 1:
+                // LV1: 持续时间增加1s
+                fireball.Duration += 1f;
+                break;
+            case 2:
+                // LV2: 增加基础伤害5，增大范围+1
+                fireball.Damage += 5f;
+                fireball.AttackRange += 1f;
+                break;
+            case 3:
+                // LV3: 减少冷却0.5s
+                fireball.CooldownTime -= 0.5f;
+                break;
+            case 4:
+                // LV4: 持续时间增加1s
+                fireball.Duration += 1f;
+                break;
+            case 5:
+                // LV5: 增加基础伤害5，增大范围+1
+                fireball.Damage += 5f;
+                fireball.AttackRange += 1f;
+                break;
+            case 6:
+                // LV6: 减少冷却0.5s
+                fireball.CooldownTime -= 0.5f;
+                break;
+            case 7:
+                // LV7: 增加基础伤害7，减少冷却1s
+                fireball.Damage += 7f;
+                fireball.CooldownTime -= 1f;
+                break;
+            default:
+                Debug.Log($"火球术等级 {newLevel}：未定义效果");
                 break;
         }
     }
