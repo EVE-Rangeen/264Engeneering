@@ -15,6 +15,7 @@ public class Timer : MonoBehaviour
     void Awake()
     {
         instance = this;
+        _gameStartTime = Time.time;
     }
     /// <summary>
     /// 获取格式化的游戏时间（分:秒格式）

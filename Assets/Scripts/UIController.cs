@@ -60,6 +60,10 @@ public class UIController : MonoBehaviour
     public TMP_Text totalWeaponText;
     //获得饰品文本
     public TMP_Text totalAccessoryText;
+    //总武器图标
+    public GameObject totalWeaponIcon;
+    //总饰品图标
+    public GameObject totalAccessoryIcon;
     
     
 
@@ -181,6 +185,10 @@ public class UIController : MonoBehaviour
 
         // 更新击败敌人数量
         UpdateDefeatedEnemyCountDisplay();
+
+        // 重置并暂停计时器
+        Timer.instance.ResetTimer();
+        Timer.instance.PauseTimer();
     }
 
     public void UpdateTime()
@@ -277,29 +285,40 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateTotalWeaponDisplay()
     {
-        string totalWeaponText = "获得武器\n";
         
-        // 遍历所有当前武器，只显示等级大于0的武器
+        // 遍历所有当前武器，只为等级大于0的武器生成图标
         var currentWeapons = WeaponManager.instance.CurrentWeapons;
-        bool hasWeapons = false;
         
         foreach (var weapon in currentWeapons)
         {
             if (weapon.WeaponLevel > 0)
             {
-                totalWeaponText += $"{weapon.WeaponName}: 等级 {weapon.CurrentLevel}/{weapon.MaxLevel}\n";
-                hasWeapons = true;
+                // 创建新的GameObject作为子物体
+                GameObject iconObject = new GameObject($"WeaponIcon_{weapon.WeaponName}");
+                
+                // 设置父物体
+                iconObject.transform.SetParent(totalWeaponIcon.transform);
+                
+                // 添加Image组件
+                Image iconImage = iconObject.AddComponent<Image>();
+                
+                // 设置图标精灵
+                if (weapon.WeaponIcon != null)
+                {
+                    iconImage.sprite = weapon.WeaponIcon;
+                }
+                else
+                {
+                    Debug.LogWarning($"武器 {weapon.WeaponName} 没有设置图标");
+                }
+
+                // 设置RectTransform属性
+                RectTransform rectTransform = iconObject.GetComponent<RectTransform>();
+                rectTransform.localScale = Vector3.one;
+
+                Debug.Log($"成功添加武器图标: {weapon.WeaponName}");
             }
         }
-        
-        // 如果没有武器，显示提示信息
-        if (!hasWeapons)
-        {
-            totalWeaponText += "暂无武器";
-        }
-        
-        // 更新UI文本
-        this.totalWeaponText.text = totalWeaponText;
     }
 
     /// <summary>
@@ -307,28 +326,32 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateTotalAccessoryDisplay()
     {
-        string totalAccessoryText = "获得饰品\n";
         
-        // 遍历所有当前饰品，只显示等级大于0的饰品
+        // 遍历所有当前饰品，只为等级大于0的饰品生成图标
         var currentAccessories = AccessoryManager.instance.CurrentAccessories;
-        bool hasAccessories = false;
         
         foreach (var accessory in currentAccessories)
         {
             if (accessory.CurrentLevel > 0)
             {
-                totalAccessoryText += $"{accessory.AccessoryName}: 等级 {accessory.CurrentLevel}/{accessory.MaxLevel}\n";
-                hasAccessories = true;
+                // 创建新的GameObject作为子物体
+                GameObject iconObject = new GameObject($"AccessoryIcon_{accessory.AccessoryName}");
+                
+                // 设置父物体
+                iconObject.transform.SetParent(totalAccessoryIcon.transform);
+                
+                // 添加Image组件
+                Image iconImage = iconObject.AddComponent<Image>();
+                
+                // 设置图标精灵
+                iconImage.sprite = accessory.AccessoryIcon;
+
+                // 设置RectTransform属性
+                RectTransform rectTransform = iconObject.GetComponent<RectTransform>();
+                rectTransform.localScale = Vector3.one;
+
+                Debug.Log($"成功添加饰品图标: {accessory.AccessoryName}");
             }
         }
-        
-        // 如果没有饰品，显示提示信息
-        if (!hasAccessories)
-        {
-            totalAccessoryText += "暂无饰品";
-        }
-        
-        // 更新UI文本
-        this.totalAccessoryText.text = totalAccessoryText;
     }
 }
