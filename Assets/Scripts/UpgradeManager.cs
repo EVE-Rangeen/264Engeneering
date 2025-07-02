@@ -320,7 +320,7 @@ public class UpgradeManager : MonoBehaviour
                 Debug.Log($"武器 {weaponInList.WeaponName} 从等级 {oldLevel} 升级到 {newLevel}");
                 
                 // 执行武器特殊效果
-                WeaponManager.instance.ExecuteWeaponSpecialEffect(weaponInList, newLevel);
+                WeaponManager.instance.ExecuteWeaponSpecialEffect(weaponInList, oldLevel);
                 
                 // 只有当武器从等级0升级时才添加图标（第一次获得武器）与生成预制体
                 if (oldLevel == 0 && _weaponIconGenerator != null)
@@ -359,7 +359,7 @@ public class UpgradeManager : MonoBehaviour
                 Debug.Log($"饰品 {accessory.AccessoryName} 从等级 {oldLevel} 升级到 {newLevel}");
                 
                 // 执行饰品特殊效果
-                AccessoryManager.instance.ExecuteAccessorySpecialEffect(accessory, newLevel);
+                AccessoryManager.instance.ExecuteAccessorySpecialEffect(accessory, oldLevel);
                 
                 // 只有当饰品从等级0升级时才添加图标（第一次获得饰品）
                 if (oldLevel == 0 && _accessoryIconGenerator != null)
