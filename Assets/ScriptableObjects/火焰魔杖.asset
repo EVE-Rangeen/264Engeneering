@@ -26,9 +26,9 @@ MonoBehaviour:
   - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB37"
   _currentLevel: 0
   _maxLevel: 8
-  _damage: 3
+  _damage: 5
   _specialAttackMultiplier: 0
-  _attackRange: 2
+  _attackRange: 3
   _attackCount: 1
   _piercing: 0
   _cooldownTime: 5
