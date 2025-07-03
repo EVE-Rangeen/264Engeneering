@@ -160,28 +160,38 @@ public class SpinningWeapon : MonoBehaviour
         // 计算初始角度，让环绕实体均匀分布
 
 
-        if (totalCount == 5)
+        if (totalCount == 2)
         {
-            angle = 95 * index;
-        }
-        // else
-        // {
-        //     angle = (360f / totalCount + 30) * index;
-        // }
-
-
-        else if (totalCount == 4)
-        {
-            angle = 112 * index;
+            angle = 210 * index;
         }
         else if (totalCount == 3)
         {
             angle = 145 * index;
         }
-        else if (totalCount == 2)
+        else if (totalCount == 4)
         {
-            angle = 210 * index;
+            angle = 112 * index;
         }
+        else if (totalCount == 5)
+        {
+            angle = 95 * index;
+        }
+        else if (totalCount == 6)
+        {
+            angle = 85 * index;
+        }
+        else if (totalCount == 7)
+        {
+            angle = 75 * index;
+        }
+        else if (totalCount == 8)
+        {
+            angle = 68 * index;
+        }
+        // else
+        // {
+        //     angle = (360f / totalCount + 30) * index;
+        // }
 
 
         Vector3 spawnPosition = transform.position + Quaternion.Euler(0, 0, angle) * Vector3.right * radius;

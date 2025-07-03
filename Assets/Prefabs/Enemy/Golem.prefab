@@ -161,9 +161,9 @@ MonoBehaviour:
   _mass: 0.5
   _expType: 0
   _moneyType: 0
-  _expMoneyDropPossibility: 0.8
-  _expWeight: 0.7
-  _healthDashDropPossibility: 0.2
+  _expMoneyDropPossibility: 0
+  _expWeight: 0
+  _healthDashDropPossibility: 1
   _healthPotionWeight: 0.5
   _deathAnimationDuration: 0.333
 --- !u!114 &7757943476636949408
