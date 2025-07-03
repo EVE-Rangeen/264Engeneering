@@ -4,8 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// 旋转武器脚本，控制环绕实体的旋转攻击行为。环绕实体需要挂载EnemyDamager组件并且默认inactive，作为SpinningWeapon的子物体。
-/// TODO 升级后的武器环绕半径并没有生效，需要检查
-/// TODO 精灵之火应该平均分布在玩家周围
+/// TODO 升级后的武器环绕半径并没有生效，需要检查 解决
+/// TODO 精灵之火应该平均分布在玩家周围 解决
 /// 2025-06-30杜宜峰
 /// </summary>
 public class SpinningWeapon : MonoBehaviour
@@ -168,8 +168,6 @@ public class SpinningWeapon : MonoBehaviour
         // {
         //     angle = (360f / totalCount + 30) * index;
         // }
-
-
 
 
         else if (totalCount == 4)
