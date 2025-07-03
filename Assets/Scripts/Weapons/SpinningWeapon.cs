@@ -132,7 +132,7 @@ public class SpinningWeapon : MonoBehaviour
                            finalDamage, finalKnockBackForce, finalTimeBetweenDamage, finalDuration);
 
             // 播放音效
-            SFXManager.instance.PlaySFX(_spawnSFXIndex);
+            SFXManager.instance.PlaySFXPitched(_spawnSFXIndex);
 
             // 间隔生成
             if (i < finalSpinObjectCount - 1)

@@ -43,6 +43,7 @@ public class FlameThrowerWeapon : MonoBehaviour
     // 火焰特效相关
     private GameObject _flameVFXInstance;
     private ParticleSystem _flameParticleSystem;
+    private bool _flameVFXInitialized = false; // 标记火焰特效是否已初始化完成
 
     // 方向跟随相关
     private Vector2 _lastAttackDirection = Vector2.right; // 记录上次的攻击方向
@@ -160,7 +161,7 @@ public class FlameThrowerWeapon : MonoBehaviour
             // 实例化火焰特效
             _flameVFXInstance = Instantiate(flameVFXPrefab, attackZone.transform);
             _flameVFXInstance.transform.localPosition = Vector3.zero;
-            _flameVFXInstance.transform.localRotation = Quaternion.identity;
+            _flameVFXInstance.transform.localRotation = Quaternion.Euler(0, 0, -_attackAngle / 2f);
 
             // 获取粒子系统组件
             _flameParticleSystem = _flameVFXInstance.GetComponent<ParticleSystem>();
@@ -168,9 +169,20 @@ public class FlameThrowerWeapon : MonoBehaviour
             {
                 Debug.LogWarning("FlameThrowerWeapon: 火焰特效Prefab上未找到ParticleSystem组件！");
             }
+            else
+            {
+                // 标记火焰特效已初始化完成
+                _flameVFXInitialized = true;
+                Debug.Log("FlameThrowerWeapon: 火焰特效初始化完成");
+            }
 
             // 初始时禁用
             _flameVFXInstance.SetActive(false);
+        }
+        else
+        {
+            // 如果没有火焰特效，也标记为已初始化（避免无限等待）
+            _flameVFXInitialized = true;
         }
     }
 
@@ -193,8 +205,28 @@ public class FlameThrowerWeapon : MonoBehaviour
             Debug.LogError($"FlameThrowerWeapon: weaponIndex({weaponIndex})超出范围");
         }
 
+        // 等待火焰特效初始化完成
+        yield return StartCoroutine(WaitForFlameVFXInitialization());
+
         // 启动自动攻击循环
         StartCoroutine(AutoAttackLoop());
+    }
+
+    /// <summary>
+    /// 等待火焰特效初始化完成
+    /// </summary>
+    private IEnumerator WaitForFlameVFXInitialization()
+    {
+        // 等待火焰特效初始化完成
+        while (!_flameVFXInitialized)
+        {
+            yield return null;
+        }
+
+        // 额外等待一帧，确保所有组件都已准备就绪
+        yield return null;
+
+        Debug.Log("FlameThrowerWeapon: 所有初始化完成，开始攻击循环");
     }
 
     /// <summary>
@@ -237,11 +269,11 @@ public class FlameThrowerWeapon : MonoBehaviour
     /// </summary>
     private void UpdateFlameVFX()
     {
-        if (!_showFlameVFX || _flameVFXInstance == null || _flameParticleSystem == null) return;
+        if (!_showFlameVFX || _flameVFXInstance == null || _flameParticleSystem == null || !_flameVFXInitialized) return;
 
         // 更新粒子系统的Shape角度以匹配攻击角度
         var shape = _flameParticleSystem.shape;
-        shape.angle = _attackAngle / 2f; // ParticleSystem的angle是半角
+        shape.angle = 45f; // 90°扇形
 
         // 更新粒子速度以匹配攻击范围
         var main = _flameParticleSystem.main;
@@ -277,7 +309,7 @@ public class FlameThrowerWeapon : MonoBehaviour
             }
 
             // 启用火焰特效
-            if (_showFlameVFX && _flameVFXInstance != null)
+            if (_showFlameVFX && _flameVFXInstance != null && _flameVFXInitialized)
             {
                 _flameVFXInstance.SetActive(true);
                 if (_flameParticleSystem != null)
@@ -311,7 +343,7 @@ public class FlameThrowerWeapon : MonoBehaviour
             }
 
             // 禁用火焰特效
-            if (_showFlameVFX && _flameVFXInstance != null)
+            if (_showFlameVFX && _flameVFXInstance != null && _flameVFXInitialized)
             {
                 _flameVFXInstance.SetActive(false);
                 if (_flameParticleSystem != null)
