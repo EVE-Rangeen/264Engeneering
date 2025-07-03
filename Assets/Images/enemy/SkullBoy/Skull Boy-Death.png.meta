@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -95,7 +95,301 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Skull Boy-Death_0
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 1
+        width: 29
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b035a1f798add9e4883a7f0b0323a6b0
+      internalID: -350581570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_1
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 1
+        width: 31
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcd12ae96dc516c43a839efa913345f5
+      internalID: 923002935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_2
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 1
+        width: 38
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94ddbdd24d8327548a1e775adc206506
+      internalID: -1893243700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_5
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 1
+        width: 47
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c46be53a6f2a61f48b1713e5f00314e3
+      internalID: -1228299811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_6
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 1
+        width: 50
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8aa46ef105f612d438e111148fe3b82d
+      internalID: -1419007673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_7
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 1
+        width: 48
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0653e8a80d91b1f4ea4c49b2f3a20056
+      internalID: -1072871303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_8
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 1
+        width: 50
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 956609cee8440fb4184bccacbe28eb91
+      internalID: -187809187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_9
+      rect:
+        serializedVersion: 2
+        x: 695
+        y: 1
+        width: 46
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22651fcaef504654687d9c0dcec7caf4
+      internalID: 2003444390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_10
+      rect:
+        serializedVersion: 2
+        x: 793
+        y: 1
+        width: 48
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 151e0a342f8b2604fbce4d712d1f8457
+      internalID: 478319166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_11
+      rect:
+        serializedVersion: 2
+        x: 893
+        y: 1
+        width: 48
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef3205586b9035849b4c3831941164b2
+      internalID: 1280743004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_12
+      rect:
+        serializedVersion: 2
+        x: 991
+        y: 1
+        width: 37
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7002e29c01f60424eb30067ab54e2765
+      internalID: 253092710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_13
+      rect:
+        serializedVersion: 2
+        x: 1089
+        y: 1
+        width: 38
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49072cbec431f3746997ed1d0193c9db
+      internalID: 1954596534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_14
+      rect:
+        serializedVersion: 2
+        x: 1190
+        y: 1
+        width: 36
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68583f7d462738a4da51e84491416f2a
+      internalID: -1577775270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull Boy-Death_15
+      rect:
+        serializedVersion: 2
+        x: 1289
+        y: 1
+        width: 36
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 538c150446da7d4439bb106083c54f92
+      internalID: -739218590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -106,7 +400,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Skull Boy-Death_0: -350581570
+      Skull Boy-Death_1: 923002935
+      Skull Boy-Death_10: 478319166
+      Skull Boy-Death_11: 1280743004
+      Skull Boy-Death_12: 253092710
+      Skull Boy-Death_13: 1954596534
+      Skull Boy-Death_14: -1577775270
+      Skull Boy-Death_15: -739218590
+      Skull Boy-Death_2: -1893243700
+      Skull Boy-Death_3: -1282022787
+      Skull Boy-Death_4: 1987989034
+      Skull Boy-Death_5: -1228299811
+      Skull Boy-Death_6: -1419007673
+      Skull Boy-Death_7: -1072871303
+      Skull Boy-Death_8: -187809187
+      Skull Boy-Death_9: 2003444390
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
