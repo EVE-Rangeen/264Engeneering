@@ -154,10 +154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f19fd35a3e449059f9d7ec8b68c4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 15
+  _maxHealth: 100
   _willDealDamage: 1
   _damage: 5
-  _moveSpeed: 0.5
+  _moveSpeed: 0.45
   _mass: 0.5
   _expType: 0
   _moneyType: 0
@@ -239,6 +239,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.042931795, y: 0.0073444247}
-  m_Size: {x: 0.8969734, y: 0.959366}
+  m_Offset: {x: 0.15626514, y: 0.0073444247}
+  m_Size: {x: 0.5569699, y: 1}
   m_Direction: 0

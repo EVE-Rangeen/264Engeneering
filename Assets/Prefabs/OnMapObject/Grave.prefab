@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3355131009158831147}
   - component: {fileID: 1211786905154188894}
   - component: {fileID: 6772745761686076191}
-  - component: {fileID: 1248628336126233427}
   - component: {fileID: 5158922762847559167}
+  - component: {fileID: 7135911913807374790}
   m_Layer: 0
   m_Name: Grave
   m_TagString: Enemy
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -114,8 +114,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!61 &1248628336126233427
-BoxCollider2D:
+--- !u!114 &5158922762847559167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591354746834766232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f19fd35a3e449059f9d7ec8b68c4a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 20
+  _willDealDamage: 0
+  _damage: 0
+  _moveSpeed: 0
+  _mass: 1
+  _expType: 0
+  _moneyType: 0
+  _expMoneyDropPossibility: 0
+  _expWeight: 0
+  _healthDashDropPossibility: 1
+  _healthPotionWeight: 0.498
+  _deathAnimationDuration: 1
+--- !u!70 &7135911913807374790
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -146,40 +170,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.24, y: 0.3}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.3}
-  m_EdgeRadius: 0
---- !u!114 &5158922762847559167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4591354746834766232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71f19fd35a3e449059f9d7ec8b68c4a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHealth: 20
-  _willDealDamage: 0
-  _damage: 0
-  _moveSpeed: 0
-  _mass: 1
-  _expType: 0
-  _moneyType: 0
-  _expMoneyDropPossibility: 0
-  _expWeight: 0
-  _healthDashDropPossibility: 1
-  _healthPotionWeight: 0.498
-  _deathAnimationDuration: 1
+  m_Offset: {x: -0.013449185, y: 0}
+  m_Size: {x: 0.18956546, y: 0.3}
+  m_Direction: 0
