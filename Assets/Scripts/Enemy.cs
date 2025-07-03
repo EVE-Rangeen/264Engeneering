@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
 
     private float _health = 100f; // 当前生命值
     private bool _isDead = false; // 敌人是否已死亡的标志
+    private float _lastAttackTime = 0f; // 上次攻击时间
 
     // 受击闪烁效果相关
     private SpriteRenderer[] _spriteRenderers; // 所有的 SpriteRenderer 组件
@@ -100,7 +101,12 @@ public class Enemy : MonoBehaviour
             Player playerComponent = collision.gameObject.GetComponent<Player>();
             if (playerComponent != null && _willDealDamage)
             {
-                playerComponent.TakeEnemyDamage(_damage);
+                // 检查攻击间隔
+                if (Time.time - _lastAttackTime >= 0.1f)
+                {
+                    playerComponent.TakeEnemyDamage(_damage);
+                    _lastAttackTime = Time.time; // 更新上次攻击时间
+                }
             }
         }
     }

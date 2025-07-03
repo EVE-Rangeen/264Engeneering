@@ -74,12 +74,12 @@ SpriteRenderer:
   m_SortingLayerID: -1005160873
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1798795822, guid: 1a675ed00df06e54381f5740ad5a9c87, type: 3}
+  m_Sprite: {fileID: 409969599, guid: 433588c005d8f174f8ad9153e1bb5c58, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.45, y: 0.51}
+  m_Size: {x: 0.35, y: 0.36}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -95,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 2939746240374628129}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5206d0c43caa7ae44bd59b5c8839a12d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8546ec4c8f801f44090a9976a2a3952a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -118,9 +118,9 @@ GameObject:
   - component: {fileID: 4217534947198247641}
   - component: {fileID: 7757943476636949408}
   - component: {fileID: 743359825840303534}
-  - component: {fileID: 1377297311737529080}
+  - component: {fileID: 4498390862747516459}
   m_Layer: 0
-  m_Name: Skeleton
+  m_Name: SkeletonSeeker
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,13 +156,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 50
   _willDealDamage: 1
-  _damage: 13
+  _damage: 11
   _moveSpeed: 0.4
-  _mass: 0.8
-  _expType: 2
+  _mass: 0.5
+  _expType: 1
   _moneyType: 0
-  _expMoneyDropPossibility: 1
-  _expWeight: 1
+  _expMoneyDropPossibility: 0.9
+  _expWeight: 0.9
   _healthDashDropPossibility: 0.1
   _healthPotionWeight: 0.5
   _deathAnimationDuration: 0.333
@@ -207,7 +207,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &1377297311737529080
+--- !u!70 &4498390862747516459
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,6 +239,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.011845648}
-  m_Size: {x: 0.5, y: 0.54986346}
+  m_Offset: {x: -0.07837129, y: 0.008160919}
+  m_Size: {x: 0.75708675, y: 0.9653165}
   m_Direction: 0
