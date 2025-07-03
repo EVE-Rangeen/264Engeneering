@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 4217534947198247641}
   - component: {fileID: 7757943476636949408}
   - component: {fileID: 743359825840303534}
-  - component: {fileID: 8673596455665338114}
+  - component: {fileID: 1377297311737529080}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Enemy
@@ -155,14 +155,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
+  _willDealDamage: 1
   _damage: 5
   _moveSpeed: 0.4
   _mass: 1
   _expType: 1
   _moneyType: 0
-  _expMoneyDropPossibility: 0.8
-  _expWeight: 0.7
-  _healthDashDropPossibility: 0.2
+  _expMoneyDropPossibility: 1
+  _expWeight: 1
+  _healthDashDropPossibility: 0.1
   _healthPotionWeight: 0.5
   _deathAnimationDuration: 0.333
 --- !u!114 &7757943476636949408
@@ -206,8 +207,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &8673596455665338114
-BoxCollider2D:
+--- !u!70 &1377297311737529080
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -238,16 +239,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.49, y: 0.54}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: -0.011845648}
+  m_Size: {x: 0.5, y: 0.54986346}
+  m_Direction: 0
