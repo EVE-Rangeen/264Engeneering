@@ -15,9 +15,7 @@ public class FlameThrowerWeapon : MonoBehaviour
     [Header("攻击区域（需挂载EnemyDamager）")]
     [SerializeField] private GameObject attackZone;
 
-    [Header("火焰粒子特效")]
-    [SerializeField] private GameObject flameVFXPrefab;
-    [SerializeField] private bool _showFlameVFX = true; // 是否显示火焰特效
+
 
     [Header("可视化效果")]
     [SerializeField] private LineRenderer _attackAreaVisual;
@@ -39,11 +37,6 @@ public class FlameThrowerWeapon : MonoBehaviour
     private PlayerController _playerController;
     private EnemyDamager _enemyDamager;
     private PolygonCollider2D _polygonCollider;
-
-    // 火焰特效相关
-    private GameObject _flameVFXInstance;
-    private ParticleSystem _flameParticleSystem;
-    private bool _flameVFXInitialized = false; // 标记火焰特效是否已初始化完成
 
     // 方向跟随相关
     private Vector2 _lastAttackDirection = Vector2.right; // 记录上次的攻击方向
@@ -80,9 +73,6 @@ public class FlameThrowerWeapon : MonoBehaviour
 
             // 初始化可视化效果
             InitializeVisualEffect();
-
-            // 初始化火焰特效
-            InitializeFlameVFX();
         }
     }
 
@@ -151,41 +141,6 @@ public class FlameThrowerWeapon : MonoBehaviour
         _attackAreaVisual.enabled = false;
     }
 
-    /// <summary>
-    /// 初始化火焰特效
-    /// </summary>
-    private void InitializeFlameVFX()
-    {
-        if (flameVFXPrefab != null && _showFlameVFX)
-        {
-            // 实例化火焰特效
-            _flameVFXInstance = Instantiate(flameVFXPrefab, attackZone.transform);
-            _flameVFXInstance.transform.localPosition = Vector3.zero;
-            _flameVFXInstance.transform.localRotation = Quaternion.Euler(0, 0, -_attackAngle / 2f);
-
-            // 获取粒子系统组件
-            _flameParticleSystem = _flameVFXInstance.GetComponent<ParticleSystem>();
-            if (_flameParticleSystem == null)
-            {
-                Debug.LogWarning("FlameThrowerWeapon: 火焰特效Prefab上未找到ParticleSystem组件！");
-            }
-            else
-            {
-                // 标记火焰特效已初始化完成
-                _flameVFXInitialized = true;
-                Debug.Log("FlameThrowerWeapon: 火焰特效初始化完成");
-            }
-
-            // 初始时禁用
-            _flameVFXInstance.SetActive(false);
-        }
-        else
-        {
-            // 如果没有火焰特效，也标记为已初始化（避免无限等待）
-            _flameVFXInitialized = true;
-        }
-    }
-
     private IEnumerator InitializeWeaponData()
     {
         // 等待WeaponManager初始化完成
@@ -205,28 +160,8 @@ public class FlameThrowerWeapon : MonoBehaviour
             Debug.LogError($"FlameThrowerWeapon: weaponIndex({weaponIndex})超出范围");
         }
 
-        // 等待火焰特效初始化完成
-        yield return StartCoroutine(WaitForFlameVFXInitialization());
-
         // 启动自动攻击循环
         StartCoroutine(AutoAttackLoop());
-    }
-
-    /// <summary>
-    /// 等待火焰特效初始化完成
-    /// </summary>
-    private IEnumerator WaitForFlameVFXInitialization()
-    {
-        // 等待火焰特效初始化完成
-        while (!_flameVFXInitialized)
-        {
-            yield return null;
-        }
-
-        // 额外等待一帧，确保所有组件都已准备就绪
-        yield return null;
-
-        Debug.Log("FlameThrowerWeapon: 所有初始化完成，开始攻击循环");
     }
 
     /// <summary>
@@ -259,32 +194,6 @@ public class FlameThrowerWeapon : MonoBehaviour
 
         // 更新可视化效果
         UpdateVisualEffect();
-
-        // 更新火焰特效
-        UpdateFlameVFX();
-    }
-
-    /// <summary>
-    /// 更新火焰特效
-    /// </summary>
-    private void UpdateFlameVFX()
-    {
-        if (!_showFlameVFX || _flameVFXInstance == null || _flameParticleSystem == null || !_flameVFXInitialized) return;
-
-        // 更新粒子系统的Shape角度以匹配攻击角度
-        var shape = _flameParticleSystem.shape;
-        shape.angle = 45f; // 90°扇形
-
-        // 更新粒子速度以匹配攻击范围
-        var main = _flameParticleSystem.main;
-        float particleSpeed = _attackRange / main.startLifetime.constant; // 速度 = 距离 / 时间
-        main.startSpeed = particleSpeed;
-
-        // 更新粒子数量以匹配攻击范围（更大的范围需要更多粒子）
-        var emission = _flameParticleSystem.emission;
-        float baseRate = 100f; // 基础发射率
-        float rangeMultiplier = _attackRange / 3f; // 基于默认3米范围的比例
-        emission.rateOverTime = baseRate * rangeMultiplier;
     }
 
     private IEnumerator AutoAttackLoop()
@@ -306,16 +215,6 @@ public class FlameThrowerWeapon : MonoBehaviour
             if (_showVisualEffect && _attackAreaVisual != null)
             {
                 _attackAreaVisual.enabled = true;
-            }
-
-            // 启用火焰特效
-            if (_showFlameVFX && _flameVFXInstance != null && _flameVFXInitialized)
-            {
-                _flameVFXInstance.SetActive(true);
-                if (_flameParticleSystem != null)
-                {
-                    _flameParticleSystem.Play();
-                }
             }
 
             // 播放攻击音效（循环）
@@ -340,16 +239,6 @@ public class FlameThrowerWeapon : MonoBehaviour
             if (_showVisualEffect && _attackAreaVisual != null)
             {
                 _attackAreaVisual.enabled = false;
-            }
-
-            // 禁用火焰特效
-            if (_showFlameVFX && _flameVFXInstance != null && _flameVFXInitialized)
-            {
-                _flameVFXInstance.SetActive(false);
-                if (_flameParticleSystem != null)
-                {
-                    _flameParticleSystem.Stop();
-                }
             }
 
             // 停止攻击音效
@@ -531,22 +420,11 @@ public class FlameThrowerWeapon : MonoBehaviour
     /// <summary>
     /// 外部可调用，设置火焰特效的显示状态
     /// </summary>
-    public void SetFlameVFXEnabled(bool enabled)
-    {
-        _showFlameVFX = enabled;
-        if (_flameVFXInstance != null)
-        {
-            _flameVFXInstance.SetActive(enabled && _isAttacking);
-        }
-    }
+
 
     /// <summary>
     /// 外部可调用，获取火焰特效的显示状态
     /// </summary>
-    public bool IsFlameVFXEnabled()
-    {
-        return _showFlameVFX;
-    }
 
     // 在编辑器中绘制攻击范围，方便调试
     void OnDrawGizmosSelected()
