@@ -563,7 +563,7 @@ public class Player : MonoBehaviour
 
         // 等待一段时间后自动恢复（防止一直红色）
         // 这里设置为2秒，如果2秒内没有新的本体伤害就恢复原色
-        yield return new WaitForSeconds(0.334f);
+        yield return new WaitForSeconds(0.1f);
 
         // 恢复原始材质
         RestoreOriginalMaterials();
