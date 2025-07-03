@@ -307,6 +307,14 @@ public class Enemy : MonoBehaviour
     {
         string dashPotionPrefabPath = "Prefabs/DashPotion";
         GameObject dashPotionPrefab = Resources.Load<GameObject>(dashPotionPrefabPath);
+        if (dashPotionPrefab != null)
+        {
+            Instantiate(dashPotionPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogError($"无法加载冲刺瓶Prefab：{dashPotionPrefabPath}");
+        }
     }
 
     /// <summary>

@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed35e6428ea7e425b84fd04fe0190751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultFacingDirection: 1
+  _defaultFacingDirection: 0
   _rendererTransform: {fileID: 5499136574619465458}
 --- !u!50 &743359825840303534
 Rigidbody2D:
