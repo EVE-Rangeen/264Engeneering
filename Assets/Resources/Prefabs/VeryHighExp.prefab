@@ -165,4 +165,4 @@ MonoBehaviour:
   _initialAcceleration: 10
   _attractionAcceleration: 20
   _velocityDamping: 10
-  _expType: 0
+  _expType: 2
