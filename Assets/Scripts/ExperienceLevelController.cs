@@ -80,8 +80,7 @@ public class ExperienceLevelController : MonoBehaviour
         // 暂停计时器
         Timer.instance.PauseTimer();
         // 增加最大血量与当前血量
-        PlayerAttributeManager.instance.PlayerComponent.MaxHealth += 3f;
-        PlayerAttributeManager.instance.PlayerComponent.Health += 3f;
+        PlayerAttributeManager.instance.PlayerComponent.IncreaseMaxHealthAndCurrentHealth(3f);
 
     }
 }

@@ -292,9 +292,7 @@ public class UpgradeManager : MonoBehaviour
         UIController.instance.pauseButton.interactable = true;
         
         // 更新显示文本
-        UIController.instance.UpdateWeaponLevelDisplay();
-        UIController.instance.UpdateAccessoryLevelDisplay();
-        UIController.instance.UpdatePlayerAttributeDisplay();
+        UIController.instance.UpdatePauseDisplay();
 
         // 恢复游戏时间
         Timer.instance.ResumeTimer();
