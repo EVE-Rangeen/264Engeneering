@@ -63,7 +63,14 @@ public class Player : MonoBehaviour
         get => _health;
         set
         {
-            _health = value;
+            if (value > _maxHealth)
+            {
+                _health = _maxHealth;
+            }
+            else
+            {
+                _health = value;
+            }
             // 更新血量UI的值
             if (_healthSlider != null)
             {
@@ -75,6 +82,20 @@ public class Player : MonoBehaviour
                 Die();
             }
         }
+    }
+
+    /// <summary>
+    /// 同时提高最大血量和当前血量
+    /// </summary>
+    public void IncreaseMaxAndCurrentHealth(float amount)
+    {
+        _maxHealth += amount;
+        _health += amount;
+        if (_health > _maxHealth)
+        {
+            _health = _maxHealth;
+        }
+        UpdateHealthUI();
     }
 
     /// <summary>
