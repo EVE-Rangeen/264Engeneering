@@ -46,4 +46,14 @@ public class SFXManager : MonoBehaviour
     }
 
     // 控制音乐音量
+    public void SetMusicVolume(float volume)
+    {
+        _audioMixer.SetFloat("VolumeOfMusic", volume);
+    }
+
+    // 控制音效音量
+    public void SetSFXVolume(float volume)
+    {
+        _audioMixer.SetFloat("VolumeOfSFX", volume);
+    }
 }
