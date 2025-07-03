@@ -88,9 +88,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
         // 更新显示文本
-        UpdateWeaponLevelDisplay();
-        UpdateAccessoryLevelDisplay();
-        UpdatePlayerAttributeDisplay();
+        UpdatePauseDisplay();
     }
 
     public void UpdateExperience(int currentExp, int levelExp, int currentLvl)
@@ -112,19 +110,20 @@ public class UIController : MonoBehaviour
         if (powerModeToggle.isOn)
         {
             // Toggle刚被打开：开启神力模式
-            player.MaxHealth *= 2f;
-            player.Health *= 2f; // 当前血量也翻倍
+            player.IncreaseMaxHealthAndCurrentHealth(player.MaxHealth);
             player.Armor += 3f;
             Debug.Log($"神力模式已开启：最大血量翻倍至{player.MaxHealth}，当前血量翻倍至{player.Health}，护甲+3至{player.Armor}");
         }
         else
         {
             // Toggle刚被关闭：关闭神力模式
-            player.MaxHealth /= 2f;
-            player.Health /= 2f; // 当前血量也减半
+            player.DecreaseMaxAndCurrentHealth(player.MaxHealth/2f);
             player.Armor -= 3f;
             Debug.Log($"神力模式已关闭：最大血量恢复至{player.MaxHealth}，当前血量恢复至{player.Health}，护甲-3至{player.Armor}");
         }
+
+        // 更新暂停界面显示
+        UpdatePlayerAttributeDisplay();
     }
 
     /// <summary>
@@ -222,6 +221,23 @@ public class UIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 更新暂停界面显示
+    /// 统一调用所有暂停界面相关的更新方法
+    /// </summary>
+    public void UpdatePauseDisplay()
+    {
+        // 更新武器等级显示
+        UpdateWeaponLevelDisplay();
+        // 更新饰品等级显示
+        UpdateAccessoryLevelDisplay();
+        // 更新人物属性显示
+        UpdatePlayerAttributeDisplay();
+    }
+
+    /// <summary>
+    /// 更新武器等级显示
+    /// </summary>
     public void UpdateWeaponLevelDisplay()
     {
         string weaponLevelText = "武器等级\n";
