@@ -74,12 +74,12 @@ SpriteRenderer:
   m_SortingLayerID: -1005160873
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 647656023, guid: 30d173f96293eb64fa430e1e7d06617a, type: 3}
+  m_Sprite: {fileID: 195294426, guid: 00aae9298a29f2f4a9187079f178c463, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.21, y: 0.14}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -95,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 2939746240374628129}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e337893870917204e90aff50caaacdec, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8c060452de5491e4983fb0d991c56e8d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -118,9 +118,9 @@ GameObject:
   - component: {fileID: 4217534947198247641}
   - component: {fileID: 7757943476636949408}
   - component: {fileID: 743359825840303534}
-  - component: {fileID: -1790476992100609653}
+  - component: {fileID: 6171684640002262168}
   m_Layer: 0
-  m_Name: Rat
+  m_Name: HoGoblin LV1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,11 +154,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f19fd35a3e449059f9d7ec8b68c4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 5
+  _maxHealth: 10
   _willDealDamage: 1
-  _damage: 3
-  _moveSpeed: 0.6
-  _mass: 0.4
+  _damage: 5
+  _moveSpeed: 0.45
+  _mass: 0.5
   _expType: 0
   _moneyType: 0
   _expMoneyDropPossibility: 0.9
@@ -207,7 +207,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &-1790476992100609653
+--- !u!70 &6171684640002262168
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,6 +239,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0015114173, y: 0.0018294755}
-  m_Size: {x: 0.21585615, y: 0.13666375}
-  m_Direction: 1
+  m_Offset: {x: -0.0011806637, y: -0.0040518045}
+  m_Size: {x: 0.14479104, y: 0.16555202}
+  m_Direction: 0

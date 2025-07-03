@@ -158,7 +158,7 @@ MonoBehaviour:
   _willDealDamage: 1
   _damage: 5
   _moveSpeed: 0.4
-  _mass: 1
+  _mass: 0.8
   _expType: 1
   _moneyType: 0
   _expMoneyDropPossibility: 1
