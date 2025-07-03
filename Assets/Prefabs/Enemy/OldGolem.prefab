@@ -156,15 +156,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 2000
   _willDealDamage: 1
-  _damage: 7
-  _moveSpeed: 0.5
-  _mass: 0.5
+  _damage: 15
+  _moveSpeed: 0.38
+  _mass: 6
   _expType: 0
   _moneyType: 0
-  _expMoneyDropPossibility: 0.9
-  _expWeight: 0.9
-  _healthDashDropPossibility: 0.1
-  _healthPotionWeight: 0.5
+  _expMoneyDropPossibility: 0
+  _expWeight: 0
+  _healthDashDropPossibility: 1
+  _healthPotionWeight: 1
   _deathAnimationDuration: 0.333
 --- !u!114 &7757943476636949408
 MonoBehaviour:

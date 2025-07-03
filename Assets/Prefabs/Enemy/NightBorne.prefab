@@ -162,7 +162,7 @@ MonoBehaviour:
   _expType: 2
   _moneyType: 0
   _expMoneyDropPossibility: 0
-  _expWeight: 0.7
+  _expWeight: 0
   _healthDashDropPossibility: 1
   _healthPotionWeight: 0.5
   _deathAnimationDuration: 0.333

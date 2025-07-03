@@ -156,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 5
   _willDealDamage: 1
-  _damage: 3
+  _damage: 8
   _moveSpeed: 0.6
   _mass: 0.4
   _expType: 0
