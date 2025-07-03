@@ -16,6 +16,7 @@ public class Pickup : MonoBehaviour
 
     protected bool _isPickedUp = false;
     private bool _isInAttractPhase = false; // 是否处于吸引阶段
+    private bool _isDataUpdated = false; // 是否已经更新过数据
     private Player _player;
 
     void Start()
@@ -79,8 +80,6 @@ public class Pickup : MonoBehaviour
                 if (!_isInAttractPhase)
                 {
                     _isInAttractPhase = true;
-                    // 可以在这里添加阶段切换的视觉效果
-                    Debug.Log($"拾取物 {gameObject.name} 进入吸引阶段");
                 }
 
                 // 计算从拾取物指向玩家的方向
@@ -117,12 +116,17 @@ public class Pickup : MonoBehaviour
     /// <summary>
     /// 检测与玩家的碰撞
     /// </summary>
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        // 更严格的条件：必须是已拾取状态、处于吸引阶段、且碰撞对象是玩家
+        // 必须是已拾取状态、处于吸引阶段、且碰撞对象是玩家才能够触发
         if (_isPickedUp && _isInAttractPhase && other.CompareTag("Player"))
         {
-            DataUpdate();
+            // 如果数据未更新过，则更新数据，避免反复结算
+            if (!_isDataUpdated)
+            {
+                DataUpdate();
+                _isDataUpdated = true;
+            }
             // 如果正在执行拾取动画且碰到玩家，立即销毁
             Destroy(gameObject);
         }
