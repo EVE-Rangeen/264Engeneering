@@ -153,26 +153,37 @@ public class SpinningWeapon : MonoBehaviour
     void SpawnSpinObject(int index, int totalCount, float radius, float speed,
                         float damage, float knockback, float damageInterval, float duration)
     {
+        float angle = 0f;
         //神奇的计算公式 但是能解决分布不均匀的问题
         //问题在于比如三个环绕体的时候视觉效果是四边形的三个顶点 五个环绕体的时候是六边形的五个顶点 都缺一块
-        float angle = (360f / totalCount + 30) * index;
+        //float angle = (360f / totalCount + 30) * index;
         // 计算初始角度，让环绕实体均匀分布
-        // if (totalCount == 5)
+
+
+        if (totalCount == 5)
+        {
+            angle = 95 * index;
+        }
+        // else
         // {
-        //     angle = 102 * index;
+        //     angle = (360f / totalCount + 30) * index;
         // }
-        // else if (totalCount == 4)
-        // {
-        //     angle = 120 * index;
-        // }
-        // else if (totalCount == 3)
-        // {
-        //     angle = 150 * index;
-        // }
-        // else if (totalCount == 2)
-        // {
-        //     angle = 210 * index;
-        // }
+
+
+
+
+        else if (totalCount == 4)
+        {
+            angle = 112 * index;
+        }
+        else if (totalCount == 3)
+        {
+            angle = 145 * index;
+        }
+        else if (totalCount == 2)
+        {
+            angle = 210 * index;
+        }
 
 
         Vector3 spawnPosition = transform.position + Quaternion.Euler(0, 0, angle) * Vector3.right * radius;

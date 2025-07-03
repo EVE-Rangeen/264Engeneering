@@ -100,13 +100,13 @@ TextureImporter:
       name: wp_fireball_vfx_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 3
         y: 0
-        width: 29
+        width: 27
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 27, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -121,12 +121,12 @@ TextureImporter:
       name: wp_fireball_vfx_1
       rect:
         serializedVersion: 2
-        x: 29
+        x: 59
         y: 0
-        width: 29
+        width: 28
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -142,12 +142,12 @@ TextureImporter:
       name: wp_fireball_vfx_2
       rect:
         serializedVersion: 2
-        x: 58
+        x: 94
         y: 0
-        width: 29
+        width: 22
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -163,18 +163,18 @@ TextureImporter:
       name: wp_fireball_vfx_3
       rect:
         serializedVersion: 2
-        x: 87
+        x: 31
         y: 0
-        width: 29
+        width: 27
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 27, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 578269bbe1f7b484692b1927b995dea0
+      spriteID: dd061774d6937294092933adea768b33
       internalID: 1324082474
       vertices: []
       indices: 
