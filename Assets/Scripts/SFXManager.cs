@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 /// <summary>
 /// 音效管理器，管理所有音效的播放。
@@ -9,6 +10,8 @@ using UnityEngine;
 public class SFXManager : MonoBehaviour
 {
     public static SFXManager instance;
+
+    public AudioMixer _audioMixer;
     private void Awake()
     {
         instance = this;
@@ -35,4 +38,12 @@ public class SFXManager : MonoBehaviour
 
         PlaySFX(sfxToPlay);
     }
+
+    // 控制总音量
+    public void SetMasterVolume(float volume)
+    {
+        _audioMixer.SetFloat("VolumeOfMaster", volume);
+    }
+
+    // 控制音乐音量
 }

@@ -39,13 +39,27 @@ public class Timer : MonoBehaviour
         _gameStartTime = Time.time;
     }
 
+    /// <summary>
+    /// 暂停计时器
+    /// </summary>
     public void PauseTimer()
     {
         Time.timeScale = 0;
     }
 
+    /// <summary>
+    /// 恢复计时器
+    /// </summary>
     public void ResumeTimer()
     {
         Time.timeScale = 1;
-    }   
+    }
+
+    /// <summary>
+    /// 退出游戏
+    /// </summary>
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }
