@@ -6,7 +6,8 @@ using UnityEngine;
 /// 旋转武器脚本，控制环绕实体的旋转攻击行为。环绕实体需要挂载EnemyDamager组件并且默认inactive，作为SpinningWeapon的子物体。
 /// TODO 升级后的武器环绕半径并没有生效，需要检查 解决
 /// TODO 精灵之火应该平均分布在玩家周围 解决
-/// 2025-06-30杜宜峰
+/// 2025-06-30 杜宜峰 创建
+/// 2025-07-03 肖沐奇 修改
 /// </summary>
 public class SpinningWeapon : MonoBehaviour
 {
@@ -96,13 +97,13 @@ public class SpinningWeapon : MonoBehaviour
         if (dist > finalOrbitRadius * 2f) return; // 使用finalOrbitRadius而不是_orbitRadius
 
         // 启动生成协程
-        StartCoroutine(SpawnSpinObjects());
+        StartCoroutine(_CoSpawnSpinObjects());
     }
 
     /// <summary>
     /// 生成环绕实体的协程
     /// </summary>
-    IEnumerator SpawnSpinObjects()
+    IEnumerator _CoSpawnSpinObjects()
     {
         _isSpawning = true;
 
@@ -132,7 +133,7 @@ public class SpinningWeapon : MonoBehaviour
                            finalDamage, finalKnockBackForce, finalTimeBetweenDamage, finalDuration);
 
             // 播放音效
-            SFXManager.instance.PlaySFXPitched(_spawnSFXIndex);
+            // SFXManager.instance.PlaySFXPitched(_spawnSFXIndex);
 
             // 间隔生成
             if (i < finalSpinObjectCount - 1)
@@ -153,46 +154,8 @@ public class SpinningWeapon : MonoBehaviour
     void SpawnSpinObject(int index, int totalCount, float radius, float speed,
                         float damage, float knockback, float damageInterval, float duration)
     {
-        float angle = 0f;
-        //神奇的计算公式 但是能解决分布不均匀的问题
-        //问题在于比如三个环绕体的时候视觉效果是四边形的三个顶点 五个环绕体的时候是六边形的五个顶点 都缺一块
-        //float angle = (360f / totalCount + 30) * index;
-        // 计算初始角度，让环绕实体均匀分布
-
-
-        if (totalCount == 2)
-        {
-            angle = 210 * index;
-        }
-        else if (totalCount == 3)
-        {
-            angle = 145 * index;
-        }
-        else if (totalCount == 4)
-        {
-            angle = 112 * index;
-        }
-        else if (totalCount == 5)
-        {
-            angle = 95 * index;
-        }
-        else if (totalCount == 6)
-        {
-            angle = 85 * index;
-        }
-        else if (totalCount == 7)
-        {
-            angle = 75 * index;
-        }
-        else if (totalCount == 8)
-        {
-            angle = 68 * index;
-        }
-        // else
-        // {
-        //     angle = (360f / totalCount + 30) * index;
-        // }
-
+        // 肖沐奇创建的公式
+        float angle = 360f / totalCount * index + index * _spawnInterval * speed;   // 后一项是补偿间隔时间，每间隔_spawnInterval秒生成一个环绕实体，所以需要补偿index * _spawnInterval * speed的角度
 
         Vector3 spawnPosition = transform.position + Quaternion.Euler(0, 0, angle) * Vector3.right * radius;
 
@@ -222,8 +185,6 @@ public class SpinningWeapon : MonoBehaviour
         if (animator != null)
         {
             animator.enabled = true;
-            // 可以在这里设置动画的初始状态
-            // animator.Play("Idle"); // 播放默认动画
         }
 
         // 添加旋转组件
