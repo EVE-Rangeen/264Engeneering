@@ -30,6 +30,12 @@ public class UIController : MonoBehaviour
     //疾走次数文本
     public TMP_Text dashText;
 
+    [Header("游戏设置")]
+    //自动结束游戏时间 - 分钟
+    public int autoEndGameMinutes = 10;
+    //自动结束游戏时间 - 秒钟
+    public int autoEndGameSeconds = 0;
+
     [Header("升级界面")]
     //升级界面
     public GameObject levelUpPanel;
@@ -197,7 +203,23 @@ public class UIController : MonoBehaviour
 
     public void UpdateTime()
     {
-        timeText.text = Timer.instance.GetTime();
+        string currentTime = Timer.instance.GetTime();
+        timeText.text = currentTime;
+        
+        // 检查是否到达自动结束时间
+        // 将时间字符串转换为总秒数进行比较
+        string[] currentTimeParts = currentTime.Split(':');
+        int currentMinutes = int.Parse(currentTimeParts[0]);
+        int currentSeconds = int.Parse(currentTimeParts[1]);
+        int currentTotalSeconds = currentMinutes * 60 + currentSeconds;
+        
+        int autoEndTotalSeconds = autoEndGameMinutes * 60 + autoEndGameSeconds;
+        
+        if (currentTotalSeconds >= autoEndTotalSeconds)
+        {
+            Debug.Log($"游戏时间到达 {autoEndGameMinutes}:{autoEndGameSeconds}，准备自动结束游戏");
+            UpdateGameResultDisplay();
+        }
     }
 
     public void UpdateWeaponLevelDisplay()
