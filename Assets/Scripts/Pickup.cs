@@ -10,11 +10,12 @@ public class Pickup : MonoBehaviour
 {
     [Header("拾取动画设置")]
     [SerializeField] private float _flyOutDistance = 0.3f; // 飞出距离
-    [SerializeField] private float _initialAcceleration = 3f; // 初始加速度
-    [SerializeField] private float _attractionAcceleration = 10f; // 向玩家的吸引加速度
-    [SerializeField] private float _velocityDamping = 3f; // 速度阻尼加速度，防止绕圈
+    [SerializeField] private float _initialAcceleration = 10f; // 初始加速度
+    [SerializeField] private float _attractionAcceleration = 20f; // 向玩家的吸引加速度
+    [SerializeField] private float _velocityDamping = 10f; // 速度阻尼加速度，防止绕圈
 
     protected bool _isPickedUp = false;
+    private bool _isInAttractPhase = false; // 是否处于吸引阶段
     private Player _player;
 
     void Start()
@@ -59,7 +60,6 @@ public class Pickup : MonoBehaviour
         Vector3 startPosition = transform.position;
         Vector3 velocity = Vector3.zero; // 初始速度为0
         float distanceTraveled = 0f; // 已飞行距离
-        bool isInAttractPhase = false; // 是否进入吸引阶段
 
         // 计算从玩家到拾取物的方向（远离玩家的方向）
         Vector3 flyOutDirection = (transform.position - _player.transform.position).normalized;
@@ -68,7 +68,7 @@ public class Pickup : MonoBehaviour
         {
             Vector3 acceleration;
 
-            if (!isInAttractPhase && distanceTraveled < _flyOutDistance)
+            if (!_isInAttractPhase && distanceTraveled < _flyOutDistance)
             {
                 // 第一阶段：向远离玩家的方向加速
                 acceleration = flyOutDirection * _initialAcceleration;
@@ -76,10 +76,11 @@ public class Pickup : MonoBehaviour
             else
             {
                 // 第二阶段：向玩家吸引 + 速度阻尼
-                if (!isInAttractPhase)
+                if (!_isInAttractPhase)
                 {
-                    isInAttractPhase = true;
+                    _isInAttractPhase = true;
                     // 可以在这里添加阶段切换的视觉效果
+                    Debug.Log($"拾取物 {gameObject.name} 进入吸引阶段");
                 }
 
                 // 计算从拾取物指向玩家的方向
@@ -102,7 +103,7 @@ public class Pickup : MonoBehaviour
             Vector3 newPosition = transform.position + velocity * Time.deltaTime;
 
             // 更新已飞行距离（仅在第一阶段计算）
-            if (!isInAttractPhase)
+            if (!_isInAttractPhase)
             {
                 distanceTraveled += Vector3.Distance(transform.position, newPosition);
             }
@@ -113,14 +114,13 @@ public class Pickup : MonoBehaviour
         }
     }
 
-
-
     /// <summary>
     /// 检测与玩家的碰撞
     /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (_isPickedUp && other.CompareTag("Player"))
+        // 更严格的条件：必须是已拾取状态、处于吸引阶段、且碰撞对象是玩家
+        if (_isPickedUp && _isInAttractPhase && other.CompareTag("Player"))
         {
             DataUpdate();
             // 如果正在执行拾取动画且碰到玩家，立即销毁

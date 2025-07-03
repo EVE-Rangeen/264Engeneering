@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _flyOutDistance: 0.3
-  _initialAcceleration: 3
-  _attractionAcceleration: 10
-  _velocityDamping: 3
-  _expType: 2
+  _initialAcceleration: 10
+  _attractionAcceleration: 20
+  _velocityDamping: 10
+  _expType: 0
