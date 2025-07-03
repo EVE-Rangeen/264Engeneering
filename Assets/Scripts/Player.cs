@@ -79,6 +79,7 @@ public class Player : MonoBehaviour
             // 如果血量小于0，则死亡
             if (_health <= 0)
             {
+                _health = 0;
                 Die();
             }
         }
@@ -95,7 +96,35 @@ public class Player : MonoBehaviour
         {
             _health = _maxHealth;
         }
-        UpdateHealthUI();
+        if (_healthSlider != null)
+        {
+            _healthSlider.maxValue = _maxHealth;
+            _healthSlider.value = _health;
+        }
+    }
+
+    /// <summary>
+    /// 同时降低最大血量和当前血量
+    /// </summary>
+    public void DecreaseMaxAndCurrentHealth(float amount)
+    {
+        _maxHealth -= amount;
+        if (_maxHealth < 0)
+        {
+            Debug.LogError("最大血量不能小于0");
+            return;
+        }
+        _health -= amount;
+        if (_health < 0)
+        {
+            _health = 0;
+            Die();
+        }
+        if (_healthSlider != null)
+        {
+            _healthSlider.maxValue = _maxHealth;
+            _healthSlider.value = _health;
+        }
     }
 
     /// <summary>
