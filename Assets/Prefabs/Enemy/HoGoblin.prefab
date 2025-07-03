@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 4217534947198247641}
   - component: {fileID: 7757943476636949408}
   - component: {fileID: 743359825840303534}
-  - component: {fileID: 7175454483361606185}
+  - component: {fileID: 6171684640002262168}
   m_Layer: 0
   m_Name: HoGoblin
   m_TagString: Enemy
@@ -155,17 +155,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 10
-  _health: 10
+  _willDealDamage: 1
   _damage: 3
   _moveSpeed: 0.45
   _mass: 0.5
   _expType: 0
   _moneyType: 0
-  _dropPossibility: 0.8
-  _expWeight: 0.7
+  _expMoneyDropPossibility: 0.9
+  _expWeight: 0.9
+  _healthDashDropPossibility: 0.1
+  _healthPotionWeight: 0.5
   _deathAnimationDuration: 0.333
-  _healthPotionDropPossibility: 0.01
-  _dashPotionDropPossibility: 0.01
 --- !u!114 &7757943476636949408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,8 +207,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &7175454483361606185
-BoxCollider2D:
+--- !u!70 &6171684640002262168
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -239,16 +239,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0011636317, y: 0.00030365586}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.17014235, y: 0.16720778}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.0011806637, y: -0.0040518045}
+  m_Size: {x: 0.14479104, y: 0.16555202}
+  m_Direction: 0
