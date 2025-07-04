@@ -126,6 +126,7 @@ public class Pickup : MonoBehaviour
             {
                 DataUpdate();
                 _isDataUpdated = true;
+                SFXManager.instance.PlayPickUpSFX();
             }
             // 如果正在执行拾取动画且碰到玩家，立即销毁
             Destroy(gameObject);
