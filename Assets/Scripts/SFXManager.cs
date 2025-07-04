@@ -87,7 +87,7 @@ public class SFXManager : MonoBehaviour
     /// </summary>
     public void PlayHitSFX()
     {
-        PlaySFXPitched(_hitSFXIndex);
+        PlaySFX(_hitSFXIndex);
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public class SFXManager : MonoBehaviour
     /// </summary>
     public void PlayHitBySFX()
     {
-        PlaySFXPitched(_hitBySFXIndex);
+        PlaySFX(_hitBySFXIndex);
     }
 
     /// <summary>
