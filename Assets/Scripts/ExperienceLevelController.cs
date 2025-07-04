@@ -77,6 +77,8 @@ public class ExperienceLevelController : MonoBehaviour
         UIController.instance.levelUpTitleText.text = "选择一项升级！";
         UIController.instance.pauseButton.interactable = false;
         UpgradeManager.instance.SelectRandomUpgradeItems();
+        // 播放升级音效
+        SFXManager.instance.PlayLevelUpSFX();
         // 暂停计时器
         Timer.instance.PauseTimer();
         // 增加最大血量与当前血量
