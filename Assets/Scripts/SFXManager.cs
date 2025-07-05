@@ -28,9 +28,26 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private int _clickButtonSFXIndex = 13;
 
     public AudioMixer _audioMixer;
+    
+    [Header("音量控制设置")]
+    [Tooltip("静音阈值：当slider值小于等于此值时，音量将被设置为静音")]
+    [SerializeField] private float _muteThreshold = -20f;
+    
+    // 存储初始音量值
+    private float _initialMasterVolume;
+    private float _initialMusicVolume;
+    private float _initialSFXVolume;
+    // 静音音量值（dB）
+    private float _muteVolume = -80f;
+    
     private void Awake()
     {
         instance = this;
+        
+        // 获取并存储初始音量值
+        _audioMixer.GetFloat("VolumeOfMaster", out _initialMasterVolume);
+        _audioMixer.GetFloat("VolumeOfMusic", out _initialMusicVolume);
+        _audioMixer.GetFloat("VolumeOfSFX", out _initialSFXVolume);
     }
 
     //这个数组要存储所有音效 然后在需要播放的函数里面调用PlaySFX或者PlaySFXPitched函数
@@ -56,21 +73,51 @@ public class SFXManager : MonoBehaviour
     }
 
     // 控制总音量
-    public void SetMasterVolume(float volume)
+    public void SetMasterVolume(float sliderValue)
     {
-        _audioMixer.SetFloat("VolumeOfMaster", volume);
+        // 如果slider拉到最小值，设置为静音
+        if (sliderValue <= _muteThreshold)
+        {
+            _audioMixer.SetFloat("VolumeOfMaster", _muteVolume);
+        }
+        else
+        {
+            // 基于初始值调整音量
+            float newVolume = _initialMasterVolume + sliderValue;
+            _audioMixer.SetFloat("VolumeOfMaster", newVolume);
+        }
     }
 
     // 控制音乐音量
-    public void SetMusicVolume(float volume)
+    public void SetMusicVolume(float sliderValue)
     {
-        _audioMixer.SetFloat("VolumeOfMusic", volume);
+        // 如果slider拉到最小值，设置为静音
+        if (sliderValue <= _muteThreshold)
+        {
+            _audioMixer.SetFloat("VolumeOfMusic", _muteVolume);
+        }
+        else
+        {
+            // 基于初始值调整音量
+            float newVolume = _initialMusicVolume + sliderValue;
+            _audioMixer.SetFloat("VolumeOfMusic", newVolume);
+        }
     }
 
     // 控制音效音量
-    public void SetSFXVolume(float volume)
+    public void SetSFXVolume(float sliderValue)
     {
-        _audioMixer.SetFloat("VolumeOfSFX", volume);
+        // 如果slider拉到最小值，设置为静音
+        if (sliderValue <= _muteThreshold)
+        {
+            _audioMixer.SetFloat("VolumeOfSFX", _muteVolume);
+        }
+        else
+        {
+            // 基于初始值调整音量
+            float newVolume = _initialSFXVolume + sliderValue;
+            _audioMixer.SetFloat("VolumeOfSFX", newVolume);
+        }
     }
 
     // 以下是播放各种音效的函数
