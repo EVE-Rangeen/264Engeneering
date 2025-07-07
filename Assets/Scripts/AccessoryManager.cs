@@ -11,33 +11,33 @@ using System.Collections.Generic;
 public class AccessoryManager : MonoBehaviour
 {
     public static AccessoryManager instance;
-    
+
     [Header("饰品配置")]
     [SerializeField] private List<AccessoryData> _accessoryDataList = new List<AccessoryData>();
-    
+
     [Header("当前饰品实例 (运行时自动生成)")]
     [SerializeField] private List<AccessoryData> _currentAccessories = new List<AccessoryData>();
-    
+
     /// <summary>
     /// 获取所有饰品初始数据（只读）
     /// </summary>
     public List<AccessoryData> AccessoryDataList => _accessoryDataList;
-    
+
     /// <summary>
     /// 获取当前饰品实例列表（只读）
     /// </summary>
     public List<AccessoryData> CurrentAccessories => _currentAccessories;
-    
+
     void Awake()
     {
         instance = this;
     }
-    
+
     void Start()
     {
         CreateAccessoryInstances();
     }
-    
+
     /// <summary>
     /// 创建饰品实例
     /// 将配置列表中的饰品数据复制到当前饰品实例列表中
@@ -45,7 +45,7 @@ public class AccessoryManager : MonoBehaviour
     private void CreateAccessoryInstances()
     {
         _currentAccessories.Clear();
-        
+
         foreach (var accessoryData in _accessoryDataList)
         {
             // 创建新的饰品实例，复制配置数据
@@ -55,7 +55,31 @@ public class AccessoryManager : MonoBehaviour
             newInstance.AccessoryDescriptions = accessoryData.AccessoryDescriptions;
             newInstance.CurrentLevel = accessoryData.CurrentLevel;
             newInstance.MaxLevel = accessoryData.MaxLevel;
-            
+            // 分配本地化key
+            switch (accessoryData.AccessoryName)
+            {
+                case "弹巢":
+                    newInstance.AccessoryKey = "exmagazine";
+                    break;
+                case "重靴":
+                    newInstance.AccessoryKey = "armoredboots";
+                    break;
+                case "安卡十字":
+                    newInstance.AccessoryKey = "ankh";
+                    break;
+                case "沙漏":
+                    newInstance.AccessoryKey = "hourglass";
+                    break;
+                case "血袋":
+                    newInstance.AccessoryKey = "bloodbag";
+                    break;
+                case "小石头":
+                    newInstance.AccessoryKey = "smallrock";
+                    break;
+                default:
+                    newInstance.AccessoryKey = "unknown";
+                    break;
+            }
             _currentAccessories.Add(newInstance);
         }
     }
@@ -133,7 +157,7 @@ public class AccessoryManager : MonoBehaviour
     private void HandleHeavyBootsEffect(int newLevel)
     {
         var player = PlayerAttributeManager.instance.PlayerComponent;
-        
+
         switch (newLevel)
         {
             case 1:
@@ -165,7 +189,7 @@ public class AccessoryManager : MonoBehaviour
     private void HandleAnkhCrossEffect(int newLevel)
     {
         var player = PlayerAttributeManager.instance.PlayerComponent;
-        
+
         switch (newLevel)
         {
             case 1:
@@ -202,7 +226,7 @@ public class AccessoryManager : MonoBehaviour
     private void HandleHourglassEffect(int newLevel)
     {
         var player = PlayerAttributeManager.instance.PlayerComponent;
-        
+
         switch (newLevel)
         {
             case 1:
@@ -239,7 +263,7 @@ public class AccessoryManager : MonoBehaviour
     private void HandleBloodBagEffect(int newLevel)
     {
         var player = PlayerAttributeManager.instance.PlayerComponent;
-        
+
         switch (newLevel)
         {
             case 1:
@@ -276,7 +300,7 @@ public class AccessoryManager : MonoBehaviour
     private void HandleSmallStoneEffect(int newLevel)
     {
         var player = PlayerAttributeManager.instance.PlayerComponent;
-        
+
         switch (newLevel)
         {
             case 1:
@@ -304,4 +328,4 @@ public class AccessoryManager : MonoBehaviour
                 break;
         }
     }
-} 
+}

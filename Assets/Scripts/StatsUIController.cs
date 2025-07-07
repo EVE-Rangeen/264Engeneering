@@ -14,17 +14,30 @@ public class StatsUIController : MonoBehaviour
     public List<TMP_Text> levelTexts;
     public List<TMP_Text> descriptionTexts;
     public List<TMP_Text> costTexts;
-    
+
     void Awake()
     {
         instance = this;
+        var font = Resources.Load<TMPro.TMP_FontAsset>("Fonts/Uranus_Pixel_11Px SDF");
+        if (font != null)
+        {
+            if (coinText != null) coinText.font = font;
+            for (int i = 0; i < costTexts.Count; i++)
+            {
+                if (costTexts[i] != null) costTexts[i].font = font;
+            }
+        }
+        else
+        {
+            Debug.LogError("未找到中文TMP字体: Assets/Fonts/Uranus_Pixel_11Px SDF.asset");
+        }
     }
 
     void Start()
     {
         // 在Start中调用，确保PlayerStatsManager已经初始化
         UpdateCoin();
-        
+
         // 遍历所有可升级属性，更新对应的UI文本
         for (int i = 0; i < PlayerStatsManager.instance.UpgradeableAttributes.Count; i++)
         {
@@ -36,7 +49,7 @@ public class StatsUIController : MonoBehaviour
 
     public void UpdateCoin()
     {
-        coinText.text = "金币: " + PlayerStatsManager.instance.TotalCoins.ToString();
+        coinText.text = LocalizationManager.Instance.GetText("coins", PlayerStatsManager.instance.TotalCoins.ToString());
     }
 
     public void UpdateLevelTexts(int index)
@@ -44,7 +57,7 @@ public class StatsUIController : MonoBehaviour
         if (index >= 0 && index < PlayerStatsManager.instance.UpgradeableAttributes.Count && index < levelTexts.Count)
         {
             var attribute = PlayerStatsManager.instance.UpgradeableAttributes[index];
-            levelTexts[index].text = $"等级: {attribute.CurrentLevel}/{attribute.MaxLevel}";
+            levelTexts[index].text = LocalizationManager.Instance.GetText("attribute_level_format", attribute.CurrentLevel + 1, attribute.MaxLevel);
         }
     }
 
@@ -53,32 +66,23 @@ public class StatsUIController : MonoBehaviour
         if (index >= 0 && index < PlayerStatsManager.instance.UpgradeableAttributes.Count && index < descriptionTexts.Count)
         {
             var attribute = PlayerStatsManager.instance.UpgradeableAttributes[index];
-            
-            // 检查是否已达到最高等级
+
             if (attribute.IsMaxLevel)
             {
-                // 已满级时只显示当前数值
                 if (attribute.CurrentLevel > 0 && attribute.CurrentLevel == attribute.UpgradeValues.Count)
                 {
-                    float currentValue = attribute.UpgradeValues[attribute.CurrentLevel];
-                    descriptionTexts[index].text = $"{attribute.AttributeName}: {currentValue} (已满级)";
+                    descriptionTexts[index].text = LocalizationManager.Instance.GetText("attribute_max_value_format", attribute.AttributeName, attribute.CurrentLevel);
                 }
                 else
                 {
-                    descriptionTexts[index].text = $"{attribute.AttributeName}: 已满级";
+                    descriptionTexts[index].text = LocalizationManager.Instance.GetText("attribute_max_level", attribute.AttributeName);
                 }
             }
             else
             {
-                // 获取当前等级和下一等级的数值
-                float currentValue = 0f;
-                float nextValue = 0f;
-        
-                currentValue = attribute.UpgradeValues[attribute.CurrentLevel];
-                nextValue = attribute.UpgradeValues[attribute.CurrentLevel + 1];
-                
-                // 显示格式：属性名: 从 当前值 升为 下一等级值
-                descriptionTexts[index].text = $"{attribute.AttributeName}: 从 {currentValue} 升为 {nextValue}";
+                int currentLevel = attribute.CurrentLevel + 1; // 当前等级（显示为1起始）
+                int nextLevel = attribute.CurrentLevel + 2;    // 下一级等级
+                descriptionTexts[index].text = LocalizationManager.Instance.GetText("attribute_upgrade_format", attribute.AttributeName, currentLevel, nextLevel);
             }
         }
     }
@@ -88,11 +92,11 @@ public class StatsUIController : MonoBehaviour
         if (index >= 0 && index < PlayerStatsManager.instance.UpgradeableAttributes.Count && index < costTexts.Count)
         {
             var attribute = PlayerStatsManager.instance.UpgradeableAttributes[index];
-            
+
             // 检查是否已达到最高等级
             if (attribute.IsMaxLevel)
             {
-                costTexts[index].text = "已满级";
+                costTexts[index].text = LocalizationManager.Instance.GetText("max_level_reached");
             }
             else
             {
@@ -100,11 +104,11 @@ public class StatsUIController : MonoBehaviour
                 if (attribute.CurrentLevel < attribute.UpgradeCosts.Count)
                 {
                     int upgradeCost = attribute.UpgradeCosts[attribute.CurrentLevel];
-                    costTexts[index].text = $"所需金币: {upgradeCost}";
+                    costTexts[index].text = LocalizationManager.Instance.GetText("attribute_cost_format", upgradeCost);
                 }
                 else
                 {
-                    costTexts[index].text = "无法升级";
+                    costTexts[index].text = LocalizationManager.Instance.GetText("cannot_upgrade");
                 }
             }
         }
@@ -121,7 +125,7 @@ public class StatsUIController : MonoBehaviour
                 UpdateLevelTexts(buttonIndex);
                 UpdateDescriptionTexts(buttonIndex);
                 UpdateCostTexts(buttonIndex);
-                
+
                 // 同时更新金币显示
                 UpdateCoin();
             }

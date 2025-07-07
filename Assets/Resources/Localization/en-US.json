@@ -1,0 +1,584 @@
+{
+    "texts": [
+        {
+            "key": "level",
+            "value": "Level: {0}"
+        },
+        {
+            "key": "coins",
+            "value": "Coins: {0}"
+        },
+        {
+            "key": "gained_coins",
+            "value": "Coins Collected: {0}"
+        },
+        {
+            "key": "survival_time",
+            "value": "Survival Time: {0}"
+        },
+        {
+            "key": "max_level",
+            "value": "Max Level: {0}"
+        },
+        {
+            "key": "defeated_enemies",
+            "value": "Enemies Defeated: {0}"
+        },
+        {
+            "key": "game_mode",
+            "value": "Game Mode: {0}"
+        },
+        {
+            "key": "normal_mode",
+            "value": "Normal Mode"
+        },
+        {
+            "key": "power_mode",
+            "value": "God Mode"
+        },
+        {
+            "key": "weapon_levels",
+            "value": "Weapons:"
+        },
+        {
+            "key": "accessory_levels",
+            "value": "Accessories:"
+        },
+        {
+            "key": "player_attributes",
+            "value": "Player Attributes"
+        },
+        {
+            "key": "max_health",
+            "value": "Max Health: {0}"
+        },
+        {
+            "key": "current_health",
+            "value": "Current Health: {0}"
+        },
+        {
+            "key": "recovery_rate",
+            "value": "Recovery: {0}/sec"
+        },
+        {
+            "key": "armor",
+            "value": "Armor: {0}"
+        },
+        {
+            "key": "power_factor",
+            "value": "Power Factor: {0}"
+        },
+        {
+            "key": "move_speed",
+            "value": "Move Speed: {0}"
+        },
+        {
+            "key": "cooldown_reduction",
+            "value": "Cooldown Factor: {0}"
+        },
+        {
+            "key": "attack_area_factor",
+            "value": "Attack Area Factor: {0}"
+        },
+        {
+            "key": "projectile_amount",
+            "value": "Projectile Amount: {0}"
+        },
+        {
+            "key": "weapon_duration_factor",
+            "value": "Weapon Duration Factor: {0}"
+        },
+        {
+            "key": "magnet_area_factor",
+            "value": "Magnet Area Factor: {0}"
+        },
+        {
+            "key": "luck_increment",
+            "value": "Luck Increment: {0}"
+        },
+        {
+            "key": "weapon_level_format",
+            "value": "{0}: Level {1}/{2}"
+        },
+        {
+            "key": "accessory_level_format",
+            "value": "{0}: Level {1}/{2}"
+        },
+        {
+            "key": "no_weapons",
+            "value": "No Weapons"
+        },
+        {
+            "key": "no_accessories",
+            "value": "No Accessories"
+        },
+        {
+            "key": "select_upgrade",
+            "value": "Select an Upgrade!"
+        },
+        {
+            "key": "select_initial_weapon",
+            "value": "Select Your Initial Weapon!"
+        },
+        {
+            "key": "current_level",
+            "value": "Current Level: {0}/{1}"
+        },
+        {
+            "key": "max_level_reached",
+            "value": "Max Level"
+        },
+        {
+            "key": "cannot_upgrade",
+            "value": "Cannot Upgrade"
+        },
+        {
+            "key": "total_weapons",
+            "value": "Weapons Obtained"
+        },
+        {
+            "key": "total_accessories",
+            "value": "Accessories Obtained"
+        },
+        {
+            "key": "power_mode_enabled",
+            "value": "Power Mode Enabled: Max Health doubled to {0}, Current Health doubled to {1}, Armor +3 to {2}"
+        },
+        {
+            "key": "power_mode_disabled",
+            "value": "Power Mode Disabled: Max Health restored to {0}, Current Health restored to {1}, Armor -3 to {2}"
+        },
+        {
+            "key": "auto_end_game",
+            "value": "Game time reached {0}:{1}, preparing to end game automatically"
+        },
+        {
+            "key": "weapon_icon_added",
+            "value": "Successfully added weapon icon: {0}"
+        },
+        {
+            "key": "accessory_icon_added",
+            "value": "Successfully added accessory icon: {0}"
+        },
+        {
+            "key": "weapon_no_icon",
+            "value": "Weapon {0} has no icon set"
+        },
+        {
+            "key": "insufficient_upgrade_items",
+            "value": "Insufficient upgrade items, only {0} items available (excluding max level items)"
+        },
+        {
+            "key": "all_items_max_level",
+            "value": "All weapons and accessories are at max level!"
+        },
+        {
+            "key": "insufficient_weapons",
+            "value": "Insufficient weapons, only {0} weapons available (excluding max level weapons)"
+        },
+        {
+            "key": "all_weapons_max_level",
+            "value": "All weapons are at max level!"
+        },
+        {
+            "key": "language_switched",
+            "value": "Language switched to: {0}"
+        },
+        {
+            "key": "current_language",
+            "value": "Current Language: {0}"
+        },
+        {
+            "key": "chinese",
+            "value": "中文"
+        },
+        {
+            "key": "english",
+            "value": "English"
+        },
+        {
+            "key": "exit",
+            "value": "Exit"
+        },
+        {
+            "key": "start_game",
+            "value": "Start Game"
+        },
+        {
+            "key": "attribute_upgrade",
+            "value": "Attribute"
+        },
+        {
+            "key": "settings",
+            "value": "Settings"
+        },
+        {
+            "key": "resumegame",
+            "value": "Resume"
+        },
+        {
+            "key": "settings_title",
+            "value": "Settings"
+        },
+        {
+            "key": "master_volume",
+            "value": "Master Volume"
+        },
+        {
+            "key": "bgm_volume",
+            "value": "BGM Volume"
+        },
+        {
+            "key": "sfx_volume",
+            "value": "SFX Volume"
+        },
+        {
+            "key": "attribute_upgrade_format",
+            "value": "Upgrade from {1} to {2}"
+        },
+        {
+            "key": "attribute_max_value_format",
+            "value": "{0}: Max Level ({1})"
+        },
+        {
+            "key": "attribute_max_level",
+            "value": "{0}: Max Level"
+        },
+        {
+            "key": "attribute_title",
+            "value": "Title"
+        },
+        {
+            "key": "attribute_upgrade_title",
+            "value": "Upgrade"
+        },
+        {
+            "key": "attribute_hp",
+            "value": "HP"
+        },
+        {
+            "key": "attribute_armor",
+            "value": "Armor"
+        },
+        {
+            "key": "attribute_speed",
+            "value": "Speed"
+        },
+        {
+            "key": "attribute_luck",
+            "value": "Luck"
+        },
+        {
+            "key": "attribute_hpregen",
+            "value": "HP Regen"
+        },
+        {
+            "key": "attribute_attack",
+            "value": "Attack"
+        },
+        {
+            "key": "attribute_magnet",
+            "value": "Magnet"
+        },
+        {
+            "key": "attribute_cost_format",
+            "value": "Cost: {0}"
+        },
+        {
+            "key": "attribute_back",
+            "value": "Back"
+        },
+        {
+            "key": "attribute_level_format",
+            "value": "Level {0}/{1}"
+        },
+        {
+            "key": "map_name_grassland",
+            "value": "Map:Grassland"
+        },
+        {
+            "key": "weapons_obtained",
+            "value": "Weapons Obtained:"
+        },
+        {
+            "key": "accessories_obtained",
+            "value": "Accessories Obtained:"
+        },
+        {
+            "key": "gameover_confirm",
+            "value": "Confirm"
+        },
+        {
+            "key": "healbottle_format",
+            "value": "Heal:{0}/{1}"
+        },
+        {
+            "key": "dashbottle_format",
+            "value": "Sprint:{0}/{1}"
+        },
+        {
+            "key": "weapon_pistol",
+            "value": "Pistol"
+        },
+        {
+            "key": "weapon_greatsword",
+            "value": "Greatsword"
+        },
+        {
+            "key": "weapon_lightingdagger",
+            "value": "Zeus"
+        },
+        {
+            "key": "weapon_elffire",
+            "value": "Elf Fire"
+        },
+        {
+            "key": "weapon_flamethrower",
+            "value": "Flame Wand"
+        },
+        {
+            "key": "weapon_fireball",
+            "value": "Fireball"
+        },
+        {
+            "key": "accessory_exmagazine",
+            "value": "Extra Magazine"
+        },
+        {
+            "key": "accessory_armoredboots",
+            "value": "Armored Boots"
+        },
+        {
+            "key": "accessory_ankh",
+            "value": "Ankh Cross"
+        },
+        {
+            "key": "accessory_hourglass",
+            "value": "Hourglass"
+        },
+        {
+            "key": "accessory_bloodbag",
+            "value": "Blood Bag"
+        },
+        {
+            "key": "accessory_smallrock",
+            "value": "Small Rock"
+        },
+        {
+            "key": "weapon_pistol_desc_1",
+            "value": "New weapon acquired"
+        },
+        {
+            "key": "weapon_pistol_desc_2",
+            "value": "Increase base damage by 4"
+        },
+        {
+            "key": "weapon_pistol_desc_3",
+            "value": "Reduce cooldown by 0.3"
+        },
+        {
+            "key": "weapon_pistol_desc_4",
+            "value": "Increase base damage by 4"
+        },
+        {
+            "key": "weapon_pistol_desc_5",
+            "value": "Reduce cooldown by 0.3"
+        },
+        {
+            "key": "weapon_pistol_desc_6",
+            "value": "Increase base damage by 4"
+        },
+        {
+            "key": "weapon_pistol_desc_7",
+            "value": "Reduce cooldown by 0.3"
+        },
+        {
+            "key": "weapon_pistol_desc_8",
+            "value": "Increase base damage by 4"
+        },
+        {
+            "key": "weapon_fireball_desc_1",
+            "value": "New weapon acquired"
+        },
+        {
+            "key": "weapon_fireball_desc_2",
+            "value": "Increase flight time by 1s"
+        },
+        {
+            "key": "weapon_fireball_desc_3",
+            "value": "Increase base damage by 5, increase area by 1"
+        },
+        {
+            "key": "weapon_fireball_desc_4",
+            "value": "Reduce cooldown by 0.5s"
+        },
+        {
+            "key": "weapon_fireball_desc_5",
+            "value": "Increase flight time by 1s"
+        },
+        {
+            "key": "weapon_fireball_desc_6",
+            "value": "Increase base damage by 5, increase area by 1"
+        },
+        {
+            "key": "weapon_fireball_desc_7",
+            "value": "Reduce cooldown by 0.5s"
+        },
+        {
+            "key": "weapon_fireball_desc_8",
+            "value": "Increase base damage by 7, reduce cooldown by 1s"
+        },
+        {
+            "key": "weapon_flamethrower_desc_1",
+            "value": "New weapon acquired"
+        },
+        {
+            "key": "weapon_flamethrower_desc_2",
+            "value": "Increase effect duration by 1s"
+        },
+        {
+            "key": "weapon_flamethrower_desc_3",
+            "value": "Increase base damage by 3, increase area by 1"
+        },
+        {
+            "key": "weapon_flamethrower_desc_4",
+            "value": "Increase effect duration by 1s"
+        },
+        {
+            "key": "weapon_flamethrower_desc_5",
+            "value": "Increase base damage by 7"
+        },
+        {
+            "key": "weapon_flamethrower_desc_6",
+            "value": "Increase base damage by 3, increase area by 1"
+        },
+        {
+            "key": "weapon_flamethrower_desc_7",
+            "value": "Increase effect duration by 1s"
+        },
+        {
+            "key": "weapon_flamethrower_desc_8",
+            "value": "Increase base damage by 7"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_1",
+            "value": "New weapon acquired"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_2",
+            "value": "Increase target count by 1"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_3",
+            "value": "Increase area by 1, increase base damage by 10"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_4",
+            "value": "Increase target count by 1"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_5",
+            "value": "Increase area by 1, increase base damage by 10"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_6",
+            "value": "Increase target count by 1"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_7",
+            "value": "Increase area by 1, increase base damage by 10"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_8",
+            "value": "Increase target count by 1"
+        },
+        {
+            "key": "weapon_elffire_desc_1",
+            "value": "New weapon acquired"
+        },
+        {
+            "key": "weapon_elffire_desc_2",
+            "value": "Increase orbiting object by 1"
+        },
+        {
+            "key": "weapon_elffire_desc_3",
+            "value": "Increase attack area by 0.3, increase speed by 0.5, reduce interval by 0.2"
+        },
+        {
+            "key": "weapon_elffire_desc_4",
+            "value": "Increase duration by 1, increase base damage by 7"
+        },
+        {
+            "key": "weapon_elffire_desc_5",
+            "value": "Increase orbiting object by 1"
+        },
+        {
+            "key": "weapon_elffire_desc_6",
+            "value": "Increase attack area by 0.3, increase speed by 0.5"
+        },
+        {
+            "key": "weapon_elffire_desc_7",
+            "value": "Increase duration by 1, increase base damage by 7, reduce interval by 0.2"
+        },
+        {
+            "key": "weapon_elffire_desc_8",
+            "value": "Increase orbiting object by 1"
+        },
+        {
+            "key": "weapon_greatsword_desc_1",
+            "value": "New weapon acquired"
+        },
+        {
+            "key": "weapon_greatsword_desc_2",
+            "value": "Increase base damage by 5, AOE damage multiplier +0.1"
+        },
+        {
+            "key": "weapon_greatsword_desc_3",
+            "value": "Increase base damage by 5"
+        },
+        {
+            "key": "weapon_greatsword_desc_4",
+            "value": "Reduce cooldown by 0.2"
+        },
+        {
+            "key": "weapon_greatsword_desc_5",
+            "value": "Increase base damage by 5, AOE damage multiplier +0.1"
+        },
+        {
+            "key": "weapon_greatsword_desc_6",
+            "value": "Increase base damage by 5"
+        },
+        {
+            "key": "weapon_greatsword_desc_7",
+            "value": "Reduce cooldown by 0.2"
+        },
+        {
+            "key": "weapon_greatsword_desc_8",
+            "value": "Increase base damage by 5, AOE damage multiplier +0.2"
+        },
+        {
+            "key": "accessory_exmagazine_desc",
+            "value": "+1 Projectile"
+        },
+        {
+            "key": "accessory_armoredboots_desc",
+            "value": "+1 Armor, +0.05 Speed"
+        },
+        {
+            "key": "accessory_ankh_desc",
+            "value": "+0.2 HP Regen"
+        },
+        {
+            "key": "accessory_hourglass_desc",
+            "value": "-8% Cooldown Time"
+        },
+        {
+            "key": "accessory_bloodbag_desc",
+            "value": "+10% Duration"
+        },
+        {
+            "key": "accessory_smallrock_desc",
+            "value": "+10% Attack"
+        }
+    ]
+}

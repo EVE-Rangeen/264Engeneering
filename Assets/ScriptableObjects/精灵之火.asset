@@ -15,15 +15,16 @@ MonoBehaviour:
   _weaponName: "\u7CBE\u7075\u4E4B\u706B"
   _weaponIcon: {fileID: 21300000, guid: aaf02cc1ae55dc84eb22fed31771efd5, type: 3}
   _weaponType: 0
+  _weaponKey: elffire
   _weaponDescriptions:
-  - "\u83B7\u5F97\u65B0\u6B66\u5668"
-  - "\u589E\u52A0\u4E00\u4E2A\u6570\u91CF"
-  - "\u653B\u51FB\u8303\u56F4\u589E\u52A00.3\uFF0C\u98DE\u884C\u901F\u5EA6\u589E\u52A00.5\uFF0C\u5C04\u5F39\u95F4\u9694\u51CF\u5C110.2"
-  - "\u6301\u7EED\u65F6\u95F4\u589E\u52A01\uFF0C\u57FA\u7840\u4F24\u5BB3\u589E\u52A07\u70B9"
-  - "\u589E\u52A0\u4E00\u4E2A\u6570\u91CF"
-  - "\u653B\u51FB\u8303\u56F4\u589E\u52A00.3\uFF0C\u98DE\u884C\u901F\u5EA6\u589E\u52A00.5"
-  - "\u6301\u7EED\u65F6\u95F4\u589E\u52A01\uFF0C\u57FA\u7840\u4F24\u5BB3\u589E\u52A07\u70B9\uFF0C\u5C04\u5F39\u95F4\u9694\u51CF\u5C110.2"
-  - "\u589E\u52A0\u4E00\u4E2A\u6570\u91CF"
+  - weapon_elffire_desc_1
+  - weapon_elffire_desc_2
+  - weapon_elffire_desc_3
+  - weapon_elffire_desc_4
+  - weapon_elffire_desc_5
+  - weapon_elffire_desc_6
+  - weapon_elffire_desc_7
+  - weapon_elffire_desc_8
   _currentLevel: 0
   _maxLevel: 8
   _damage: 10

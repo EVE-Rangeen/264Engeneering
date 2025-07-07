@@ -15,15 +15,16 @@ MonoBehaviour:
   _weaponName: "\u730E\u9B54\u624B\u67AA"
   _weaponIcon: {fileID: 21300000, guid: bbda7e2317d2b2f4ca9de5fde2c3d45d, type: 3}
   _weaponType: 1
+  _weaponKey: pistol
   _weaponDescriptions:
-  - "\u83B7\u5F97\u65B0\u6B66\u5668"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB34"
-  - "\u51CF\u5C11\u51B7\u5374\u95F4\u9694-0.3"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB34"
-  - "\u51CF\u5C11\u51B7\u5374\u95F4\u9694-0.3"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB34"
-  - "\u51CF\u5C11\u51B7\u5374\u95F4\u9694-0.3"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB34"
+  - weapon_pistol_desc_1
+  - weapon_pistol_desc_2
+  - weapon_pistol_desc_3
+  - weapon_pistol_desc_4
+  - weapon_pistol_desc_5
+  - weapon_pistol_desc_6
+  - weapon_pistol_desc_7
+  - weapon_pistol_desc_8
   _currentLevel: 0
   _maxLevel: 8
   _damage: 5

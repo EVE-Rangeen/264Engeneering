@@ -17,7 +17,7 @@ public class PlayerResourceManager : MonoBehaviour
     [SerializeField] private int _currentHealthPotions = 0;     // 当前血瓶数量
     [SerializeField] private int _maxHealthPotions = 5;         // 最大血瓶数量
     [SerializeField] private int _healthPotionHealPercent = 30; // 每个血瓶回复的血量百分比
-    
+
     [Header("血瓶图标")]
     [SerializeField] private Sprite[] _healthPotionIcons;       // 血瓶图标列表，索引对应血瓶数量
 
@@ -42,9 +42,9 @@ public class PlayerResourceManager : MonoBehaviour
 
     void Start()
     {
-        UIController.instance.healthPotionText.text = $"血瓶: {_currentHealthPotions}/{_maxHealthPotions}";
-        UIController.instance.dashText.text = $"疾走: {_currentDashCharges}/{_maxDashCharges}";
-        
+        UIController.instance.healthPotionText.text = LocalizationManager.Instance.GetText("healbottle_format", _currentHealthPotions, _maxHealthPotions);
+        UIController.instance.dashText.text = LocalizationManager.Instance.GetText("dashbottle_format", _currentDashCharges, _maxDashCharges);
+
         // 初始化血瓶图标
         UpdateHealthPotionIcon();
     }
@@ -58,7 +58,7 @@ public class PlayerResourceManager : MonoBehaviour
         if (_currentDashCharges > 0)
         {
             _currentDashCharges--;
-            UIController.instance.dashText.text = $"疾走: {_currentDashCharges}/{_maxDashCharges}";
+            UIController.instance.dashText.text = LocalizationManager.Instance.GetText("dashbottle_format", _currentDashCharges, _maxDashCharges);
             return true;
         }
         return false;
@@ -72,8 +72,8 @@ public class PlayerResourceManager : MonoBehaviour
         if (_currentHealthPotions < _maxHealthPotions)
         {
             _currentHealthPotions++;
-            UIController.instance.healthPotionText.text = $"血瓶: {_currentHealthPotions}/{_maxHealthPotions}";
-            
+            UIController.instance.healthPotionText.text = LocalizationManager.Instance.GetText("healbottle_format", _currentHealthPotions, _maxHealthPotions);
+
             // 更新血瓶图标
             UpdateHealthPotionIcon();
         }
@@ -87,7 +87,7 @@ public class PlayerResourceManager : MonoBehaviour
         if (_currentDashCharges < _maxDashCharges)
         {
             _currentDashCharges++;
-            UIController.instance.dashText.text = $"疾走: {_currentDashCharges}/{_maxDashCharges}";
+            UIController.instance.dashText.text = LocalizationManager.Instance.GetText("dashbottle_format", _currentDashCharges, _maxDashCharges);
         }
     }
 
@@ -100,8 +100,8 @@ public class PlayerResourceManager : MonoBehaviour
         if (_currentHealthPotions > 0)
         {
             _currentHealthPotions--;
-            UIController.instance.healthPotionText.text = $"血瓶: {_currentHealthPotions}/{_maxHealthPotions}";
-            
+            UIController.instance.healthPotionText.text = LocalizationManager.Instance.GetText("healbottle_format", _currentHealthPotions, _maxHealthPotions);
+
             // 更新血瓶图标
             UpdateHealthPotionIcon();
         }
@@ -113,7 +113,7 @@ public class PlayerResourceManager : MonoBehaviour
     private void UpdateHealthPotionIcon()
     {
         int iconIndex = _currentHealthPotions;
-        
+
         // 更新UI图标
         UIController.instance.healthPotionIcon.sprite = _healthPotionIcons[iconIndex];
     }
@@ -126,4 +126,4 @@ public class PlayerResourceManager : MonoBehaviour
     {
         return _healthPotionHealPercent;
     }
-} 
+}

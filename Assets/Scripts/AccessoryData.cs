@@ -18,7 +18,7 @@ public class AccessoryData
     [SerializeField, TextArea(2, 4)] private List<string> _accessoryDescriptions = new List<string> { "饰品描述" };
     [SerializeField] private int _currentLevel = 0;
     [SerializeField] private int _maxLevel = 10;
-    
+
     /// <summary>
     /// 饰品名称
     /// </summary>
@@ -27,7 +27,7 @@ public class AccessoryData
         get => _accessoryName;
         set => _accessoryName = value;
     }
-    
+
     /// <summary>
     /// 饰品图标
     /// </summary>
@@ -36,7 +36,7 @@ public class AccessoryData
         get => _accessoryIcon;
         set => _accessoryIcon = value;
     }
-    
+
     /// <summary>
     /// 饰品描述
     /// </summary>
@@ -45,7 +45,7 @@ public class AccessoryData
         get => _accessoryDescriptions;
         set => _accessoryDescriptions = value;
     }
-    
+
     /// <summary>
     /// 当前等级
     /// </summary>
@@ -54,7 +54,7 @@ public class AccessoryData
         get => _currentLevel;
         set => _currentLevel = Mathf.Min(value, _maxLevel);
     }
-    
+
     /// <summary>
     /// 最大等级
     /// </summary>
@@ -63,7 +63,7 @@ public class AccessoryData
         get => _maxLevel;
         set => _maxLevel = Mathf.Max(1, value);
     }
-    
+
     /// <summary>
     /// 饰品等级（兼容性属性，返回当前等级）
     /// </summary>
@@ -72,9 +72,20 @@ public class AccessoryData
         get => _currentLevel;
         set => CurrentLevel = value;
     }
-    
+
     /// <summary>
     /// 是否已达到最大等级
     /// </summary>
     public bool IsMaxLevel => _currentLevel >= _maxLevel;
-} 
+
+    [Header("本地化Key")]
+    [SerializeField] private string _accessoryKey = "";
+    /// <summary>
+    /// 饰品本地化Key（如 ankh, exmagazine 等）
+    /// </summary>
+    public string AccessoryKey
+    {
+        get => _accessoryKey;
+        set => _accessoryKey = value;
+    }
+}

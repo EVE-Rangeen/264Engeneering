@@ -72,12 +72,13 @@ public class UIController : MonoBehaviour
     public GameObject totalWeaponIcon;
     //总饰品图标
     public GameObject totalAccessoryIcon;
-    
-    
+
+
 
     void Awake()
     {
         instance = this;
+        // 其他初始化...
     }
 
     void Update()
@@ -85,8 +86,15 @@ public class UIController : MonoBehaviour
         UpdateTime();
     }
 
-    void Start()
+    IEnumerator Start()
     {
+        // 等待一帧，确保所有数据控制器都已初始化
+        yield return null;
+        // 主动刷新金币和经验UI，防止初始显示占位符
+        UpdateCoin();
+
+        UpdateExperience(0, 0, 0);
+
         // 更新显示文本
         UpdatePauseDisplay();
     }
@@ -95,31 +103,31 @@ public class UIController : MonoBehaviour
     {
         expSlider.maxValue = levelExp;
         expSlider.value = currentExp;
-        expText.text = "等级: " + currentLvl;
+        expText.text = LocalizationManager.Instance.GetText("level", currentLvl);
     }
 
     public void UpdateCoin()
     {
-        coinText.text = "金币: " + CoinController.instance._currentCoins;
+        coinText.text = LocalizationManager.Instance.GetText("coins", CoinController.instance._currentCoins);
     }
 
     public void UpdatePowerMode()
     {
         var player = PlayerAttributeManager.instance.PlayerComponent;
-        
+
         if (powerModeToggle.isOn)
         {
             // Toggle刚被打开：开启神力模式
             player.IncreaseMaxHealthAndCurrentHealth(player.MaxHealth);
             player.Armor += 3f;
-            Debug.Log($"神力模式已开启：最大血量翻倍至{player.MaxHealth}，当前血量翻倍至{player.Health}，护甲+3至{player.Armor}");
+            Debug.Log(LocalizationManager.Instance.GetText("power_mode_enabled", player.MaxHealth, player.Health, player.Armor));
         }
         else
         {
             // Toggle刚被关闭：关闭神力模式
-            player.DecreaseMaxAndCurrentHealth(player.MaxHealth/2f);
+            player.DecreaseMaxAndCurrentHealth(player.MaxHealth / 2f);
             player.Armor -= 3f;
-            Debug.Log($"神力模式已关闭：最大血量恢复至{player.MaxHealth}，当前血量恢复至{player.Health}，护甲-3至{player.Armor}");
+            Debug.Log(LocalizationManager.Instance.GetText("power_mode_disabled", player.MaxHealth, player.Health, player.Armor));
         }
 
         // 更新暂停界面显示
@@ -131,7 +139,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateGainCoinDisplay()
     {
-        gainCoinText.text = "获得金币: " + CoinController.instance._currentCoins;
+        gainCoinText.text = LocalizationManager.Instance.GetText("gained_coins", CoinController.instance._currentCoins);
     }
 
     /// <summary>
@@ -139,7 +147,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateSurvivalTimeDisplay()
     {
-        survivalTimeText.text = "生存时间: " + Timer.instance.GetTime();
+        survivalTimeText.text = LocalizationManager.Instance.GetText("survival_time", Timer.instance.GetTime());
     }
 
     /// <summary>
@@ -147,7 +155,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateMaxLevelDisplay()
     {
-        MaxLevelText.text = "最高等级: " + ExperienceLevelController.instance.currentLevel;
+        MaxLevelText.text = LocalizationManager.Instance.GetText("max_level", ExperienceLevelController.instance.currentLevel);
     }
 
     /// <summary>
@@ -155,7 +163,10 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateGameModeDisplay()
     {
-        gameModeText.text = "游戏模式: " + (powerModeToggle.isOn ? "神力模式" : "普通模式");
+        string modeText = powerModeToggle.isOn ?
+            LocalizationManager.Instance.GetText("power_mode") :
+            LocalizationManager.Instance.GetText("normal_mode");
+        gameModeText.text = LocalizationManager.Instance.GetText("game_mode", modeText);
     }
 
     /// <summary>
@@ -163,7 +174,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateDefeatedEnemyCountDisplay()
     {
-        beatenEnemyText.text = "击败敌人: " + defeatedEnemyCount;
+        beatenEnemyText.text = LocalizationManager.Instance.GetText("defeated_enemies", defeatedEnemyCount);
     }
 
     /// <summary>
@@ -176,16 +187,16 @@ public class UIController : MonoBehaviour
         gameResultPanel.SetActive(true);
         // 更新生存时间
         UpdateSurvivalTimeDisplay();
-        
+
         // 更新最高等级
         UpdateMaxLevelDisplay();
-        
+
         // 更新获得金币
         UpdateGainCoinDisplay();
-        
+
         // 更新获得武器
         UpdateTotalWeaponDisplay();
-        
+
         // 更新获得饰品
         UpdateTotalAccessoryDisplay();
 
@@ -204,19 +215,19 @@ public class UIController : MonoBehaviour
     {
         string currentTime = Timer.instance.GetTime();
         timeText.text = currentTime;
-        
+
         // 检查是否到达自动结束时间
         // 将时间字符串转换为总秒数进行比较
         string[] currentTimeParts = currentTime.Split(':');
         int currentMinutes = int.Parse(currentTimeParts[0]);
         int currentSeconds = int.Parse(currentTimeParts[1]);
         int currentTotalSeconds = currentMinutes * 60 + currentSeconds;
-        
+
         int autoEndTotalSeconds = autoEndGameMinutes * 60 + autoEndGameSeconds;
-        
+
         if (currentTotalSeconds >= autoEndTotalSeconds)
         {
-            Debug.Log($"游戏时间到达 {autoEndGameMinutes}:{autoEndGameSeconds}，准备自动结束游戏");
+            Debug.Log(LocalizationManager.Instance.GetText("auto_end_game", autoEndGameMinutes, autoEndGameSeconds));
             UpdateGameResultDisplay();
         }
     }
@@ -240,27 +251,29 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateWeaponLevelDisplay()
     {
-        string weaponLevelText = "武器等级\n";
-        
+        string weaponLevelText = LocalizationManager.Instance.GetText("weapon_levels") + "\n";
+
         // 遍历所有当前武器，只显示等级大于0的武器
         var currentWeapons = WeaponManager.instance.CurrentWeapons;
         bool hasWeapons = false;
-        
+
         foreach (var weapon in currentWeapons)
         {
             if (weapon.WeaponLevel > 0)
             {
-                weaponLevelText += $"{weapon.WeaponName}: 等级 {weapon.CurrentLevel}/{weapon.MaxLevel}\n";
+                // 使用本地化key显示武器名
+                string weaponNameKey = $"weapon_{weapon.WeaponKey}";
+                weaponLevelText += LocalizationManager.Instance.GetText("weapon_level_format", LocalizationManager.Instance.GetText(weaponNameKey), weapon.CurrentLevel, weapon.MaxLevel) + "\n";
                 hasWeapons = true;
             }
         }
-        
+
         // 如果没有武器，显示提示信息
         if (!hasWeapons)
         {
-            weaponLevelText += "暂无武器";
+            weaponLevelText += LocalizationManager.Instance.GetText("no_weapons");
         }
-        
+
         // 更新UI文本
         weaponInfoText.text = weaponLevelText;
     }
@@ -270,27 +283,29 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateAccessoryLevelDisplay()
     {
-        string accessoryLevelText = "饰品等级\n";
-        
+        string accessoryLevelText = LocalizationManager.Instance.GetText("accessory_levels") + "\n";
+
         // 遍历所有当前饰品，只显示等级大于0的饰品
         var currentAccessories = AccessoryManager.instance.CurrentAccessories;
         bool hasAccessories = false;
-        
+
         foreach (var accessory in currentAccessories)
         {
             if (accessory.CurrentLevel > 0)
             {
-                accessoryLevelText += $"{accessory.AccessoryName}: 等级 {accessory.CurrentLevel}/{accessory.MaxLevel}\n";
+                // 使用本地化key显示饰品名
+                string accessoryNameKey = $"accessory_{accessory.AccessoryKey}";
+                accessoryLevelText += LocalizationManager.Instance.GetText("accessory_level_format", LocalizationManager.Instance.GetText(accessoryNameKey), accessory.CurrentLevel, accessory.MaxLevel) + "\n";
                 hasAccessories = true;
             }
         }
-        
+
         // 如果没有饰品，显示提示信息
         if (!hasAccessories)
         {
-            accessoryLevelText += "暂无饰品";
+            accessoryLevelText += LocalizationManager.Instance.GetText("no_accessories");
         }
-        
+
         // 更新UI文本
         accessoryInfoText.text = accessoryLevelText;
     }
@@ -300,23 +315,15 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdatePlayerAttributeDisplay()
     {
-        string playerAttributeText = "人物属性\n";
+        string playerAttributeText = LocalizationManager.Instance.GetText("player_attributes") + "\n";
 
         var player = PlayerAttributeManager.instance.PlayerComponent;
-        
-        // 显示所有可访问的玩家属性
-        playerAttributeText += $"最大生命值: {player.MaxHealth:F1}\n";
-        playerAttributeText += $"当前生命值: {player.Health:F1}\n";
-        playerAttributeText += $"恢复速度: {player.Recovery:F1}/秒\n";
-        playerAttributeText += $"护甲值: {player.Armor:F1}\n";
-        playerAttributeText += $"力量因子: {player.PowerFactor:F2}\n";
-        playerAttributeText += $"移动速度: {player.MoveSpeed:F1}\n";
-        playerAttributeText += $"冷却因子: {player.CooldownReductionFactor:F2}\n";
-        playerAttributeText += $"攻击范围因子: {player.AttackAreaFactor:F2}\n";
-        playerAttributeText += $"射弹数量增量: {player.ProjectileAmountIncrement}\n";
-        playerAttributeText += $"武器持续时间因子: {player.WeaponDurationFactor:F2}\n";
-        playerAttributeText += $"吸取范围因子: {player.MagnetAreaFactor:F2}\n";
-        playerAttributeText += $"幸运值增量: {player.LuckIncrement:F1}";
+
+        // 只显示指定的四项属性
+        playerAttributeText += LocalizationManager.Instance.GetText("max_health", player.MaxHealth.ToString("F1")) + "\n";
+        playerAttributeText += LocalizationManager.Instance.GetText("recovery_rate", player.Recovery.ToString("F1")) + "\n";
+        playerAttributeText += LocalizationManager.Instance.GetText("power_factor", player.PowerFactor.ToString("F2")) + "\n";
+        playerAttributeText += LocalizationManager.Instance.GetText("armor", player.Armor.ToString("F1"));
 
         // 更新UI文本
         playerInfoText.text = playerAttributeText;
@@ -327,23 +334,23 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateTotalWeaponDisplay()
     {
-        
+
         // 遍历所有当前武器，只为等级大于0的武器生成图标
         var currentWeapons = WeaponManager.instance.CurrentWeapons;
-        
+
         foreach (var weapon in currentWeapons)
         {
             if (weapon.WeaponLevel > 0)
             {
                 // 创建新的GameObject作为子物体
                 GameObject iconObject = new GameObject($"WeaponIcon_{weapon.WeaponName}");
-                
+
                 // 设置父物体
                 iconObject.transform.SetParent(totalWeaponIcon.transform);
-                
+
                 // 添加Image组件
                 Image iconImage = iconObject.AddComponent<Image>();
-                
+
                 // 设置图标精灵
                 if (weapon.WeaponIcon != null)
                 {
@@ -351,14 +358,14 @@ public class UIController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning($"武器 {weapon.WeaponName} 没有设置图标");
+                    Debug.LogWarning(LocalizationManager.Instance.GetText("weapon_no_icon", weapon.WeaponName));
                 }
 
                 // 设置RectTransform属性
                 RectTransform rectTransform = iconObject.GetComponent<RectTransform>();
                 rectTransform.localScale = Vector3.one;
 
-                Debug.Log($"成功添加武器图标: {weapon.WeaponName}");
+                Debug.Log(LocalizationManager.Instance.GetText("weapon_icon_added", weapon.WeaponName));
             }
         }
     }
@@ -368,23 +375,23 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void UpdateTotalAccessoryDisplay()
     {
-        
+
         // 遍历所有当前饰品，只为等级大于0的饰品生成图标
         var currentAccessories = AccessoryManager.instance.CurrentAccessories;
-        
+
         foreach (var accessory in currentAccessories)
         {
             if (accessory.CurrentLevel > 0)
             {
                 // 创建新的GameObject作为子物体
                 GameObject iconObject = new GameObject($"AccessoryIcon_{accessory.AccessoryName}");
-                
+
                 // 设置父物体
                 iconObject.transform.SetParent(totalAccessoryIcon.transform);
-                
+
                 // 添加Image组件
                 Image iconImage = iconObject.AddComponent<Image>();
-                
+
                 // 设置图标精灵
                 iconImage.sprite = accessory.AccessoryIcon;
 
@@ -392,7 +399,7 @@ public class UIController : MonoBehaviour
                 RectTransform rectTransform = iconObject.GetComponent<RectTransform>();
                 rectTransform.localScale = Vector3.one;
 
-                Debug.Log($"成功添加饰品图标: {accessory.AccessoryName}");
+                Debug.Log(LocalizationManager.Instance.GetText("accessory_icon_added", accessory.AccessoryName));
             }
         }
     }

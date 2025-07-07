@@ -26,6 +26,9 @@ public class WeaponData : ScriptableObject
     [SerializeField] private string _weaponName = "新武器";
     [SerializeField] private Sprite _weaponIcon;
     [SerializeField] private WeaponType _weaponType = WeaponType.近战武器;
+
+    [Header("本地化Key")]
+    [SerializeField] private string _weaponKey = "";
     [SerializeField, TextArea(2, 4)] private List<string> _weaponDescriptions = new List<string> { "武器描述" };
     [SerializeField] private int _currentLevel = 0;
     [SerializeField] private int _maxLevel = 10;
@@ -46,6 +49,17 @@ public class WeaponData : ScriptableObject
     [SerializeField] private float _projectileSpeed = 10f; // 射弹飞行速度，用于设置武器的各类运动速度，对于不同种类武器含义不同
     [SerializeField] private float _duration = 5f;  // 射弹持续时间，用于设置武器的各类持续时间，对于不同种类武器含义不同
     [SerializeField] private float _bulletInterval = 0.1f; // 射弹发射间隔时间，单轮攻击执行中，每次射弹的攻击间隔
+
+
+
+    /// <summary>
+    /// 武器本地化Key（如 pistol, greatsword 等）
+    /// </summary>
+    public string WeaponKey
+    {
+        get => _weaponKey;
+        set => _weaponKey = value;
+    }
 
     /// <summary>
     /// 武器名称

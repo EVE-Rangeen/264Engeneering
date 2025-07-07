@@ -30,7 +30,7 @@ public class UpgradeItem
         WeaponData = weapon;
         Index = index;
     }
-    
+
     public UpgradeItem(AccessoryData accessory, int index)
     {
         ItemType = UpgradeItemType.Accessory;
@@ -93,7 +93,7 @@ public class UpgradeManager : MonoBehaviour
 
         // 收集所有可升级的项目（排除满级项目）
         List<UpgradeItem> allUpgradeItems = new List<UpgradeItem>();
-        
+
         // 添加未满级的武器
         var currentWeapons = WeaponManager.instance.CurrentWeapons;
         for (int i = 0; i < currentWeapons.Count; i++)
@@ -103,7 +103,7 @@ public class UpgradeManager : MonoBehaviour
                 allUpgradeItems.Add(new UpgradeItem(currentWeapons[i], i));
             }
         }
-        
+
         // 添加未满级的饰品
         var currentAccessories = AccessoryManager.instance.CurrentAccessories;
         for (int i = 0; i < currentAccessories.Count; i++)
@@ -113,19 +113,19 @@ public class UpgradeManager : MonoBehaviour
                 allUpgradeItems.Add(new UpgradeItem(currentAccessories[i], i));
             }
         }
-        
+
         if (allUpgradeItems.Count < 3)
         {
-            Debug.LogWarning($"可升级项目数量不足3个，只有 {allUpgradeItems.Count} 个项目（已排除满级项目）");
-            
+            Debug.LogWarning(LocalizationManager.Instance.GetText("insufficient_upgrade_items", allUpgradeItems.Count));
+
             // 如果可升级项目不足3个，可以考虑以下处理方式：
             // 1. 显示所有可升级项目
             // 2. 用空选项填充
             // 3. 显示特殊提示
-            
+
             if (allUpgradeItems.Count == 0)
             {
-                Debug.Log("所有武器和饰品都已满级！");
+                Debug.Log(LocalizationManager.Instance.GetText("all_items_max_level"));
                 return;
             }
         }
@@ -163,7 +163,7 @@ public class UpgradeManager : MonoBehaviour
 
         // 收集所有可升级的武器（排除满级武器）
         List<UpgradeItem> weaponUpgradeItems = new List<UpgradeItem>();
-        
+
         // 添加未满级的武器
         var currentWeapons = WeaponManager.instance.CurrentWeapons;
         for (int i = 0; i < currentWeapons.Count; i++)
@@ -173,14 +173,14 @@ public class UpgradeManager : MonoBehaviour
                 weaponUpgradeItems.Add(new UpgradeItem(currentWeapons[i], i));
             }
         }
-        
+
         if (weaponUpgradeItems.Count < 3)
         {
-            Debug.LogWarning($"可升级武器数量不足3个，只有 {weaponUpgradeItems.Count} 个武器（已排除满级武器）");
-            
+            Debug.LogWarning(LocalizationManager.Instance.GetText("insufficient_weapons", weaponUpgradeItems.Count));
+
             if (weaponUpgradeItems.Count == 0)
             {
-                Debug.Log("所有武器都已满级！");
+                Debug.Log(LocalizationManager.Instance.GetText("all_weapons_max_level"));
                 return;
             }
         }
@@ -204,7 +204,7 @@ public class UpgradeManager : MonoBehaviour
         UpdateButtonDisplay(_upgradeOption2, _currentSelectedItem2);
         UpdateButtonDisplay(_upgradeOption3, _currentSelectedItem3);
     }
-    
+
     /// <summary>
     /// 更新按钮显示
     /// </summary>
@@ -254,7 +254,7 @@ public class UpgradeManager : MonoBehaviour
     public void OnUpgradeSelected(int buttonIndex)
     {
         UpgradeItem selectedItem = null;
-        
+
         switch (buttonIndex)
         {
             case 1:
@@ -290,14 +290,14 @@ public class UpgradeManager : MonoBehaviour
         // 关闭升级面板
         UIController.instance.levelUpPanel.SetActive(false);
         UIController.instance.pauseButton.interactable = true;
-        
+
         // 更新显示文本
         UIController.instance.UpdatePauseDisplay();
 
         // 恢复游戏时间
         Timer.instance.ResumeTimer();
     }
-    
+
     /// <summary>
     /// 升级武器
     /// </summary>
@@ -314,12 +314,12 @@ public class UpgradeManager : MonoBehaviour
                 int oldLevel = weaponInList.CurrentLevel;
                 int newLevel = oldLevel + 1;
                 weaponInList.CurrentLevel = newLevel;
-                
+
                 Debug.Log($"武器 {weaponInList.WeaponName} 从等级 {oldLevel} 升级到 {newLevel}");
-                
+
                 // 执行武器特殊效果
                 WeaponManager.instance.ExecuteWeaponSpecialEffect(weaponInList, oldLevel);
-                
+
                 // 只有当武器从等级0升级时才添加图标（第一次获得武器）与生成预制体
                 if (oldLevel == 0 && _weaponIconGenerator != null)
                 {
@@ -337,7 +337,7 @@ public class UpgradeManager : MonoBehaviour
             Debug.LogError($"无效的武器索引: {upgradeItem.Index}");
         }
     }
-    
+
     /// <summary>
     /// 升级饰品
     /// </summary>
@@ -353,12 +353,12 @@ public class UpgradeManager : MonoBehaviour
                 int oldLevel = accessory.CurrentLevel;
                 int newLevel = oldLevel + 1;
                 accessory.CurrentLevel = newLevel;
-                
+
                 Debug.Log($"饰品 {accessory.AccessoryName} 从等级 {oldLevel} 升级到 {newLevel}");
-                
+
                 // 执行饰品特殊效果
                 AccessoryManager.instance.ExecuteAccessorySpecialEffect(accessory, newLevel);
-                
+
                 // 只有当饰品从等级0升级时才添加图标（第一次获得饰品）
                 if (oldLevel == 0 && _accessoryIconGenerator != null)
                 {
@@ -375,4 +375,4 @@ public class UpgradeManager : MonoBehaviour
             Debug.LogError($"无效的饰品索引: {upgradeItem.Index}");
         }
     }
-} 
+}

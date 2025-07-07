@@ -1,0 +1,584 @@
+{
+    "texts": [
+        {
+            "key": "level",
+            "value": "等级: {0}"
+        },
+        {
+            "key": "coins",
+            "value": "金币: {0}"
+        },
+        {
+            "key": "gained_coins",
+            "value": "获得金币: {0}"
+        },
+        {
+            "key": "survival_time",
+            "value": "生存时间: {0}"
+        },
+        {
+            "key": "max_level",
+            "value": "最高等级: {0}"
+        },
+        {
+            "key": "defeated_enemies",
+            "value": "击败敌人: {0}"
+        },
+        {
+            "key": "game_mode",
+            "value": "游戏模式: {0}"
+        },
+        {
+            "key": "normal_mode",
+            "value": "普通模式"
+        },
+        {
+            "key": "power_mode",
+            "value": "神力模式"
+        },
+        {
+            "key": "weapon_levels",
+            "value": "武器等级"
+        },
+        {
+            "key": "accessory_levels",
+            "value": "饰品等级"
+        },
+        {
+            "key": "player_attributes",
+            "value": "人物属性"
+        },
+        {
+            "key": "max_health",
+            "value": "生命值: {0}"
+        },
+        {
+            "key": "current_health",
+            "value": "当前生命值: {0}"
+        },
+        {
+            "key": "recovery_rate",
+            "value": "恢复速度: {0}/秒"
+        },
+        {
+            "key": "armor",
+            "value": "护甲值: {0}"
+        },
+        {
+            "key": "power_factor",
+            "value": "力量因子: {0}"
+        },
+        {
+            "key": "move_speed",
+            "value": "移动速度: {0}"
+        },
+        {
+            "key": "cooldown_reduction",
+            "value": "冷却因子: {0}"
+        },
+        {
+            "key": "attack_area_factor",
+            "value": "攻击范围因子: {0}"
+        },
+        {
+            "key": "projectile_amount",
+            "value": "射弹数量增量: {0}"
+        },
+        {
+            "key": "weapon_duration_factor",
+            "value": "武器持续时间因子: {0}"
+        },
+        {
+            "key": "magnet_area_factor",
+            "value": "吸取范围因子: {0}"
+        },
+        {
+            "key": "luck_increment",
+            "value": "幸运值增量: {0}"
+        },
+        {
+            "key": "weapon_level_format",
+            "value": "{0}: 等级 {1}/{2}"
+        },
+        {
+            "key": "accessory_level_format",
+            "value": "{0}: 等级 {1}/{2}"
+        },
+        {
+            "key": "no_weapons",
+            "value": "暂无武器"
+        },
+        {
+            "key": "no_accessories",
+            "value": "暂无饰品"
+        },
+        {
+            "key": "select_upgrade",
+            "value": "选择一项升级！"
+        },
+        {
+            "key": "select_initial_weapon",
+            "value": "选择你的初始武器！"
+        },
+        {
+            "key": "current_level",
+            "value": "当前等级: {0}/{1}"
+        },
+        {
+            "key": "max_level_reached",
+            "value": "已满级"
+        },
+        {
+            "key": "cannot_upgrade",
+            "value": "无法升级"
+        },
+        {
+            "key": "total_weapons",
+            "value": "获得武器"
+        },
+        {
+            "key": "total_accessories",
+            "value": "获得饰品"
+        },
+        {
+            "key": "power_mode_enabled",
+            "value": "神力模式已开启：最大血量翻倍至{0}，当前血量翻倍至{1}，护甲+3至{2}"
+        },
+        {
+            "key": "power_mode_disabled",
+            "value": "神力模式已关闭：最大血量恢复至{0}，当前血量恢复至{1}，护甲-3至{2}"
+        },
+        {
+            "key": "auto_end_game",
+            "value": "游戏时间到达 {0}:{1}，准备自动结束游戏"
+        },
+        {
+            "key": "weapon_icon_added",
+            "value": "成功添加武器图标: {0}"
+        },
+        {
+            "key": "accessory_icon_added",
+            "value": "成功添加饰品图标: {0}"
+        },
+        {
+            "key": "weapon_no_icon",
+            "value": "武器 {0} 没有设置图标"
+        },
+        {
+            "key": "insufficient_upgrade_items",
+            "value": "可升级项目数量不足3个，只有 {0} 个项目（已排除满级项目）"
+        },
+        {
+            "key": "all_items_max_level",
+            "value": "所有武器和饰品都已满级！"
+        },
+        {
+            "key": "insufficient_weapons",
+            "value": "可升级武器数量不足3个，只有 {0} 个武器（已排除满级武器）"
+        },
+        {
+            "key": "all_weapons_max_level",
+            "value": "所有武器都已满级！"
+        },
+        {
+            "key": "language_switched",
+            "value": "语言已切换到: {0}"
+        },
+        {
+            "key": "current_language",
+            "value": "当前语言: {0}"
+        },
+        {
+            "key": "chinese",
+            "value": "中文"
+        },
+        {
+            "key": "english",
+            "value": "English"
+        },
+        {
+            "key": "exit",
+            "value": "退出"
+        },
+        {
+            "key": "start_game",
+            "value": "开始游戏"
+        },
+        {
+            "key": "attribute_upgrade",
+            "value": "属性升级"
+        },
+        {
+            "key": "settings",
+            "value": "设置"
+        },
+        {
+            "key": "resumegame",
+            "value": "继续"
+        },
+        {
+            "key": "settings_title",
+            "value": "设置"
+        },
+        {
+            "key": "master_volume",
+            "value": "全部音量"
+        },
+        {
+            "key": "bgm_volume",
+            "value": "背景音乐"
+        },
+        {
+            "key": "sfx_volume",
+            "value": "音效"
+        },
+        {
+            "key": "attribute_upgrade_format",
+            "value": "{0}: 从{1}升到{2}级"
+        },
+        {
+            "key": "attribute_max_value_format",
+            "value": "{0}: 已满级({1}级)"
+        },
+        {
+            "key": "attribute_max_level",
+            "value": "{0}: 已满级"
+        },
+        {
+            "key": "attribute_title",
+            "value": "标题"
+        },
+        {
+            "key": "attribute_upgrade_title",
+            "value": "属性升级"
+        },
+        {
+            "key": "attribute_hp",
+            "value": "血量"
+        },
+        {
+            "key": "attribute_armor",
+            "value": "护甲"
+        },
+        {
+            "key": "attribute_speed",
+            "value": "移动速度"
+        },
+        {
+            "key": "attribute_luck",
+            "value": "幸运"
+        },
+        {
+            "key": "attribute_hpregen",
+            "value": "血量回复"
+        },
+        {
+            "key": "attribute_attack",
+            "value": "攻击力"
+        },
+        {
+            "key": "attribute_magnet",
+            "value": "磁铁"
+        },
+        {
+            "key": "attribute_cost_format",
+            "value": "所需金币：{0}"
+        },
+        {
+            "key": "attribute_back",
+            "value": "返回"
+        },
+        {
+            "key": "attribute_level_format",
+            "value": "等级 {0}/{1}"
+        },
+        {
+            "key": "map_name_grassland",
+            "value": "地图名称:草原"
+        },
+        {
+            "key": "weapons_obtained",
+            "value": "获得武器:"
+        },
+        {
+            "key": "accessories_obtained",
+            "value": "获得饰品:"
+        },
+        {
+            "key": "gameover_confirm",
+            "value": "确认"
+        },
+        {
+            "key": "healbottle_format",
+            "value": "血瓶:{0}/{1}"
+        },
+        {
+            "key": "dashbottle_format",
+            "value": "冲刺:{0}/{1}"
+        },
+        {
+            "key": "weapon_pistol",
+            "value": "猎魔手枪"
+        },
+        {
+            "key": "weapon_greatsword",
+            "value": "大剑"
+        },
+        {
+            "key": "weapon_lightingdagger",
+            "value": "神罚小刀"
+        },
+        {
+            "key": "weapon_elffire",
+            "value": "精灵之火"
+        },
+        {
+            "key": "weapon_flamethrower",
+            "value": "火焰魔杖"
+        },
+        {
+            "key": "weapon_fireball",
+            "value": "火球术"
+        },
+        {
+            "key": "accessory_exmagazine",
+            "value": "弹巢"
+        },
+        {
+            "key": "accessory_armoredboots",
+            "value": "重靴"
+        },
+        {
+            "key": "accessory_ankh",
+            "value": "安卡十字"
+        },
+        {
+            "key": "accessory_hourglass",
+            "value": "沙漏"
+        },
+        {
+            "key": "accessory_bloodbag",
+            "value": "血袋"
+        },
+        {
+            "key": "accessory_smallrock",
+            "value": "小石头"
+        },
+        {
+            "key": "weapon_pistol_desc_1",
+            "value": "获得新武器"
+        },
+        {
+            "key": "weapon_pistol_desc_2",
+            "value": "增加基础伤害4"
+        },
+        {
+            "key": "weapon_pistol_desc_3",
+            "value": "减少冷却间隔-0.3"
+        },
+        {
+            "key": "weapon_pistol_desc_4",
+            "value": "增加基础伤害4"
+        },
+        {
+            "key": "weapon_pistol_desc_5",
+            "value": "减少冷却间隔-0.3"
+        },
+        {
+            "key": "weapon_pistol_desc_6",
+            "value": "增加基础伤害4"
+        },
+        {
+            "key": "weapon_pistol_desc_7",
+            "value": "减少冷却间隔-0.3"
+        },
+        {
+            "key": "weapon_pistol_desc_8",
+            "value": "增加基础伤害4"
+        },
+        {
+            "key": "weapon_fireball_desc_1",
+            "value": "获得新武器"
+        },
+        {
+            "key": "weapon_fireball_desc_2",
+            "value": "持续时间增加1s"
+        },
+        {
+            "key": "weapon_fireball_desc_3",
+            "value": "增加基础伤害5，增大范围+1"
+        },
+        {
+            "key": "weapon_fireball_desc_4",
+            "value": "减少冷却0.5s"
+        },
+        {
+            "key": "weapon_fireball_desc_5",
+            "value": "持续时间增加1s"
+        },
+        {
+            "key": "weapon_fireball_desc_6",
+            "value": "增加基础伤害5，增大范围+1"
+        },
+        {
+            "key": "weapon_fireball_desc_7",
+            "value": "减少冷却0.5s"
+        },
+        {
+            "key": "weapon_fireball_desc_8",
+            "value": "增加基础伤害7，减少冷却1s"
+        },
+        {
+            "key": "weapon_flamethrower_desc_1",
+            "value": "获得新武器"
+        },
+        {
+            "key": "weapon_flamethrower_desc_2",
+            "value": "持续时间增加1s"
+        },
+        {
+            "key": "weapon_flamethrower_desc_3",
+            "value": "增加基础伤害3，增大范围+1"
+        },
+        {
+            "key": "weapon_flamethrower_desc_4",
+            "value": "持续时间增加1s"
+        },
+        {
+            "key": "weapon_flamethrower_desc_5",
+            "value": "增加基础伤害7"
+        },
+        {
+            "key": "weapon_flamethrower_desc_6",
+            "value": "增加基础伤害3，增大范围+1"
+        },
+        {
+            "key": "weapon_flamethrower_desc_7",
+            "value": "持续时间增加1s"
+        },
+        {
+            "key": "weapon_flamethrower_desc_8",
+            "value": "增加基础伤害7"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_1",
+            "value": "获得新武器"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_2",
+            "value": "增加一个数量"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_3",
+            "value": "增大范围+1，基础伤害增加10点"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_4",
+            "value": "增加一个数量"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_5",
+            "value": "增大范围+1，基础伤害增加10点"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_6",
+            "value": "增加一个数量"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_7",
+            "value": "增大范围+1，基础伤害增加10点"
+        },
+        {
+            "key": "weapon_lightingdagger_desc_8",
+            "value": "增加一个数量"
+        },
+        {
+            "key": "weapon_elffire_desc_1",
+            "value": "获得新武器"
+        },
+        {
+            "key": "weapon_elffire_desc_2",
+            "value": "增加一个数量"
+        },
+        {
+            "key": "weapon_elffire_desc_3",
+            "value": "攻击范围增加0.3，飞行速度增加0.5，射弹间隔减小0.2"
+        },
+        {
+            "key": "weapon_elffire_desc_4",
+            "value": "持续时间增加1，基础伤害增加7点"
+        },
+        {
+            "key": "weapon_elffire_desc_5",
+            "value": "增加一个数量"
+        },
+        {
+            "key": "weapon_elffire_desc_6",
+            "value": "攻击范围增加0.3，飞行速度增加0.5"
+        },
+        {
+            "key": "weapon_elffire_desc_7",
+            "value": "持续时间增加1，基础伤害增加7点，射弹间隔减小0.2"
+        },
+        {
+            "key": "weapon_elffire_desc_8",
+            "value": "增加一个数量"
+        },
+        {
+            "key": "weapon_greatsword_desc_1",
+            "value": "获得新武器"
+        },
+        {
+            "key": "weapon_greatsword_desc_2",
+            "value": "增加基础伤害5点，特殊攻击倍率+0.1"
+        },
+        {
+            "key": "weapon_greatsword_desc_3",
+            "value": "增加基础伤害5点"
+        },
+        {
+            "key": "weapon_greatsword_desc_4",
+            "value": "减小冷却时间0.2"
+        },
+        {
+            "key": "weapon_greatsword_desc_5",
+            "value": "增加基础伤害5点，特殊攻击倍率+0.1"
+        },
+        {
+            "key": "weapon_greatsword_desc_6",
+            "value": "增加基础伤害5点"
+        },
+        {
+            "key": "weapon_greatsword_desc_7",
+            "value": "减小冷却时间0.2"
+        },
+        {
+            "key": "weapon_greatsword_desc_8",
+            "value": "增加基础伤害5点，特殊攻击倍率+0.2"
+        },
+        {
+            "key": "accessory_exmagazine_desc",
+            "value": "数量+1"
+        },
+        {
+            "key": "accessory_armoredboots_desc",
+            "value": "护甲+1，移动速度+0.05"
+        },
+        {
+            "key": "accessory_ankh_desc",
+            "value": "生命回复+0.2"
+        },
+        {
+            "key": "accessory_hourglass_desc",
+            "value": "减少8%冷却时间"
+        },
+        {
+            "key": "accessory_bloodbag_desc",
+            "value": "增加10%持续时间"
+        },
+        {
+            "key": "accessory_smallrock_desc",
+            "value": "增加10%攻击力"
+        }
+    ]
+}

@@ -15,15 +15,16 @@ MonoBehaviour:
   _weaponName: "\u706B\u7403\u672F"
   _weaponIcon: {fileID: 21300000, guid: 37a5d0e5e6ad0744fa3443c4aba4fcfc, type: 3}
   _weaponType: 0
+  _weaponKey: fireball
   _weaponDescriptions:
-  - "\u83B7\u5F97\u65B0\u6B66\u5668"
-  - "\u6301\u7EED\u65F6\u95F4\u589E\u52A01s"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB35\uFF0C\u589E\u5927\u8303\u56F4+1"
-  - "\u51CF\u5C11\u51B7\u53740.5s"
-  - "\u6301\u7EED\u65F6\u95F4\u589E\u52A01s"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB35\uFF0C\u589E\u5927\u8303\u56F4+1"
-  - "\u51CF\u5C11\u51B7\u53740.5s"
-  - "\u589E\u52A0\u57FA\u7840\u4F24\u5BB37\uFF0C\u51CF\u5C11\u51B7\u53741s"
+  - weapon_fireball_desc_1
+  - weapon_fireball_desc_2
+  - weapon_fireball_desc_3
+  - weapon_fireball_desc_4
+  - weapon_fireball_desc_5
+  - weapon_fireball_desc_6
+  - weapon_fireball_desc_7
+  - weapon_fireball_desc_8
   _currentLevel: 0
   _maxLevel: 8
   _damage: 10
