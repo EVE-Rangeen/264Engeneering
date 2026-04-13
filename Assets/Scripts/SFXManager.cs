@@ -30,24 +30,15 @@ public class SFXManager : MonoBehaviour
     public AudioMixer _audioMixer;
     
     [Header("音量控制设置")]
-    [Tooltip("静音阈值：当slider值小于等于此值时，音量将被设置为静音")]
-    [SerializeField] private float _muteThreshold = -20f;
+    [Tooltip("静音阈值：建议UI滑动条(Slider)的值范围设置为 0.0001 到 1，当低于此值时完全静音。")]
+    [SerializeField] private float _muteThreshold = 0.0001f;
     
-    // 存储初始音量值
-    private float _initialMasterVolume;
-    private float _initialMusicVolume;
-    private float _initialSFXVolume;
     // 静音音量值（dB）
     private float _muteVolume = -80f;
     
     private void Awake()
     {
         instance = this;
-        
-        // 获取并存储初始音量值
-        _audioMixer.GetFloat("VolumeOfMaster", out _initialMasterVolume);
-        _audioMixer.GetFloat("VolumeOfMusic", out _initialMusicVolume);
-        _audioMixer.GetFloat("VolumeOfSFX", out _initialSFXVolume);
     }
 
     //这个数组要存储所有音效 然后在需要播放的函数里面调用PlaySFX或者PlaySFXPitched函数
@@ -72,51 +63,43 @@ public class SFXManager : MonoBehaviour
         PlaySFX(sfxToPlay);
     }
 
-    // 控制总音量
+    // 控制总音量（使用对数转换，适应人耳听觉）
     public void SetMasterVolume(float sliderValue)
     {
-        // 如果slider拉到最小值，设置为静音
         if (sliderValue <= _muteThreshold)
         {
             _audioMixer.SetFloat("VolumeOfMaster", _muteVolume);
         }
         else
         {
-            // 基于初始值调整音量
-            float newVolume = _initialMasterVolume + sliderValue;
-            _audioMixer.SetFloat("VolumeOfMaster", newVolume);
+            // Mathf.Log10(sliderValue) * 20 会将 0.0001~1 的线性值转换为 -80dB~0dB
+            _audioMixer.SetFloat("VolumeOfMaster", Mathf.Log10(sliderValue) * 20f);
         }
     }
 
-    // 控制音乐音量
+    // 控制音乐音量（使用对数转换，适应人耳听觉）
     public void SetMusicVolume(float sliderValue)
     {
-        // 如果slider拉到最小值，设置为静音
         if (sliderValue <= _muteThreshold)
         {
             _audioMixer.SetFloat("VolumeOfMusic", _muteVolume);
         }
         else
         {
-            // 基于初始值调整音量
-            float newVolume = _initialMusicVolume + sliderValue;
-            _audioMixer.SetFloat("VolumeOfMusic", newVolume);
+            _audioMixer.SetFloat("VolumeOfMusic", Mathf.Log10(sliderValue) * 20f);
         }
     }
 
-    // 控制音效音量
+    // 控制音效音量（使用对数转换，适应人耳听觉）
     public void SetSFXVolume(float sliderValue)
     {
-        // 如果slider拉到最小值，设置为静音
         if (sliderValue <= _muteThreshold)
         {
             _audioMixer.SetFloat("VolumeOfSFX", _muteVolume);
         }
         else
         {
-            // 基于初始值调整音量
-            float newVolume = _initialSFXVolume + sliderValue;
-            _audioMixer.SetFloat("VolumeOfSFX", newVolume);
+            _audioMixer.SetFloat("VolumeOfSFX", Mathf.Log10(sliderValue) * 20f);
         }
     }
 
